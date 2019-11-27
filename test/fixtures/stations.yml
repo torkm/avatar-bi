@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  railway: one
+  name: MyString
+  station_code: 1
+  lat: 1.5
+  long: 1.5
+
+two:
+  railway: two
+  name: MyString
+  station_code: 1
+  lat: 1.5
+  long: 1.5
