@@ -2,5 +2,8 @@
   .header__app-title
     （仮）あばたび
   .header__right
-    .header__right__right-btn
     .header__right__left-btn
+      =link_to 'ユーザ情報詳細', edit_user_registration_path(current_user), class: "header__right__left-btn_show"
+    .header__right__right-btn
+      =link_to 'ログアウト', destroy_user_session_path, class: "header__right__right-btn_logout",method: :delete
+    
