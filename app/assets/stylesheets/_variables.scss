@@ -1,0 +1,13 @@
+$header_height    : 70px;
+$title-font-size  : 20px;
+$contents_bgc     :  rgb(226, 221, 221);
+
+$contents_height  : calc(100vh - $header_height);
+
+$contents_right_width  : 400px;
+$contents_right_height : 300px;
+$contents_right_bgc    : rgb(248, 243, 197);
+$contents_right_user-status_bgc    : rgb(241, 211, 182);
+
+$contents_left_width : calc(100vw - $contents_right_width);
+$contents_left_avatar-status_bgc: rgb(200, 243, 200);

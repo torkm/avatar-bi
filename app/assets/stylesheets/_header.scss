@@ -1,0 +1,17 @@
+*{
+  box-sizing : border-box;
+}
+
+.header{
+  background-color: rgb(231, 104, 73);
+  width: 100vw;
+  height: $header_height;
+
+  &__app-title{
+    color: #fff;
+    font-size: $title-font-size;
+    padding: 0 10px;
+    line-height: $header_height;
+  }
+}
+
