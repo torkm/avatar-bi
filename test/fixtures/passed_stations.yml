@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  avatar: one
+  station: one
+  has_passed: false
+  passed_at: 2019-11-27 00:29:34
+
+two:
+  avatar: two
+  station: two
+  has_passed: false
+  passed_at: 2019-11-27 00:29:34
