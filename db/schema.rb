@@ -58,11 +58,12 @@ ActiveRecord::Schema.define(version: 2019_11_26_153356) do
   create_table "stations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "railway_id"
     t.string "name", null: false
-    t.integer "station_code", null: false
+    t.integer "odpt_sameAs", null: false
     t.float "lat", null: false
     t.float "long", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["odpt_sameAs"], name: "index_stations_on_odpt_sameAs"
     t.index ["railway_id"], name: "index_stations_on_railway_id"
   end
 
