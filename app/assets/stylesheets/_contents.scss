@@ -1,0 +1,10 @@
+.contents{
+  height: calc(100vh - $header_height);
+  width: 100vw;
+
+  .right{
+    height: $contents_right_height;
+    width : $contents_right_width;
+    background-color: $contents_right_bgc;
+  }
+}
