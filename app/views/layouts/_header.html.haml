@@ -2,5 +2,12 @@
   .header__app-title
     （仮）あばたび
   .header__right
-    .header__right__right-btn
-    .header__right__left-btn
+    - if user_signed_in?
+      .header__right__left-btn
+        - if current_page?(user_path(current_user))
+          =link_to 'TOPへ戻る', root_path(current_user), class: "header__right__left-btn_show"
+        - else
+          =link_to 'ユーザ情報詳細', user_path(current_user), class: "header__right__left-btn_show"
+      .header__right__right-btn
+        =link_to 'ログアウト', destroy_user_session_path, class: "header__right__right-btn_logout",method: :delete
+    

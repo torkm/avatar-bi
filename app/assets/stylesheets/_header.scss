@@ -6,12 +6,31 @@
   background-color: rgb(231, 104, 73);
   width: 100vw;
   height: $header_height;
+  display: flex;
 
   &__app-title{
     color: #fff;
     font-size: $title-font-size;
     padding: 0 10px;
     line-height: $header_height;
+  }
+
+  &__right{
+    display:flex;
+    padding: 0 20px;
+    margin: 0 0 0 auto;
+    &__left-btn_show{
+      margin: 10px;
+      height: 50px;
+      width: 50px;
+      line-height: $header_height;
+    }
+    &__right-btn_logout{
+      margin: 10px;
+      height: 50px;
+      width: 50px;
+      line-height: $header_height;
+    }
   }
 }
 
