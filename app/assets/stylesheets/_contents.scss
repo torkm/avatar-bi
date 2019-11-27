@@ -1,10 +1,44 @@
+*{
+  box-sizing : border-box;
+}
+
 .contents{
-  height: calc(100vh - $header_height);
+  height: $contents_height;
   width: 100vw;
+  background-color:$contents_bgc;
+  display: flex;
+  box-sizing : border-box;
 
   .right{
-    height: $contents_right_height;
+    height: 100%;
     width : $contents_right_width;
-    background-color: $contents_right_bgc;
+    padding: 10px;
+    box-sizing : border-box;
+    &__movin{
+      box-sizing : border-box;
+      margin: 10px;
+      height: 300px;
+      background-color:$contents_right_bgc;
+    }
+    &__user-status{
+      box-sizing : border-box;
+      margin: 10px;
+      height: 300px;
+      background-color: $contents_right_user-status_bgc;
+    }
+  }
+
+  .left{
+    height: 100%;
+    width: calc(100vw - $contents_right_width);
+    padding: 10px;
+    box-sizing : border-box;
+    &__avatar-status{
+      box-sizing : border-box;
+      margin: 10px;
+      height: 610px;
+      width: 1000px;
+      background-color:$contents_left_avatar-status_bgc;
+    }
   }
 }
