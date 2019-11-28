@@ -3,5 +3,5 @@ class Station < ApplicationRecord
   has_many :passed_stations
   has_many :avatars, through: :passed_stations
 
-  validates :name, :station_code, :lat, :long, presence: true
+  validates :name, :odpt_sameAs, :lat, :long, presence: true
 end

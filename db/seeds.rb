@@ -5,3 +5,17 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+require "csv"
+#csvファイルを扱うためのgemを読み込む
+
+CSV.foreach("db/result_rw.csv") do |row|
+  #foreachは、ファイル（hoge.csv）の各行を引数として、ブロック(do~endまでを範囲とする『引数のかたまり』)を繰り返し実行する
+  #rowには、読み込まれた行が代入される
+  Railway.create(name: row[0], operator: row[1], station_num: row[2])
+  #usersテーブルの各カラムに、各行のn番目の値を代入している。
+end
+
+CSV.foreach("db/result_st.csv") do |row|
+  Station.create(railway_id: row[0], name: row[1], odpt_sameAs: row[2], lat: row[3], long: row[4])
+end
