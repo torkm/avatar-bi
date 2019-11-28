@@ -1,7 +1,7 @@
 .contents
   あなたの分身のつくりましょう
   .contents__form
-    = form_with model: @avatar ,local: true, method: :new  do |f|
+    = form_with model: @avatar ,local: true, method: :create  do |f|
       .contents__form__name-input
         = f.text_field :name, placeholder: "アバターの名前" ,class: "new_avatar_name"
       .contents__form__type-select

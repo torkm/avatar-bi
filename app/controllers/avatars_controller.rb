@@ -1,5 +1,5 @@
 class AvatarsController < ApplicationController
-
+  protect_from_forgery except: :create
   def new
     @avatar = Avatar.new
   end
@@ -16,6 +16,7 @@ class AvatarsController < ApplicationController
   private
   def avatar_params
     params.require(:avatar).permit(:name, :type,:stage,:curr_station_id, :last_station_id, :home_station_id)
+    # .merge(user_id: current_user.id)
   end
 
 end
