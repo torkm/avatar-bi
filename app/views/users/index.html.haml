@@ -1,9 +1,10 @@
 .contents
-  .right
-    .right__movin
-      .right__movin__onoff-btn
-    .right__user-status
-      =link_to 'ユーザ情報変更', edit_user_registration_path(current_user), class: "header__right__left-btn_edit"
-  .left
-    .left__avatar-status
-      幅はあとで変える。
+  .main
+    .right
+      .right__movin
+        .right__movin__onoff-btn
+      .right__user-status
+        =link_to 'ユーザ情報変更', edit_user_registration_path(current_user), class: "header__right__left-btn_edit"
+    .left
+      .left__avatar-status
+        =link_to 'アバターをつくる', new_avatar_path

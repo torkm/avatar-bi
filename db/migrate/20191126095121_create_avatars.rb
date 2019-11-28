@@ -1,8 +1,9 @@
 class CreateAvatars < ActiveRecord::Migration[5.2]
   def change
     create_table :avatars do |t|
-      t.string :name, null: false, default: ""
-      t.integer :type, null: false
+      t.references :user, foreign_key: true
+      t.string :name, null: false
+      t.integer :avatar_type, null: false
       t.integer :stage, null: false
       t.integer :curr_station_id, null: false
       t.float :curr_location_lat
