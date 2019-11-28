@@ -1,5 +1,16 @@
 .contents
   あなたの分身のつくりましょう
-  .contents_box
-    =form_for @avatar do |f|
-      = f.text_field :name, placeholder: "アバターの名前" ,class: "new_avatar_name"
+  .contents__form
+    = form_with model: @avatar ,local: true, method: :new  do |f|
+      .contents__form__name-input
+        = f.text_field :name, placeholder: "アバターの名前" ,class: "new_avatar_name"
+      .contents__form__type-select
+        = image_tag "test.png", size: "180x100", alt: "アバタータイプ1", class: "type-select__img1"
+        = image_tag "test.png", size: "180x100", alt: "アバタータイプ2", class: "type-select__img2"
+        = image_tag "test.png", size: "180x100", alt: "アバタータイプ3", class: "type-select__img3"
+        = f.hidden_field :type, value: 1
+        = f.hidden_field :stage, value: 1
+        = f.hidden_field :curr_station_id, value: 1
+        = f.hidden_field :last_station_id, value: 1
+        = f.hidden_field :home_station_id, value: 1
+        = f.submit "登録する" ,class: "submit_btn"
