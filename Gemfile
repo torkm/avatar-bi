@@ -70,3 +70,5 @@ gem "font-awesome-rails"
 gem 'devise'
 
 gem 'html2haml'
+
+gem 'faraday'
