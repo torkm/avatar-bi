@@ -1,8 +1,8 @@
 class CreateAvatars < ActiveRecord::Migration[5.2]
   def change
     create_table :avatars do |t|
-      t.references :user_id, 
-      t.string :name, null: false foreign_key: true
+      t.references :user, foreign_key: true
+      t.string :name, null: false
       t.integer :avatar_type, null: false
       t.integer :stage, null: false
       t.integer :curr_station_id, null: false

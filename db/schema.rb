@@ -13,8 +13,9 @@
 ActiveRecord::Schema.define(version: 2019_11_26_153356) do
 
   create_table "avatars", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "name", default: "", null: false
-    t.integer "type", null: false
+    t.bigint "user_id"
+    t.string "name", null: false
+    t.integer "avatar_type", null: false
     t.integer "stage", null: false
     t.integer "curr_station_id", null: false
     t.float "curr_location_lat"
@@ -25,6 +26,7 @@ ActiveRecord::Schema.define(version: 2019_11_26_153356) do
     t.integer "home_station_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_avatars_on_user_id"
   end
 
   create_table "passed_railways", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -82,6 +84,7 @@ ActiveRecord::Schema.define(version: 2019_11_26_153356) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "avatars", "users"
   add_foreign_key "passed_railways", "avatars"
   add_foreign_key "passed_railways", "railways"
   add_foreign_key "passed_stations", "avatars"
