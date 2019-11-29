@@ -4,6 +4,9 @@
     = form_with model: @avatar ,local: true, method: :create  do |f|
       .form__name-input
         = f.text_field :name, placeholder: "アバターの名前" ,class: "new_avatar_name"
+      .form__home-station-input
+        = f.text_field :home_station_name, placeholder: "アバターの出発駅" ,class: "new_avatar_home-station"
+        = f.text_field :home_station_line, placeholder: "路線" ,class: "new_avatar_home-line"
       .form__type-select
         = image_tag "test.png", size: "180x100", alt: "アバタータイプ1", class: "form__type-select__img--1"
         = image_tag "test.png", size: "180x100", alt: "アバタータイプ2", class: "form__type-select__img--2"
