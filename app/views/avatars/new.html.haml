@@ -6,7 +6,7 @@
     = form_with model: @avatar ,local: true, method: :create  do |f|
       - if @avatar.errors.any?
         .form__errors
-          %h2= "#{@avatar.errors.full_messages.count}件のエラーが発生しました。"
+          %h2= "#{@avatar.errors.full_messages.count}件のエラーが発生しました"
           %ul
             - @avatar.errors.full_messages.each do |message|
               %li= message
