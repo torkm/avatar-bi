@@ -8,3 +8,14 @@
     .left
       .left__avatar-status
         =link_to 'アバターをつくる', new_avatar_path
+        %div{style: "width:400px; height:360px; position:relative;"}
+          現在地追跡(start watchingを押したら開始)
+          #map{style: "width:400px; height:300px"}
+          %button#location{style: "position:absolute; top:8px; right:8px; z-index:3; display:none;"}
+            start watching
+
+        #street_refresh
+          ここをクリックでストリートビューを表示
+        #street{style: "width:400px; height:200px"}
+
+        
