@@ -8,6 +8,9 @@
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
   %body
+
+    %script{type: "text/javascript", charset: "utf-8", src: "https://map.yahooapis.jp/js/V1/jsapi?appid="+Rails.application.credentials.ymap[:y_id]}
+    %script{src: "https://maps.googleapis.com/maps/api/js?key="+ Rails.application.credentials.gmap[:gmap_secret_key]}
     = render 'layouts/flash'
     = render 'layouts/header'
     = yield
