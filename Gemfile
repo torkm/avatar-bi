@@ -74,3 +74,6 @@ gem 'html2haml'
 gem 'faraday'
 
 gem "jquery-rails"
+
+gem 'devise-i18n'
+gem 'devise-i18n-views'
