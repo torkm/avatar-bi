@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 2019_11_26_153356) do
   end
 
   create_table "railways", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "jname", null: false
     t.string "name", null: false
     t.string "operator", null: false
     t.integer "station_num", null: false
