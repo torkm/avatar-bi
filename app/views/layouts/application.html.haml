@@ -7,6 +7,7 @@
     = csp_meta_tag
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
+    = include_gon
   %body
 
     %script{type: "text/javascript", charset: "utf-8", src: "https://map.yahooapis.jp/js/V1/jsapi?appid="+Rails.application.credentials.ymap[:y_id]}

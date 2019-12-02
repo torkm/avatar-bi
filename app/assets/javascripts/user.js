@@ -1,5 +1,6 @@
 $(window).on('load', function(){
   $(function(){
+    // 「移動開始」ボタンを押したら現在時刻とそれぞれのアバターのlast_station_idを取得
     $('.start_end_btn').on("click",function(){
       if($('.start_end_btn').data('btn') === 'start'){
         $('.start_end_btn').data('btn','end');
@@ -9,11 +10,14 @@ $(window).on('load', function(){
         var hour = now.getHours();
         var minutes = now.getMinutes();
         var wd = ['日', '月', '火', '水', '木', '金', '土']
-        console.log(current_user);
-        // console.log("("+wd[day]+")"+hour+":"+minutes);
+        $.each(gon.avatars,function(index, avatar){
+          console.log(avatar.last_station_id);
+        });
+        
       }else{
         $('.start_end_btn').data('btn','start');
         $('.start_end_btn').val('移動開始');
+        
       };
     });
   })
