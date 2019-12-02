@@ -1,0 +1,26 @@
+.form{
+  margin: 0 auto;
+  height: 500px;
+  width: 700px;
+  background-color: $form_bgc;
+  &__type-select{
+    display:flex;
+    text-align: center;
+    box-sizing : border-box;
+    margin: auto;
+    &__op{
+      margin: 10px;
+      text-align: center;
+      &__img{
+        margin: 10px;
+        &--selected{
+          border: 5px solid rgb(255, 94, 0);
+        }
+      }
+    }
+  }
+}
+
+#hidden{
+  display: none;
+}
