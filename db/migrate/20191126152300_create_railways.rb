@@ -5,6 +5,7 @@ class CreateRailways < ActiveRecord::Migration[5.2]
       t.string :name, null: false
       t.string :operator, null: false
       t.integer :station_num, null: false
+      t.boolean :has_TrainTimetable, default: false, null: false
       t.timestamps
     end
   end
