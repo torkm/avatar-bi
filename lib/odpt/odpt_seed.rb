@@ -84,10 +84,20 @@ operators_rw.each do |operator|
     railways << railway
   end
 end
-#路線にid付与(手動で)
+#路線にid付与(1から始まる、unshiftで先頭に)
+#路線テーブルに、has_TrainTimetable付与(持っていればtrue,持っていなければfalse)
+#末尾にpushでつける
 railways.each_with_index do |railway, i|
   railway.unshift(i + 1)
+  if [11, 12, 16, 19, 20, 21, 23, 28, 30, 31, 32, 35, 38, 39, 41, 42, 43, 44, 48, 52, 53, 60, 61, 63, 67, 69, 71, 75, 76, 79, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110].include?(i + 1)
+    has_TrainTimetable = true
+  else
+    has_TrainTimetable = false
+  end
+  # puts has_TrainTimetable
+  railway.push(has_TrainTimetable)
 end
+puts railways
 #路線が順番に並んだだけの配列 (id = index + 1　, owl:sameAs)
 rw_id = []
 railways.each do |railway|
@@ -117,7 +127,7 @@ end
 # ファイルに書き込む
 CSV.open("result_rw.csv", mode = "w") do |f|
   railways.each do |r|
-    f << [r[1], r[2], r[3], r[4]] # 最初のrailway_id は、idになるので消す
+    f << [r[1], r[2], r[3], r[4], r[5]] # 最初のrailway_id は、idになるので消す
   end
 end
 

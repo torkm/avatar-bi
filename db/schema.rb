@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 2019_11_26_153356) do
     t.string "name", null: false
     t.string "operator", null: false
     t.integer "station_num", null: false
+    t.boolean "has_TrainTimetable", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
