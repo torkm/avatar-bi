@@ -46,7 +46,6 @@ $(window).on('load', function(){
 
     $('#home_station_input-field').on("keyup", function(e){
       if($('#home_station_input-field').val()!==""){
-        console.log($('#home_station_input-field').val());
         e.preventDefault();
         let input = $("#home_station_input-field").val();
         $.ajax({
@@ -67,16 +66,16 @@ $(window).on('load', function(){
     });
 
     $('.form__home-station-input').change('#home_station_select', function(){
-
       let home_station_id = $('#home_station_select').val();
       if(home_station_id !== null){
         let input = $('option:selected').text();
         $('#home_station_input-field').val(input);
         $('#home_station_select').remove();
-        let home_station = candidate_stations.filter(function(station, index){
-          if ( station.id === Number(home_station_id) ){return true};
-        }); 
-        buildSendHome_Station_ID(home_station[0]);
+        $.each(candidate_stations,function(index, station){
+          if(station.id === Number(home_station_id)){
+            buildSendHome_Station_ID(station);
+          };
+        });
       };
     });
 
