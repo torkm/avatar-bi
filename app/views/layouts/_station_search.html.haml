@@ -1,0 +1,5 @@
+.station_search
+  = form_with url: stations_path ,local: true, method: :get  do |f|
+    -# = f.select :home_station_id, Station.all.map { |station| [station.name, station.id] }
+    = f.text_field :keyword, placeholder: "test_アバターの出発駅", id: "home_station_input-field"
+    = f.button '送信する', type: 'button', onclick: 'submit();' , id: "hidden"

@@ -15,7 +15,10 @@ class AvatarsController < ApplicationController
 
   private
   def avatar_params
-    params.require(:avatar).permit(:name, :avatar_type,:stage,:curr_station_id, :last_station_id, :home_station_id).merge(user_id: current_user.id)
+    params.require(:avatar).permit(:name, :avatar_type, :stage,
+                                   :curr_station_id,    :last_station_id, :home_station_id,
+                                   :curr_location_lat,  :last_location_lat,
+                                   :curr_location_long, :last_location_long,).merge(user_id: current_user.id)
   end
 
 end
