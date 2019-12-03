@@ -5,7 +5,12 @@ class UsersController < ApplicationController
     if user_signed_in?
       gon.avatars = current_user.avatars
       gon.current_user = current_user
+      @user = User.find(current_user.id)
     end
+  end
+
+  def reload_user
+    render json: current_user
   end
 
   def show
@@ -27,13 +32,6 @@ class UsersController < ApplicationController
   private
 
   def update_params
-    this_time_i  = params[:this_travel_time].to_i
-    total_time_i = params[:total_travel_time].to_i
-    binding.pry
-    this_time_t  = Time.at(this_time_i);p this_time_t
-    total_time_t = Time.at(total_time_i);p total_time_t
-    params[:this_travel_time] = this_time_t
-    params[:total_travel_time] = total_time_t
-    params.permit(:this_travel_time, :total_travel_time, :name)
+    params.permit(:this_travel_time, :total_travel_time)
   end
 end
