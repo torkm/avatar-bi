@@ -4,5 +4,9 @@ Rails.application.routes.draw do
   
   resources :avatars, only: [:new, :create, :edit, :update]
   resources :stations, only: [:index]
-  resources :users, only: [:index, :edit, :update, :show]
+  resources :users, only: [:index, :edit, :update, :show] do
+    collection do
+      get 'reload_user'
+    end
+  end
 end
