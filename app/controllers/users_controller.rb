@@ -1,5 +1,8 @@
 class UsersController < ApplicationController
   def index
+    if user_signed_in?
+      gon.avatars = current_user.avatars
+    end
   end
 
   def show
