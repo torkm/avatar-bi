@@ -6,8 +6,8 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.2]
       ## Database authenticatable
       t.string :name, null: false, default: "", unique: true
       t.string :email, null: false, default: "", unique: true
-      t.time :this_travel_time
-      t.time :total_travel_time
+      t.integer :this_travel_time
+      t.integer :total_travel_time
       t.string :encrypted_password, null: false, default: ""
 
       ## Recoverable
