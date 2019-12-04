@@ -50,7 +50,7 @@ class Travel
     #入力はlast_stationのid (現在時刻は関数内で使用)
     #①乗換可能な路線一覧をStationAPIで抽出（含 アバタの現在路線）
     result = Odpt::StationAPI.fetch({ "owl:sameAs": station.odpt_sameAs })
-    candidates = result[0]["odpt:connectingRailway"].append(result[0]["odpt:railway"])
+    candidates = [result[0]["odpt:railway"]].append(result[0]["odpt:connectingRailway"])
     possible_railways = []
 
     # railwayテーブルに登録されていて、かつ TrainTimetableを持っている路線だけ選抜
@@ -178,7 +178,7 @@ class Travel
     dep_station = getDepartureStation(station, next_railway)
     # ③入力した時刻以降で次に乗れる電車の列番決定
     train_number = getTrainNumber(dep_station, time)
-    # ④��番��時刻表生成 ([駅名,出発時刻])
+    # ④指定した列番の時刻表生成 ([駅名,出発時刻])
     train_timetable = getTrainTimetable(dep_station, next_railway, train_number)
 
     return train_timetable
@@ -206,7 +206,7 @@ class Travel
         if i == 0
           lat = curr_station.lat
           long = curr_station.long
-        else #座標は現在���と次駅の座標の加重平均を取る
+        else #座標は現在����と次駅の座標の加重平均を取る
           time_c = to_time(train_timetable[i - 1][1])
           time_n = to_time(train_timetable[i][1])
 
