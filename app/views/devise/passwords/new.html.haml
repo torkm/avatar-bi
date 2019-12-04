@@ -1,7 +1,7 @@
 .contents
   = render 'layouts/header'
   .devise_form
-    %h2 パスワードを忘れてしまいましたか?
+    %h2{ class: 'form_title' }パスワードを忘れてしまいましたか?
     = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
       = render "devise/shared/error_messages", resource: resource
       .field
@@ -9,5 +9,5 @@
         %br/
         = f.email_field :email, autofocus: true, autocomplete: "email"
       .actions
-        = f.submit "リセット手順のメールを送る"
+        = f.submit "リセット手順のメールを送る" ,class:"btn"
     = render "devise/shared/links"
