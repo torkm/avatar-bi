@@ -1,6 +1,28 @@
 $(window).on('load', function(){
   $(function(){
 
+    function get_and_save_timenow(string){
+      var now = new Date;
+      var data = "";
+
+      if(string === "start"){
+        data = { start_time: now,
+                 is_moving: true};
+      }else{
+
+      };
+
+      $.ajax({
+        type: "PUT",
+        url: "users/reload_user",
+        data: data,
+        dataType: "json"
+      })
+      .done(function(){
+        console.log("PUT ok");
+      });
+    };
+
     function calc_total_time(diff_time){
       // current_userの情報をGETリクエストで取得
       $.ajax({
@@ -30,6 +52,9 @@ $(window).on('load', function(){
     var end_time = "";
 
     $('.start_end_btn').on("click",function(){
+
+      get_and_save_timenow($('.start_end_btn').data('btn'));
+
       // 「移動開始」ボタンを押したら現在時刻とそれぞれのアバターのlast_station_idを取得
       if($('.start_end_btn').data('btn') === 'start'){
         $('.start_end_btn').data('btn','end');
@@ -55,7 +80,6 @@ $(window).on('load', function(){
         diff = (end_time - start_time)/1000;
 
         $.each(gon.avatars,function(index, avatar){
-          // console.log("end:"+avatar.curr_station_id); 
           var url = "/avatars/" + avatar.id;
           $.ajax({
             type: "PUT",
