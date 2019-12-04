@@ -12,7 +12,7 @@ class CreateAvatars < ActiveRecord::Migration[5.2]
       t.float :last_location_lat
       t.float :last_location_long
       t.integer :home_station_id, null: false
-
+      t.text :train_timetable
       t.timestamps
     end
   end
