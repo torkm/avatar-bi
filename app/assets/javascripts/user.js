@@ -1,6 +1,74 @@
 $(window).on('load', function(){
   $(function(){
 
+    // 座標を取得して保存（start or end）
+    function save_now_pos(string){
+      var geo = navigator.geolocation;
+
+      geo.getCurrentPosition(function (pos) {
+          var lat = pos.coords.latitude;  //緯度
+          var long = pos.coords.longitude; //経度
+          var data;
+          if(string === "start"){
+            data = { start_pos_lat: lat,
+                     start_pos_long: long };
+          }else{
+            data = { end_pos_lat: lat,
+                     end_pos_long: long };
+          };
+          $.ajax({
+            type: "PUT",
+            url: "users/reload_user",
+            data: data,
+            dataType: "json"
+          });
+      },function (error) {
+        // エラーコードのメッセージを定義
+        var errorMessage = {
+          0: "原因不明のエラーが発生しました",
+          1: "位置情報の取得が許可されませんでした",
+          2: "電波状況などで位置情報が取得できませんでした",
+          3: "位置情報の取得に時間がかかり過ぎてタイムアウトしました",
+        };
+        // エラーコードに合わせたエラー内容をアラート表示
+        alert(errorMessage[error.code]);
+      }, {
+        enableHighAccuracy: true,
+        timeout: 6000,
+        maximumAge: 1000
+      });
+    };
+
+
+    // 現在日時を取得して保存（start or end）
+    function save_now_time(string){
+      var now = new Date;
+      var data = "";
+      
+      if(string === "start"){
+        data = { start_time: now,
+                 is_moving: true}
+      }else{
+        data = { end_time: now,
+                 is_moving: false}
+      };
+
+      $.ajax({
+        type: "PUT",
+        url: "users/reload_user",
+        data: data,
+        dataType: "json"
+      })
+      .done(function(){
+        console.log("PUT ok");
+      })
+      .fail(function(){
+        console.log("PUT ng");
+      });
+    };
+
+
+
     function calc_total_time(diff_time){
       // current_userの情報をGETリクエストで取得
       $.ajax({
@@ -29,7 +97,14 @@ $(window).on('load', function(){
     var start_time = "";
     var end_time = "";
 
+
+    
     $('.start_end_btn').on("click",function(){
+
+      // ボタン押下で現在時刻と座標を保存
+      save_now_time($('.start_end_btn').data('btn'));
+      save_now_pos($('.start_end_btn').data('btn'));
+
       // 「移動開始」ボタンを押したら現在時刻とそれぞれのアバターのlast_station_idを取得
       if($('.start_end_btn').data('btn') === 'start'){
         $('.start_end_btn').data('btn','end');
@@ -55,7 +130,6 @@ $(window).on('load', function(){
         diff = (end_time - start_time)/1000;
 
         $.each(gon.avatars,function(index, avatar){
-          // console.log("end:"+avatar.curr_station_id); 
           var url = "/avatars/" + avatar.id;
           $.ajax({
             type: "PUT",

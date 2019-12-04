@@ -32,6 +32,9 @@ class UsersController < ApplicationController
   private
 
   def update_params
-    params.permit(:this_travel_time, :total_travel_time)
+    params.permit(:is_moving,
+                  :start_time, :start_pos_lat, :start_pos_long,
+                  :end_time, :end_pos_lat, :end_pos_long,
+                  :this_travel_time, :total_travel_time)
   end
 end
