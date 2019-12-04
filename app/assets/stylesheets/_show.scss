@@ -1,0 +1,36 @@
+.show{
+  display: flex;
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+
+  .user_infos{
+    width: 50%;
+    height: 80%;
+    background-color: $user_infos__bgc;
+    margin: 0 10px;
+  }
+  
+  .avatars_infos{
+    width: 50%;
+    height: 80%;
+    background-color: $avatars_infos__bgc;
+    margin: 0 10px;
+  }
+}
+
+.user_infos__header{
+  height: 40px;
+  background-color: $user_infos_header_bgc;
+  line-height: 40px;
+  padding: 0 10px; 
+}
+
+.user_infos_main__infolist{
+  display:flex;
+  .info_key{
+    width: auto;
+    min-width: 150px;
+    // あとでかえる
+  }
+}

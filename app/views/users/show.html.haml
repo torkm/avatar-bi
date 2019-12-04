@@ -1,3 +1,49 @@
 .contents
   = render 'layouts/header'
   ユーザ詳細ページ
+  .show
+    .user_infos
+      .user_infos__header
+        = current_user.name
+        = link_to 'ユーザ情報変更', edit_user_registration_path(current_user), class: "header__right__left-btn_edit"
+      .user_infos__main
+        .user_infos_main__infolist
+          .info_key
+            総移動時間：
+          .info_value
+            - time  =  current_user.total_travel_time
+            - days  = (time/(60*60*24)).floor
+            - hours = ((time - (days*60*60*24))/(60*60)).floor
+            - mins   = (time - (days*60*60*24)-(hours*60*60))/60.floor
+            - sec   = (time - (days*60*60*24)-(hours*60*60)-mins*60).floor
+            - time_str = days.to_s + "日" + hours.to_s + "時間" + mins.to_s + "分" + sec.to_s + "秒"
+            = time_str
+        .user_infos_main__infolist
+          .info_key
+            総移動距離[km]：
+          .value
+            ●●
+            km
+        .user_infos_main__infolist
+          .info_key
+            経過日数[日]：
+          .info_value
+            = ((Time.now - current_user.created_at)/(60*60*24)).floor
+            日
+        .user_infos_main__infolist
+          .info_key
+            最後に移動した日：
+          .value
+            - if current_user.end_time == nil
+              まだ移動したことがありません
+            - else
+              = current_user.end_time.strftime("%Y年%m月%d日")
+        .user_infos_main__infolist
+          .info_key
+            制覇した路線数：
+          .value
+            ●●
+    .avatars_infos
+      .avatars_infos__header
+        = current_user.avatars[0].name
+  
