@@ -76,8 +76,8 @@ ActiveRecord::Schema.define(version: 2019_11_26_153356) do
     t.string "name", default: "", null: false
     t.string "email", default: "", null: false
     t.boolean "is_moving", default: false, null: false
-    t.time "start_time"
-    t.time "end_time"
+    t.timestamp "start_time"
+    t.timestamp "end_time"
     t.integer "this_travel_time"
     t.integer "total_travel_time"
     t.float "start_pos_lat"

@@ -7,8 +7,8 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.2]
       t.string :name, null: false, default: "", unique: true
       t.string :email, null: false, default: "", unique: true
       t.boolean :is_moving, default: false, null: false
-      t.time :start_time
-      t.time :end_time
+      t.timestamp :start_time
+      t.timestamp :end_time
       t.integer :this_travel_time
       t.integer :total_travel_time
       t.float :start_pos_lat
