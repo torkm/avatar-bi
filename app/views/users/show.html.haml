@@ -1,6 +1,24 @@
 .contents
   = render 'layouts/header'
   ユーザ詳細ページ
-  .user_infos
-  .avatars_infos
+  .show
+    .user_infos
+      .user_infos__header
+        = current_user.name
+        = link_to 'ユーザ情報変更', edit_user_registration_path(current_user), class: "header__right__left-btn_edit"
+      .user_infos__main
+        .user_infos_main__total_travel_time
+          総移動時間[秒]：
+          = current_user.total_travel_time
+          秒
+        .user_infos_main__total_travel_distance
+          総移動距離[km]：
+          ●●
+          km
+        .user_infos_main__days
+          経過日数[日]：
+          = Time.now
+          %br/
+          = current_user.created_at - 60
+    .avatars_infos
   
