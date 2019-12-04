@@ -1,5 +1,5 @@
--# = render 'layouts/station_search'
 .contents
+  = render 'layouts/header'
   あなたの分身をつくりましょう
   .form
     = form_with model: @avatar ,local: true, method: :create  do |f|
@@ -31,4 +31,4 @@
           = image_tag "test.png", size: "180x100", alt: "アバタータイプ3", class: "form__type-select__op__img--3"
           %p タイプ３
       .form__submit
-        = f.button '登録する', type: 'button', onclick: 'submit();'
+        = f.button '登録する', type: 'button', onclick: 'submit();',class:"btn"
