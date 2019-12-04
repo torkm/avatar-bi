@@ -32,11 +32,9 @@ class UsersController < ApplicationController
   private
 
   def update_params
-
-    unless (params[:start_time] == nil) then
-      time = params[:start_time]
-      params[:start_time] = Time.parse(params[:start_time])
-    end
-    params.permit(:is_moving, :start_time, :this_travel_time, :total_travel_time)
+    params.permit(:is_moving,
+                  :start_time, :start_pos_lat, :start_pos_long,
+                  :end_time, :end_pos_lat, :end_pos_long,
+                  :this_travel_time, :total_travel_time)
   end
 end
