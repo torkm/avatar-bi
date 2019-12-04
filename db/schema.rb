@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2019_11_26_153356) do
     t.float "last_location_lat"
     t.float "last_location_long"
     t.integer "home_station_id", null: false
+    t.text "train_timetable"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_avatars_on_user_id"
@@ -74,8 +75,15 @@ ActiveRecord::Schema.define(version: 2019_11_26_153356) do
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "email", default: "", null: false
+    t.boolean "is_moving", default: false, null: false
+    t.time "start_time"
+    t.time "end_time"
     t.integer "this_travel_time"
     t.integer "total_travel_time"
+    t.float "start_pos_lat"
+    t.float "start_pos_long"
+    t.float "end_pos_lat"
+    t.float "end_pos_long"
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
