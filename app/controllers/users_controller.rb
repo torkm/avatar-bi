@@ -12,7 +12,7 @@ class UsersController < ApplicationController
     # to do @positionを取得後、 Avatarのcurr_station_id, curr_lat, curr_long更新
     # ログアウトor終了時に avatarsにlast_station_id
     @train_timetable = Travel.getCurrentTrainTimetable(@station, "2:00")
-    @position = Travel.getTrainPosition(@train_timetable, "3:00")
+    @position = Travel.getTrainPosition(@train_timetable, "4:00")
   end
 
   def reload_user
