@@ -50,8 +50,11 @@ class Travel
     #入力はlast_stationのid (現在時刻は関数内で使用)
     #①乗換可能な路線一覧をStationAPIで抽出（含 アバタの現在路線）
     result = Odpt::StationAPI.fetch({ "owl:sameAs": station.odpt_sameAs })
-    candidates = [result[0]["odpt:railway"]] + result[0]["odpt:connectingRailway"]
-    possible_railways = []
+    candidates = [result[0]["odpt:railway"]]
+    if result[0]["odpt:connectingRailway"]
+      candidates += result[0]["odpt:connectingRailway"]
+    end
+      possible_railways = []
 
     # railwayテーブルに登録されていて、かつ TrainTimetableを持っている路線だけ選抜
     candidates.each do |candidate|
