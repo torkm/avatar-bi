@@ -25,7 +25,6 @@ $(window).on('load', function(){
             dataType: "json"
           })
           .done(function(){
-            console.log("pos PUT ok");
           });
       },function (error) {
         // エラーコードのメッセージを定義
@@ -65,21 +64,23 @@ $(window).on('load', function(){
         dataType: "json"
       })
       .done(function(){
-        console.log("time PUT ok");
       })
       .fail(function(){
       });
+      return now;
     };
 
 
 
-    function calc_total_time(diff_time){
+    function calc_total_time(end_time){
       // current_userの情報をGETリクエストで取得
       $.ajax({
         type: "GET",
         url: "users/reload_user",
       })
       .done(function(current_user){
+        var diff_time = (end_time - new Date(current_user.start_time))/1000;
+
         url  = "users/" + current_user.id;
         var total_time_base = current_user.total_travel_time;
         var total_time = Math.round(total_time_base) + Math.round(diff_time);
@@ -93,7 +94,6 @@ $(window).on('load', function(){
           dataType: "json"
         })
         .done(function(){
-          console.log("avatar last station PUT ok");
         });
       })
       .fail(function(){
@@ -101,15 +101,11 @@ $(window).on('load', function(){
       });
     }; 
 
-    var start_time = "";
-    var end_time = "";
-
-
     
     $('.start_end_btn').on("click",function(){
 
       // ボタン押下で現在時刻と座標を保存
-      save_now_time($('.start_end_btn').data('btn'));
+      var now_time = save_now_time($('.start_end_btn').data('btn'));
       save_now_pos($('.start_end_btn').data('btn'));
 
       // 「移動開始」ボタンを押したら現在時刻とそれぞれのアバターのlast_station_idを取得
@@ -117,14 +113,12 @@ $(window).on('load', function(){
         $('.start_end_btn').data('btn','end');
         $('.start_end_btn').val('移動終了');
         var now = new Date;
-        // console.log(now);
         var day = now.getDay();
         var hour = now.getHours();
         var minutes = now.getMinutes();
         var wd = ['日', '月', '火', '水', '木', '金', '土']
         start_time = now.getTime();
         $.each(gon.avatars,function(index, avatar){
-          // console.log("start:"+avatar.last_station_id);
         });
       }
       // 「移動終了」ボタンを押したらそれぞれのアバターのcurr_station_idをlast_stationに保存
@@ -133,9 +127,9 @@ $(window).on('load', function(){
         $('.start_end_btn').data('btn','start');
         $('.start_end_btn').val('移動開始');
 
-        var now = new Date;
-        end_time = now.getTime();
-        diff = (end_time - start_time)/1000;
+        // var now = new Date;
+        // end_time = now.getTime();
+        // diff = (end_time - start_time)/1000;
         train_timetable_empty = "";
 
         $.each(gon.avatars,function(index, avatar){
@@ -150,13 +144,12 @@ $(window).on('load', function(){
             dataType: "json"
           })
           .done(function(){
-            console.log("avatar last station PUT ok");
           })
           .fail(function(){
             alert("ユーザ情報の保存に失敗しました。");
           });
 
-          calc_total_time(diff);
+          calc_total_time(now_time);
 
         });
       };
