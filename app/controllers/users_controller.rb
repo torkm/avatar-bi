@@ -24,9 +24,13 @@ class UsersController < ApplicationController
       # ③ DB操作
       @avatar.train_timetable = @train_timetable.to_s # 文字列にして時刻表更新
       @avatar.curr_station_id = Station.find_by(odpt_sameAs: @position[0]).id
-      @avatar.curr_location_lat = @position[3]
-      @avatar.curr_location_long = @position[4]
+      @avatar.curr_location_lat = @position[2]
+      @avatar.curr_location_long = @position[3]
       @avatar.save
+
+      gon.curr_location_lat = @position[2]
+      gon.curr_location_long = @position[3]
+      gon.viewangle = @position[4]
       ###############################################
     end
   end
