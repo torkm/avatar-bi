@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_26_153356) do
+ActiveRecord::Schema.define(version: 2019_12_05_040105) do
 
   create_table "avatars", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id"
@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 2019_11_26_153356) do
   create_table "passed_stations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "avatar_id"
     t.bigint "station_id"
-    t.boolean "has_passed", default: false, null: false
+    t.integer "has_passed", default: 0, null: false
     t.time "passed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
