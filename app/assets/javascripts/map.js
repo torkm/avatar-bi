@@ -1,4 +1,3 @@
-
 $(function () {
   var map = new Y.Map("map");
   var circle = new Y.Circle(new Y.LatLng(0, 0), new Y.Size(0, 0), { unit: "km", strokeStyle: new Y.Style("99cc99", 2, 0.7), fillStyle: new Y.Style("99cc99", 1, 0.2) })
@@ -50,22 +49,39 @@ $(function () {
   map.addFeature(circle);
 
 
-  // streetビュー　クリックすると表示
-  $("#street_refresh").on("click", function () {
+  ////////////////////////////////////////////
+  //////  google map　クリックすると表示  ////////
+  ///////////////////////////////////////////
+  let gmap = new GMaps({
+    div: '#map', //地図を表示する要素
+    lat: gon.curr_location_lat, //緯度
+    lng: gon.curr_location_long, //軽度
+    zoom: 18 //倍率（1～21）
+  });
+
+  ////////////////////////////////////////////
+  //////  streetビュー　クリックすると表示  ////////
+  ///////////////////////////////////////////
+  $("#panorama--display").on("click", function () {
+    $("#panorama--display").empty()
+    $("#panorama--refresh").append("ストリートビューを更新")
     // 本来はアバターの位置だけど、今は現在地を表示
-    geo.getCurrentPosition(function (pos) {
-      let panorama = GMaps.createPanorama({
-        el: '#street', //ストリートビューを表示する要素
-        lat: pos.coords.latitude, //緯度
-        lng: pos.coords.longitude, //経度
-        zoom: 0, //倍率（0～2）
-        pov: {
-          heading: 120, //水平角
-          pitch: 8 //垂直角
-        }
-      });
+    let panorama = GMaps.createPanorama({
+      el: '#panorama__view', //ストリートビューを表示する要素
+      lat: gon.curr_location_lat, //緯度
+      lng: gon.curr_location_long, //経度
+      zoom: 0, //倍率（0～2）
+      pov: {
+        heading: gon.viewangle, //水平角
+        pitch: 0 //垂直角
+      }
+    });
+    $("#panorama--refresh").on("click", function () {
+      // let latlng = new google.maps.LatLng(35.362456, 138.775202)
+      panorama.setPosition(new google.maps.LatLng(gon.curr_location_lat, gon.curr_location_long));
     });
   })
+  ////////////////////////////////////////////////////
 
 
 });
