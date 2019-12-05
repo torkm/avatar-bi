@@ -8,6 +8,11 @@ class AvatarsController < ApplicationController
   def create
     @avatar = Avatar.new(avatar_params)
     if @avatar.save
+      stations = Station.select{|s| s.railway[:has_TrainTimetable]==true}
+      stations.each do |station|
+        passed_station = PassedStation.new(avatar_id: @avatar.id, station_id: station.id)
+        passed_station.save
+      end
       redirect_to root_path, notice: "アバターを登録しました"
     else
       render :new
