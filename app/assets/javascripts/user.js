@@ -78,7 +78,7 @@ $(window).on('load', function(){
       // current_userの情報をGETリクエストで取得
       $.ajax({
         type: "GET",
-        url: "users/reload_user",
+        url: "users/reload",
       })
       .done(function(current_user){
         var diff_time = (end_time - new Date(current_user.start_time))/1000;

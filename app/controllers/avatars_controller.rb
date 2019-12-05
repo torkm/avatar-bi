@@ -1,3 +1,5 @@
+require 'time'
+
 class AvatarsController < ApplicationController
   protect_from_forgery except: :create
 
@@ -19,6 +21,39 @@ class AvatarsController < ApplicationController
     end
   end
 
+  def travel
+
+    #############  これを一定時間でループ   #############
+    @avatar = current_user.avatars[0]
+
+    @station = Station.find(@avatar.curr_station_id)
+    @train_timetable = eval(@avatar.train_timetable) #avatarから呼び出し、配列に変換
+    unless @train_timetable # avatarが時刻表持っていない場合(= 旅行開始時、終点に着いて次の移動)
+      @train_timetable = Travel.getCurrentTrainTimetable(@station, Time.now)  #Aで時刻表ゲット
+    end
+    @position = Travel.getTrainPosition(@train_timetable, Time.now) #Bで現在地更新
+    # ② 終点についていたらtrain_timetable 削除
+    if @position[0] == @train_timetable[-1][0] #終点についていたら削除
+      @train_timetable = ""
+    end
+
+    # ③ DB操作
+    @avatar.train_timetable = @train_timetable.to_s # 文字列にして時刻表更新
+    @avatar.curr_station_id = Station.find_by(odpt_sameAs: @position[0]).id
+    @avatar.curr_location_lat = @position[2]
+    @avatar.curr_location_long = @position[3]
+    @avatar.save
+
+    gon.global.curr_location_lat = @position[2]
+    gon.global.curr_location_long = @position[3]
+    gon.global.viewangle = @position[4]
+    ###############################################
+  end 
+
+  def reload
+    render json: current_user.avatars
+  end
+
   def edit
   end
 
@@ -31,7 +66,6 @@ class AvatarsController < ApplicationController
         format.json
       end
     end
-    
   end
 
   private
