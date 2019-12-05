@@ -18,32 +18,22 @@
           #map{style: "width:400px; height:300px"}
           %button#location{style: "position:absolute; top:8px; right:8px; z-index:3; display:none;"}
             start watching
-
         #panorama
           %a{href: "javascript:void(0)", id: 'panorama--display' }
             <アバターくん>の視界を表示
           %a{href: "javascript:void(0)", id: 'panorama--refresh' }
-        #street_refresh
-          ここをクリックでストリートビューを表示
-          -# = @station
-          -# = @next_railway
-          -# = @train_timetable
-          -# = @position
+          #panorama__view{style: "width:400px; height:200px"}
+        -# アバターの現在駅
+        -# = @station.odpt_sameAs
+        -# %br/
+        -# 列車時刻表
+        -# = @train_timetable
+        -# %br/
+        -# 現在地
+        -# = @position
         
+
         #test_curr_timetable
         #test_curr_station
         #test_curr_location_lat
         #test_curr_location_long
-
-
-
-          #panorama__view{style: "width:400px; height:200px"}
-        アバターの現在駅
-        = @station.odpt_sameAs
-        %br/
-        列車時刻表
-        = @train_timetable
-        %br/
-        現在地
-        = @position
-        

@@ -54,31 +54,61 @@ $(function () {
   ///////////////////////////////////////////
   let gmap = new GMaps({
     div: '#map', //地図を表示する要素
-    lat: gon.curr_location_lat, //緯度
-    lng: gon.curr_location_long, //軽度
+    lat: gon.global.curr_location_lat, //緯度
+    lng: gon.global.curr_location_long, //軽度
     zoom: 18 //倍率（1～21）
   });
 
   ////////////////////////////////////////////
   //////  streetビュー　クリックすると表示  ////////
   ///////////////////////////////////////////
+  // $("#panorama--display").on("click", function () {
+  //   console.log(gon.curr_location_lat);
+  //   $("#panorama--display").empty()
+  //   $("#panorama--refresh").append("ストリートビューを更新")
+  //   // 本来はアバターの位置だけど、今は現在地を表示
+  //   let panorama = GMaps.createPanorama({
+  //     el: '#panorama__view', //ストリートビューを表示する要素
+  //     lat: gon.global.curr_location_lat, //緯度
+  //     lng: gon.global.curr_location_long, //経度
+  //     zoom: 0, //倍率（0～2）
+  //     pov: {
+  //       heading: gon.viewangle, //水平角
+  //       pitch: 0 //垂直角
+  //     }
+  //   });
+  //   $("#panorama--refresh").on("click", function () {
+  //     // let latlng = new google.maps.LatLng(35.362456, 138.775202)
+  //     panorama.setPosition(new google.maps.LatLng(gon.global.curr_location_lat, gon.global.curr_location_long));
+  //   });
+  // })
+
   $("#panorama--display").on("click", function () {
     $("#panorama--display").empty()
     $("#panorama--refresh").append("ストリートビューを更新")
-    // 本来はアバターの位置だけど、今は現在地を表示
-    let panorama = GMaps.createPanorama({
-      el: '#panorama__view', //ストリートビューを表示する要素
-      lat: gon.curr_location_lat, //緯度
-      lng: gon.curr_location_long, //経度
-      zoom: 0, //倍率（0～2）
-      pov: {
-        heading: gon.viewangle, //水平角
-        pitch: 0 //垂直角
-      }
-    });
+
+      let panorama = GMaps.createPanorama({
+        el: '#panorama__view', //ストリートビューを表示する要素
+        lat: gon.global.curr_location_lat, //緯度
+        lng: gon.global.curr_location_long, //経度
+        zoom: 0, //倍率（0～2）
+        pov: {
+          heading: gon.global.viewangle, //水平角
+          pitch: 0 //垂直角
+        }
+      });
+
+
     $("#panorama--refresh").on("click", function () {
       // let latlng = new google.maps.LatLng(35.362456, 138.775202)
-      panorama.setPosition(new google.maps.LatLng(gon.curr_location_lat, gon.curr_location_long));
+      $.ajax({
+        type: "GET",
+        url: "/avatars/reload",
+        dataType: "json"
+      })
+      .done(function(avatars){
+        panorama.setPosition(new google.maps.LatLng(avatars[0].curr_location_lat, avatars[0].curr_location_long));
+      });
     });
   })
   ////////////////////////////////////////////////////

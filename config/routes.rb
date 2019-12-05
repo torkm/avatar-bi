@@ -8,7 +8,11 @@ Rails.application.routes.draw do
       get 'reload'
     end
   end
-  resources :stations, only: [:index]
+  resources :stations, only: [:index] do
+    collection do
+      get 'get_name'
+    end
+  end
   resources :users, only: [:index, :edit, :update, :show] do
     collection do
       get 'reload'
