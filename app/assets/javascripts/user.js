@@ -18,9 +18,10 @@ $(window).on('load', function(){
             data = { end_pos_lat: lat,
                      end_pos_long: long };
           };
+          url  = "users/" + gon.current_user.id;
           $.ajax({
             type: "PUT",
-            url: "users/reload_user",
+            url: url,
             data: data,
             dataType: "json"
           })
@@ -48,6 +49,7 @@ $(window).on('load', function(){
     function save_now_time(string){
       var now = new Date;
       var data = "";
+      url  = "users/" + gon.current_user.id;
       
       if(string === "start"){
         data = { start_time: now,
@@ -59,7 +61,7 @@ $(window).on('load', function(){
 
       $.ajax({
         type: "PUT",
-        url: "users/reload_user",
+        url: url,
         data: data,
         dataType: "json"
       })
