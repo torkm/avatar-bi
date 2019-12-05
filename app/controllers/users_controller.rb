@@ -5,15 +5,30 @@ class UsersController < ApplicationController
     if user_signed_in?
       gon.avatars = current_user.avatars
       gon.current_user = current_user
+
       @user = User.find(current_user.id)
+      @avatar = Avatar.find(@user.avatars[0].id)
+
+      #############  これを一定時間でループ   #############
+      @station = Station.find(@avatar.curr_station_id)
+      @train_timetable = eval(@avatar.train_timetable) #avatarから呼び出し、配列に変換
+      unless @train_timetable # avatarが時刻表持っていない場合(= 旅行開始時、終点に着いて次の移動)
+        @train_timetable = Travel.getCurrentTrainTimetable(@station, "13:22")  #Aで時刻表ゲット
+      end
+      @position = Travel.getTrainPosition(@train_timetable, "13:22") #Bで現在地更新
+      # ② 終点についていたらtrain_timetable 削除
+      if @position[0] == @train_timetable[-1][0] #終点についていたら削除
+        @train_timetable = ""
+      end
+
+      # ③ DB操作
+      @avatar.train_timetable = @train_timetable.to_s # 文字列にして時刻表更新
+      @avatar.curr_station_id = Station.find_by(odpt_sameAs: @position[0]).id
+      @avatar.curr_location_lat = @position[3]
+      @avatar.curr_location_long = @position[4]
+      @avatar.save
+      ###############################################
     end
-
-    @station = Station.find(Avatar.find(current_user.avatars[0].id).curr_station_id)
-    # to do @positionを取得後、 Avatarのcurr_station_id, curr_lat, curr_long更新
-    # ログアウトor終了時に avatarsにlast_station_id
-
-    @train_timetable = Travel.getCurrentTrainTimetable(@station, Time.now)
-    @position = Travel.getTrainPosition(@train_timetable, Time.now)
   end
 
   def reload_user

@@ -50,7 +50,7 @@ class Travel
     #入力はlast_stationのid (現在時刻は関数内で使用)
     #①乗換可能な路線一覧をStationAPIで抽出（含 アバタの現在路線）
     result = Odpt::StationAPI.fetch({ "owl:sameAs": station.odpt_sameAs })
-    candidates = [result[0]["odpt:railway"]].append(result[0]["odpt:connectingRailway"])
+    candidates = [result[0]["odpt:railway"]] + result[0]["odpt:connectingRailway"]
     possible_railways = []
 
     # railwayテーブルに登録されていて、かつ TrainTimetableを持っている路線だけ選抜
@@ -62,13 +62,12 @@ class Travel
       end
     end
 
-    # puts "選択肢は", possible_railways
+    puts "選択肢は", possible_railways
 
     #②列車時刻表の提供されている路線から一つを選択(railwayテーブル)
     next_railway = possible_railways.sample #まだ適当
 
     puts "乗る路線は", next_railway
-    # next_railway = "odpt.Railway:TokyoMetro.Fukutoshin"
     return next_railway
   end
 
@@ -167,12 +166,12 @@ class Travel
   end
 
   ####################################################
-  # メイン関数A
-  # 駅名を入力し、入力した時刻以降で、次に乗る列車(路線はランダム)の時刻表と出発駅を配列で出力
+  # メイン関数A 上記に加え,DB操作が加わっている
+  # アバター名を入力し、入力した時刻以降で、次に乗る列車(路線はランダム)の時刻表と出発駅を配列で出力
   def self.getCurrentTrainTimetable(station, time)
     # 時刻がstr型なら、time型に変換する。
     time = to_time(time)
-    # ①次に乗る���線名を決める
+    # ①次に乗る線名を決める
     next_railway = getNextRailway(station)
     # ②何線の何駅から乗るかを決める(入力路線で、入力駅か��最も近い駅)
     dep_station = getDepartureStation(station, next_railway)
@@ -180,12 +179,11 @@ class Travel
     train_number = getTrainNumber(dep_station, time)
     # ④指定した列番の時刻表生成 ([駅名,出発時刻])
     train_timetable = getTrainTimetable(dep_station, next_railway, train_number)
-
     return train_timetable
   end
 
   # メイン関数B
-  # 入力時刻の列車現在位置の取得 (駅は��近、座標は２駅の間を計算して取得)
+  # 入力時刻の列車現在位置の取得 (駅は最後に到達した駅、座標は２駅の間を計算して取得)
   # [最近通過した駅名、次の駅名、現在lat, 現在long, 方向(°)]
   def self.getTrainPosition(train_timetable, time)
     # timeがstr
@@ -206,7 +204,7 @@ class Travel
         if i == 0
           lat = curr_station.lat
           long = curr_station.long
-        else #座標は現在����と次駅の座標の加重平均を取る
+        else #座標は現在駅と次駅の座標の加重平均を取る
           time_c = to_time(train_timetable[i - 1][1])
           time_n = to_time(train_timetable[i][1])
 
