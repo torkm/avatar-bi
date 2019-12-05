@@ -2,29 +2,39 @@ $(window).on('load', function () {
   $(function () {
     if (document.URL.match('/')) {
 
-      // function change_btn(is_moving){
-      //   if(is_moving){
-      //     $('.start_end_btn').data('btn','end');
-      //     $('.start_end_btn').val('移動終了');
-      //   }else{
-      //     $('.start_end_btn').data('btn','start');
-      //     $('.start_end_btn').val('移動開始');  
-      //   };
-      // }
-
       function avatar_traveling() {
         $.ajax({
           type: "GET",
-          url: "users/reload_user",
+          url: "/users/reload",
           dataType: "json"
         })
         .done(function(user){
-          console.log(user.is_moving);
-          // change_btn(user.is_moving);
-        })
-      }
+          if(user.is_moving){
+            console.log("is_moving");
+            var url = "/avatars/travel"
+            $.ajax({
+              type: "GET",
+              url: url,
+              dataType: "json"
+            })
+            .done(function(){
+              $.ajax({
+                type: "GET",
+                url: "/avatars/reload",
+                dataType: "json"
+              })
+              .done(function(avatars){
+                $('#test_curr_timetable').text(avatars[0].train_timetable);
+                $('#test_curr_station').text(avatars[0].curr_station_id);
+                $('#test_curr_location_lat').text(avatars[0].curr_location_lat);
+                $('#test_curr_location_long').text(avatars[0].curr_location_long);
+              });
+            });
+          };
+        });
+      };
       
-      // setInterval(avatar_traveling, 1000);
+      setInterval(avatar_traveling, 3000);
     };
   });
-})
+});
