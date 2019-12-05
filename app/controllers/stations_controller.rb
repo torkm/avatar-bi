@@ -10,7 +10,7 @@ class StationsController < ApplicationController
 
   def get_name
     @station = Station.find(params[:id])
-    get_station = @station.merge(railway_jname: @station.railway.jname)
+    # get_station = @station.merge(railway_jname: @station.railway.jname)
     render json: @station
     # respond_to do |format|
     #   format.json
