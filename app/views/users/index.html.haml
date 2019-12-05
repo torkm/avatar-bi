@@ -4,7 +4,10 @@
     .right
       .right__movin
         .right__movin__onoff-btn
-          %input{type: 'button', value: '移動開始', data: {btn: 'start'}, class: "start_end_btn btn"}
+          - if current_user.is_moving
+            %input{type: 'button', value: '移動終了', data: {btn: 'end'}, class: "start_end_btn btn"}
+          - else
+            %input{type: 'button', value: '移動開始', data: {btn: 'start'}, class: "start_end_btn btn"}
       .right__user-status
         =link_to 'ユーザ情報変更', edit_user_registration_path(current_user), class: "header__right__left-btn_edit"
     .left

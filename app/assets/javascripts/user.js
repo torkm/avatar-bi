@@ -6,8 +6,10 @@ $(window).on('load', function(){
       var geo = navigator.geolocation;
 
       geo.getCurrentPosition(function (pos) {
-          var lat = pos.coords.latitude;  //緯度
-          var long = pos.coords.longitude; //経度
+          var lat = "";
+          var long = "";
+          lat = pos.coords.latitude;  //緯度
+          long = pos.coords.longitude; //経度
           var data;
           if(string === "start"){
             data = { start_pos_lat: lat,
@@ -16,11 +18,14 @@ $(window).on('load', function(){
             data = { end_pos_lat: lat,
                      end_pos_long: long };
           };
+          url  = "users/" + gon.current_user.id;
           $.ajax({
             type: "PUT",
-            url: "users/reload_user",
+            url: url,
             data: data,
             dataType: "json"
+          })
+          .done(function(){
           });
       },function (error) {
         // エラーコードのメッセージを定義
@@ -34,7 +39,7 @@ $(window).on('load', function(){
         alert(errorMessage[error.code]);
       }, {
         enableHighAccuracy: true,
-        timeout: 6000,
+        timeout: 1000000,
         maximumAge: 1000
       });
     };
@@ -44,6 +49,7 @@ $(window).on('load', function(){
     function save_now_time(string){
       var now = new Date;
       var data = "";
+      url  = "users/" + gon.current_user.id;
       
       if(string === "start"){
         data = { start_time: now,
@@ -55,27 +61,28 @@ $(window).on('load', function(){
 
       $.ajax({
         type: "PUT",
-        url: "users/reload_user",
+        url: url,
         data: data,
         dataType: "json"
       })
       .done(function(){
-        console.log("PUT ok");
       })
       .fail(function(){
-        console.log("PUT ng");
       });
+      return now;
     };
 
 
 
-    function calc_total_time(diff_time){
+    function calc_total_time(end_time){
       // current_userの情報をGETリクエストで取得
       $.ajax({
         type: "GET",
         url: "users/reload_user",
       })
       .done(function(current_user){
+        var diff_time = (end_time - new Date(current_user.start_time))/1000;
+
         url  = "users/" + current_user.id;
         var total_time_base = current_user.total_travel_time;
         var total_time = Math.round(total_time_base) + Math.round(diff_time);
@@ -87,6 +94,8 @@ $(window).on('load', function(){
           data: { this_travel_time:  diff_time,
                   total_travel_time: total_time},
           dataType: "json"
+        })
+        .done(function(){
         });
       })
       .fail(function(){
@@ -94,15 +103,11 @@ $(window).on('load', function(){
       });
     }; 
 
-    var start_time = "";
-    var end_time = "";
-
-
     
     $('.start_end_btn').on("click",function(){
 
       // ボタン押下で現在時刻と座標を保存
-      save_now_time($('.start_end_btn').data('btn'));
+      var now_time = save_now_time($('.start_end_btn').data('btn'));
       save_now_pos($('.start_end_btn').data('btn'));
 
       // 「移動開始」ボタンを押したら現在時刻とそれぞれのアバターのlast_station_idを取得
@@ -110,24 +115,24 @@ $(window).on('load', function(){
         $('.start_end_btn').data('btn','end');
         $('.start_end_btn').val('移動終了');
         var now = new Date;
-        // console.log(now);
         var day = now.getDay();
         var hour = now.getHours();
         var minutes = now.getMinutes();
         var wd = ['日', '月', '火', '水', '木', '金', '土']
         start_time = now.getTime();
         $.each(gon.avatars,function(index, avatar){
-          // console.log("start:"+avatar.last_station_id);
         });
       }
       // 「移動終了」ボタンを押したらそれぞれのアバターのcurr_station_idをlast_stationに保存
+      // train_timetableを削除
       else{
         $('.start_end_btn').data('btn','start');
         $('.start_end_btn').val('移動開始');
 
-        var now = new Date;
-        end_time = now.getTime();
-        diff = (end_time - start_time)/1000;
+        // var now = new Date;
+        // end_time = now.getTime();
+        // diff = (end_time - start_time)/1000;
+        train_timetable_empty = "";
 
         $.each(gon.avatars,function(index, avatar){
           var url = "/avatars/" + avatar.id;
@@ -136,7 +141,8 @@ $(window).on('load', function(){
             url: url,
             data: { last_station_id:    avatar.curr_station_id,
                     last_location_lat:  avatar.curr_location_lat,
-                    last_location_long: avatar.curr_location_long},
+                    last_location_long: avatar.curr_location_long,
+                    train_timetable:    train_timetable_empty},
             dataType: "json"
           })
           .done(function(){
@@ -145,7 +151,7 @@ $(window).on('load', function(){
             alert("ユーザ情報の保存に失敗しました。");
           });
 
-          calc_total_time(diff);
+          calc_total_time(now_time);
 
         });
       };

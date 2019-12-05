@@ -8,4 +8,5 @@ json.array! @avatars do |avatar|
   json.curr_location_long avatar.curr_location_long
   json.last_location_lat  avatar.last_location_lat
   json.last_location_long avatar.last_location_long
+  json.train_timetable    avatar.train_timetable
 end
