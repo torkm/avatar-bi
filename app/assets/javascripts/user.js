@@ -6,8 +6,10 @@ $(window).on('load', function(){
       var geo = navigator.geolocation;
 
       geo.getCurrentPosition(function (pos) {
-          var lat = pos.coords.latitude;  //緯度
-          var long = pos.coords.longitude; //経度
+          var lat = "";
+          var long = "";
+          lat = pos.coords.latitude;  //緯度
+          long = pos.coords.longitude; //経度
           var data;
           if(string === "start"){
             data = { start_pos_lat: lat,
@@ -21,6 +23,9 @@ $(window).on('load', function(){
             url: "users/reload_user",
             data: data,
             dataType: "json"
+          })
+          .done(function(){
+            console.log("pos PUT ok");
           });
       },function (error) {
         // エラーコードのメッセージを定義
@@ -34,7 +39,7 @@ $(window).on('load', function(){
         alert(errorMessage[error.code]);
       }, {
         enableHighAccuracy: true,
-        timeout: 6000,
+        timeout: 1000000,
         maximumAge: 1000
       });
     };
@@ -60,10 +65,9 @@ $(window).on('load', function(){
         dataType: "json"
       })
       .done(function(){
-        console.log("PUT ok");
+        console.log("time PUT ok");
       })
       .fail(function(){
-        console.log("PUT ng");
       });
     };
 
@@ -87,6 +91,9 @@ $(window).on('load', function(){
           data: { this_travel_time:  diff_time,
                   total_travel_time: total_time},
           dataType: "json"
+        })
+        .done(function(){
+          console.log("avatar last station PUT ok");
         });
       })
       .fail(function(){
@@ -121,6 +128,7 @@ $(window).on('load', function(){
         });
       }
       // 「移動終了」ボタンを押したらそれぞれのアバターのcurr_station_idをlast_stationに保存
+      // train_timetableを削除
       else{
         $('.start_end_btn').data('btn','start');
         $('.start_end_btn').val('移動開始');
@@ -128,6 +136,7 @@ $(window).on('load', function(){
         var now = new Date;
         end_time = now.getTime();
         diff = (end_time - start_time)/1000;
+        train_timetable_empty = "";
 
         $.each(gon.avatars,function(index, avatar){
           var url = "/avatars/" + avatar.id;
@@ -136,10 +145,12 @@ $(window).on('load', function(){
             url: url,
             data: { last_station_id:    avatar.curr_station_id,
                     last_location_lat:  avatar.curr_location_lat,
-                    last_location_long: avatar.curr_location_long},
+                    last_location_long: avatar.curr_location_long,
+                    train_timetable:    train_timetable_empty},
             dataType: "json"
           })
           .done(function(){
+            console.log("avatar last station PUT ok");
           })
           .fail(function(){
             alert("ユーザ情報の保存に失敗しました。");
