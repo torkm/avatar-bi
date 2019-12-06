@@ -1,4 +1,5 @@
-require 'time'
+require "time"
+require "csv"
 
 class AvatarsController < ApplicationController
   protect_from_forgery except: :create
@@ -10,7 +11,7 @@ class AvatarsController < ApplicationController
   def create
     @avatar = Avatar.new(avatar_params)
     if @avatar.save
-      stations = Station.select{|s| s.railway[:has_TrainTimetable]==true}
+      stations = Station.select { |s| s.railway[:has_TrainTimetable] == true }
       stations.each do |station|
         passed_station = PassedStation.new(avatar_id: @avatar.id, station_id: station.id)
         passed_station.save
@@ -45,11 +46,14 @@ class AvatarsController < ApplicationController
     @avatar.curr_location_long = @position[3]
     @avatar.save
 
-    # gon.global.curr_location_lat = @position[2]
-    # gon.global.curr_location_long = @position[3]
-    # gon.global.viewangle = @position[4]
+    # 現在位置などはcsvに保存
+    # 現在駅id, 現在駅名, 現在路線,　現在lat, 現在long, 次駅id, 次駅名, 進行方向の角度
+    # ↑にしていくが、今は position[0]-[5]で
+    CSV.open("db/csv/#{@avatar.id}_curr.csv", "w") do |content|
+      content << @position
+    end
     ###############################################
-  end 
+  end
 
   def reload
     render json: current_user.avatars
@@ -70,18 +74,18 @@ class AvatarsController < ApplicationController
   end
 
   private
+
   def avatar_params
     params.require(:avatar).permit(:name, :avatar_type, :stage,
-                                   :curr_station_id,    :last_station_id, :home_station_id,
-                                   :curr_location_lat,  :last_location_lat,
+                                   :curr_station_id, :last_station_id, :home_station_id,
+                                   :curr_location_lat, :last_location_lat,
                                    :curr_location_long, :last_location_long).merge(user_id: current_user.id)
   end
 
   def update_params
     params.permit(:name, :avatar_type, :stage,
-                  :curr_station_id,    :last_station_id, :home_station_id,
-                  :curr_location_lat,  :last_location_lat,
+                  :curr_station_id, :last_station_id, :home_station_id,
+                  :curr_location_lat, :last_location_lat,
                   :curr_location_long, :last_location_long, :train_timetable)
   end
-
 end
