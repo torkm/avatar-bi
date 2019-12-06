@@ -87,16 +87,16 @@ $(function () {
     $("#panorama--display").empty()
     $("#panorama--refresh").append("ストリートビューを更新")
 
-      let panorama = GMaps.createPanorama({
-        el: '#panorama__view', //ストリートビューを表示する要素
-        lat: gon.global.curr_location_lat, //緯度
-        lng: gon.global.curr_location_long, //経度
-        zoom: 0, //倍率（0～2）
-        pov: {
-          heading: gon.global.viewangle, //水平角
-          pitch: 0 //垂直角
-        }
-      });
+    let panorama = GMaps.createPanorama({
+      el: '#panorama__view', //ストリートビューを表示する要素
+      lat: gon.global.curr_location_lat, //緯度
+      lng: gon.global.curr_location_long, //経度
+      zoom: 0, //倍率（0～2）
+      pov: {
+        heading: gon.global.viewangle, //水平角
+        pitch: 0 //垂直角
+      }
+    });
 
 
     $("#panorama--refresh").on("click", function () {
@@ -106,9 +106,9 @@ $(function () {
         url: "/avatars/reload",
         dataType: "json"
       })
-      .done(function(avatars){
-        panorama.setPosition(new google.maps.LatLng(avatars[0].curr_location_lat, avatars[0].curr_location_long));
-      });
+        .done(function (avatars) {
+          panorama.setPosition(new google.maps.LatLng(avatars[0].curr_location_lat, avatars[0].curr_location_long));
+        });
     });
   })
   ////////////////////////////////////////////////////
