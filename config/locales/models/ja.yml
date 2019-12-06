@@ -1,0 +1,9 @@
+ja:
+  activerecord:
+    models:
+      avatar: アバター
+    attributes:
+      avatar:
+        name: アバター名
+        avatar_type: アバターの種類
+        home_station_id: アバターの出発駅
