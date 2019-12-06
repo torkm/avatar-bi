@@ -2,7 +2,7 @@
   = render 'layouts/header'
   あなたの分身をつくりましょう
   .form
-    = form_with model: @avatar ,local: true, method: :create  do |f|
+    = form_with model: @avatar ,local: true do |f|
       - if @avatar.errors.any?
         .form__errors
           %h2= "#{@avatar.errors.full_messages.count}件のエラーが発生しました"

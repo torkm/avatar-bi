@@ -115,7 +115,6 @@ $(window).on('load', function () {
 
 
     $('.start_end_btn').on("click", function () {
-      console.log('c')
       // ボタン押下で現在時刻と座標を保存
       var now_time = save_now_time($('.start_end_btn').data('btn'));
       save_now_pos($('.start_end_btn').data('btn'));
@@ -158,6 +157,7 @@ $(window).on('load', function () {
             dataType: "json"
           })
             .done(function () {
+              console.log("save done");
             })
             .fail(function () {
               alert("ユーザ情報の保存に失敗しました。");

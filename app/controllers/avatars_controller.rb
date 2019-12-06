@@ -59,7 +59,7 @@ class AvatarsController < ApplicationController
   end
 
   def update
-    @avatar = Avatar.find_by(id: params[:id])
+    @avatar = Avatar.find(params[:id])
     @avatar.update_attributes(update_params)
     if @avatar.save
       respond_to do |format|
@@ -78,7 +78,6 @@ class AvatarsController < ApplicationController
   end
 
   def update_params
-    # params.permit(:last_station_id, :last_location_lat, :last_location_long, :tarin_timetable)
     params.permit(:name, :avatar_type, :stage,
                   :curr_station_id,    :last_station_id, :home_station_id,
                   :curr_location_lat,  :last_location_lat,
