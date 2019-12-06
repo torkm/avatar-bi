@@ -44,7 +44,7 @@ $(window).on('load', function () {
         });
       };
       
-      // setInterval(avatar_traveling, 3000);
+      setInterval(avatar_traveling, 3000);
     };
   });
 });
