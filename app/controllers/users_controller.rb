@@ -15,6 +15,9 @@ class UsersController < ApplicationController
   end
 
   def show
+    if current_user.id != params[:id].to_i
+      redirect_to root_path
+    end
   end
 
   def edit
