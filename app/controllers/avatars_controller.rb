@@ -44,9 +44,9 @@ class AvatarsController < ApplicationController
     @avatar.curr_location_long = @position[3]
     @avatar.save
 
-    gon.global.curr_location_lat = @position[2]
-    gon.global.curr_location_long = @position[3]
-    gon.global.viewangle = @position[4]
+    # gon.global.curr_location_lat = @position[2]
+    # gon.global.curr_location_long = @position[3]
+    # gon.global.viewangle = @position[4]
     ###############################################
   end 
 
