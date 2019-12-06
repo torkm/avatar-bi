@@ -22,5 +22,6 @@ module AvatarBi
     config.autoload_paths += %W(#{config.root}/lib)
 
     config.time_zone = 'Tokyo'
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.yml').to_s]
   end
 end

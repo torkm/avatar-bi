@@ -2,7 +2,8 @@
 $(function () {
   // if (document.URL.match('/')) {  
   var url = location.href;
-  if (url == "http://localhost:3000/") {
+  // if (url == "http://localhost:3000/") {
+  if ($('#map').size()) {
     console.log("map js");
     // var map = new Y.Map("map");
     // var circle = new Y.Circle(new Y.LatLng(0, 0), new Y.Size(0, 0), { unit: "km", strokeStyle: new Y.Style("99cc99", 2, 0.7), fillStyle: new Y.Style("99cc99", 1, 0.2) })

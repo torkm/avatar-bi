@@ -3,6 +3,7 @@
   height: 500px;
   width: 700px;
   background-color: $form_bgc;
+  padding: 20px;
   &__type-select{
     display:flex;
     text-align: center;
@@ -23,4 +24,9 @@
 
 #hidden{
   display: none;
+}
+
+.form__errors{
+  background-color: $error_message_bgc;
+  padding: 10px;
 }

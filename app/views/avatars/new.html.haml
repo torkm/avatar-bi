@@ -2,7 +2,7 @@
   = render 'layouts/header'
   あなたの分身をつくりましょう
   .form
-    = form_with model: @avatar ,local: true, method: :create  do |f|
+    = form_with model: @avatar ,local: true do |f|
       - if @avatar.errors.any?
         .form__errors
           %h2= "#{@avatar.errors.full_messages.count}件のエラーが発生しました"
@@ -15,11 +15,7 @@
       .form__home-station-input
         %p アバターが出発する駅を選んでください
         = f.text_field :keyword, placeholder: "アバターの出発駅", id: "home_station_input-field"
-        -# = f.hidden_field :curr_station_id, value: 1
-        -# = f.hidden_field :last_station_id, value: 1
-        -# = f.hidden_field :home_station_id, value: 1
       .form__type-select
-        -# = f.hidden_field :avatar_type, value: 1
         = f.hidden_field :stage, value: 1
         .form__type-select__op
           = image_tag "test.png", size: "180x100", alt: "アバタータイプ1", class: "form__type-select__op__img--1"

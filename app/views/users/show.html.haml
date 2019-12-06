@@ -11,13 +11,16 @@
           .info_key
             総移動時間：
           .info_value
-            - time  =  current_user.total_travel_time
-            - days  = (time/(60*60*24)).floor
-            - hours = ((time - (days*60*60*24))/(60*60)).floor
-            - mins   = (time - (days*60*60*24)-(hours*60*60))/60.floor
-            - sec   = (time - (days*60*60*24)-(hours*60*60)-mins*60).floor
-            - time_str = days.to_s + "日" + hours.to_s + "時間" + mins.to_s + "分" + sec.to_s + "秒"
-            = time_str
+            - if current_user.total_travel_time == nil
+              まだ移動したことがありません
+            -else
+              - time  =  current_user.total_travel_time
+              - days  = (time/(60*60*24)).floor
+              - hours = ((time - (days*60*60*24))/(60*60)).floor
+              - mins   = (time - (days*60*60*24)-(hours*60*60))/60.floor
+              - sec   = (time - (days*60*60*24)-(hours*60*60)-mins*60).floor
+              - time_str = days.to_s + "日" + hours.to_s + "時間" + mins.to_s + "分" + sec.to_s + "秒"
+              = time_str
         .user_infos_main__infolist
           .info_key
             総移動距離[km]：
