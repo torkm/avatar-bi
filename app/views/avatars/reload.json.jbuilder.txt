@@ -13,3 +13,4 @@ json.array! @avatars do |avatar|
 end
 
 # 現在駅id, 現在駅sameAs, 現在駅名, 現在路線,　現在lat, 現在long, 次駅id, 次駅名, 進行方向の角度, 現在時刻表
+# このファイルは必要なくなった (csv経由にしたため)
