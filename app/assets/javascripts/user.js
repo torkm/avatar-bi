@@ -81,7 +81,7 @@ $(window).on('load', function () {
     };
 
 
-
+    // ユーザの移動時間を算出、保存
     function calc_total_time(end_time) {
       // current_userの情報をGETリクエストで取得
       $.ajax({
@@ -113,6 +113,32 @@ $(window).on('load', function () {
         });
     };
 
+    function end_travel(now_time) {
+      train_timetable_empty = "";
+
+      calc_total_time(now_time);
+      $.each(gon.avatars, function (index, avatar) {
+        var url = "/avatars/" + avatar.id;
+        $.ajax({
+          type: "PUT",
+          url: url,
+          data: {
+            last_station_id: avatar.curr_station_id,
+            last_location_lat: avatar.curr_location_lat,
+            last_location_long: avatar.curr_location_long,
+            train_timetable: train_timetable_empty
+          },
+          dataType: "json"
+        })
+          .done(function () {
+            console.log("save done");
+          })
+          .fail(function () {
+            alert("ユーザ情報の保存に失敗しました。");
+          });
+      });
+    }
+
 
     $('.start_end_btn').on("click", function () {
       // ボタン押下で現在時刻と座標を保存
@@ -123,56 +149,15 @@ $(window).on('load', function () {
       if ($('.start_end_btn').data('btn') === 'start') {
         $('.start_end_btn').data('btn', 'end');
         $('.start_end_btn').val('移動終了');
-        var now = new Date;
-        var day = now.getDay();
-        var hour = now.getHours();
-        var minutes = now.getMinutes();
-        var wd = ['日', '月', '火', '水', '木', '金', '土']
-        start_time = now.getTime();
-        $.each(gon.avatars, function (index, avatar) {
-        });
       }
       // 「移動終了」ボタンを押したらそれぞれのアバターのcurr_station_idをlast_stationに保存
       // train_timetableを削除
       else {
         $('.start_end_btn').data('btn', 'start');
         $('.start_end_btn').val('移動開始');
-
-        // var now = new Date;
-        // end_time = now.getTime();
-        // diff = (end_time - start_time)/1000;
-
-        // アバターが複数のときはavatar_infoのとり方を書き直す必要あり
-        $.each(gon.avatars, function (index, avatar) {
-          var url = "/avatars/" + avatar.id;
-          $.ajax({
-            type: "GET",
-            url: "/avatars/reload",
-            dataType: "json",
-          }).done(function (avatar_info) {
-            $.ajax({
-              type: "PUT",
-              url: url,
-              data: {
-                last_station_id: avatar_info.curr_id,
-                last_location_lat: avatar_info.curr_lat,
-                last_location_long: avatar_info.curr_long,
-                train_timetable: ""
-              },
-              dataType: "json"
-            })
-              .done(function () {
-                console.log("save done");
-              })
-              .fail(function () {
-                alert("ユーザ情報の保存に失敗しました。");
-              });
-          });
-
-          calc_total_time(now_time);
-
-        });
+        end_travel(now_time);
       };
     });
+
   });
 });
