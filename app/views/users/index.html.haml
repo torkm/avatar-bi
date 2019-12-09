@@ -13,27 +13,29 @@
     .left
       .left__avatar-status
         =link_to 'アバターをつくる', new_avatar_path
-        %div{style: "width:400px; height:360px; position:relative;"}
-          現在地追跡(start watchingを押したら開始)
-          #map{style: "width:400px; height:300px"}
-          %button#location{style: "position:absolute; top:8px; right:8px; z-index:3; display:none;"}
-            start watching
+       
+        #gmap{style: "width:400px; height:360px; position:relative;"}       
+          %button#gmap__panTo--user
+            ユーザーの現在地
+          %button#gmap__panTo--avatar
+            アバターの現在地
+          %input#auto-refresh{type: 'checkbox'}
+            地図を自動更新する
+          #gmap__map{style: "width:400px; height:300px"}
+
         #panorama
-          %a{href: "javascript:void(0)", id: 'panorama--display' }
-            <アバターくん>の視界を表示
-          %a{href: "javascript:void(0)", id: 'panorama--refresh' }
+          #panorama__option
+            %a{href: "javascript:void(0)", id: 'panorama__option--display' }
+              <アバターくん>の視界を表示
+            %a{href: "javascript:void(0)", id: 'panorama__option--refresh' }
+            
           #panorama__view{style: "width:400px; height:200px"}
-        -# アバターの現在駅
-        -# = @station.odpt_sameAs
-        -# %br/
-        -# 列車時刻表
-        -# = @train_timetable
-        -# %br/
-        -# 現在地
-        -# = @position
-        
 
         #test_curr_timetable
         #test_curr_station
         #test_curr_location_lat
         #test_curr_location_long
+
+        #info
+          情報:
+          = @curr
