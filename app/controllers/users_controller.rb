@@ -33,6 +33,19 @@ class UsersController < ApplicationController
     if current_user.id != params[:id].to_i
       redirect_to root_path
     end
+    # 路線と駅の組み合わせをhashで保存
+    @passed_rw_st = {}
+
+    current_user.avatars[0].passed_stations.each do |p|
+      if p.has_passed != 0
+        rw = Station.find(p.station_id).railway.jname
+        if @passed_rw_st.has_key?(rw)
+          @passed_rw_st[rw] += 1
+        else
+          @passed_rw_st[rw] = 1
+        end
+      end
+    end
   end
 
   def edit

@@ -44,7 +44,7 @@
           .info_key
             制覇した路線数：
           .value
-            ●●
+            = @passed_rw_st
     .avatars_infos
       .avatars_infos__header
         = current_user.avatars[0].name
@@ -76,5 +76,8 @@
               = home_station.name
               駅
               = home_railway_str
+          .passed
+            = @passed_rw_st.values.inject(:+)
+            駅制覇中！(全1086駅)
         .avatars_infos__main__map
   
