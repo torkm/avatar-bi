@@ -6,6 +6,10 @@ $(function () {
   if ($('#gmap').size()) {
     console.log("map js");
 
+    function get_info() {
+
+    }
+
     ////////////////////////////////////////////
     //////  google map　クリックすると表示  ////////
     ///////////////////////////////////////////
@@ -20,14 +24,14 @@ $(function () {
 
 
     // マップの更新メソッド
-    function map_refresh(lat, long) {
+    function map_refresh() {
       $.ajax({
         type: "GET",
         url: "/avatars/reload",
         dataType: "json"
       })
-        .done(function (avatars) {
-          gmap.panTo(new google.maps.LatLng(avatars[0].curr_location_lat, avatars[0].curr_location_long));
+        .done(function (avatar_info) {
+          gmap.panTo(new google.maps.LatLng(avatar_info.curr_lat, avatar_info.curr_long));
           console.log('gmap done')
         });
     };
@@ -74,13 +78,14 @@ $(function () {
       $("#panorama__option").append("<input id='panorama__option--auto-refresh' type='checkbox'>自動更新")
 
       // Panoramaインスタンスの作成(課金対象)
+
       let panorama = GMaps.createPanorama({
         el: '#panorama__view', //ストリートビューを表示する要素
         lat: gon.global.curr_location_lat, //緯度
         lng: gon.global.curr_location_long, //経度
         zoom: 0, //倍率（0～2）
         pov: {
-          heading: gon.global.viewangle, //水平角
+          heading: Number(gon.global.viewangle), //水平角
           pitch: 0 //垂直角
         }
       });
@@ -92,8 +97,12 @@ $(function () {
           url: "/avatars/reload",
           dataType: "json"
         })
-          .done(function (avatars) {
-            panorama.setPosition(new google.maps.LatLng(avatars[0].curr_location_lat, avatars[0].curr_location_long));
+          .done(function (avatar_info) {
+            panorama.setPov({
+              heading: Number(avatar_info.viewangle), //水平角
+              pitch: 0 //垂直角
+            })
+            panorama.setPosition(new google.maps.LatLng(avatar_info.curr_lat, avatar_info.curr_long));
             console.log('donee')
           });
       };
@@ -111,6 +120,8 @@ $(function () {
         };
       });
     });
+
+
 
   };
 });

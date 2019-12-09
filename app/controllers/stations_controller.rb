@@ -8,15 +8,6 @@ class StationsController < ApplicationController
     end
   end
 
-  def get_name
-    @station = Station.find(params[:id])
-    # get_station = @station.merge(railway_jname: @station.railway.jname)
-    render json: @station
-    # respond_to do |format|
-    #   format.json
-    #   format.html{redirect_to root_path}
-    # end
-  end
 
 
 end
