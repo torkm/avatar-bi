@@ -5,31 +5,53 @@
   padding: 20px;
 
   .user_infos{
-    width: 50%;
+    width: 35%;
     height: 80%;
     background-color: $user_infos__bgc;
     margin: 0 10px;
+
+    &__header{
+      height: 40px;
+      background-color: $user_infos_header_bgc;
+      line-height: 40px;
+      padding: 0 10px; 
+    }
+
+    &__main{
+      padding: 10px;
+    }
   }
-  
+
   .avatars_infos{
-    width: 50%;
+    width: 65%;
     height: 80%;
     background-color: $avatars_infos__bgc;
     margin: 0 10px;
+
+    &__header{
+      height: 40px;
+      background-color: $avatar_infos_header_bgc;
+      line-height: 40px;
+      padding: 0 10px; 
+    }
+
+    &__main{
+      padding: 10px;
+    }
   }
-}
 
-.user_infos__header{
-  height: 40px;
-  background-color: $user_infos_header_bgc;
-  line-height: 40px;
-  padding: 0 10px; 
-}
-
-.user_infos_main__infolist{
-  display:flex;
-  .info_key{
-    min-width: 150px;
-    // あとでかえる
+  .user_infos_main__infolist{
+    display:flex;
+    .info_key{
+      min-width: 150px;
+      // あとでかえる
+    }
+  }
+  .avatars_infos__main__right___infolist{
+    display:flex;
+    .info_key{
+      min-width: 150px;
+      // あとでかえる
+    }
   }
 }

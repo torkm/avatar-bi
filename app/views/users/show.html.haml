@@ -1,6 +1,5 @@
 .contents
   = render 'layouts/header'
-  ユーザ詳細ページ
   .show
     .user_infos
       .user_infos__header
@@ -49,4 +48,33 @@
     .avatars_infos
       .avatars_infos__header
         = current_user.avatars[0].name
+      .avatars_infos__main
+        .avatars_infos__main__right
+          .avatars_infos__main__right__image
+            - img_src = "avatar_type" + current_user.avatars[0].avatar_type.to_s + ".png"
+            = image_tag img_src, size: "200x200", alt: "アバタータイプ"
+          .avatars_infos__main__right___infolist
+            .info_key
+              アバターレベル：
+            .value
+              = current_user.avatars[0].stage
+          .avatars_infos__main__right___infolist
+            .info_key
+              現在地：
+            .value
+              - station = Station.find(current_user.avatars[0].curr_station_id)
+              - railway_str = "(" + Railway.find(station.railway_id).jname + ")"
+              = station.name
+              駅
+              = railway_str
+          .avatars_infos__main__right___infolist
+            .info_key
+              拠点駅：
+            .value
+              - home_station = Station.find(current_user.avatars[0].home_station_id)
+              - home_railway_str = "(" + Railway.find(home_station.railway_id).jname + ")"
+              = home_station.name
+              駅
+              = home_railway_str
+        .avatars_infos__main__map
   
