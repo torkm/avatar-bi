@@ -12,6 +12,14 @@ class UsersController < ApplicationController
           # 現在駅id, 現在駅sameAs, 現在駅名, 現在路線,　現在lat, 現在long, 次駅id, 次駅名, 進行方向の角度, 現在時刻表
         end
       end
+      # passed_stationsのためのcsv 現在は使わない予定
+      # unless File.exist?("db/csv/#{current_user.id}_#{current_user.avatars[0].id}_record.csv")
+      #   CSV.open("db/csv/#{current_user.id}_#{current_user.avatars[0].id}_record.csv", "w") do |content|
+      #     content << [0,"","",0,"",0,0,Time.now]
+      #     # 駅id, 駅sameAs, 駅名, 路線id, 路線名, 通過回数, 最新到着時刻
+      #   end
+      # end
+
       gon.avatars = current_user.avatars
       gon.current_user = current_user
     end
