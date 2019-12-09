@@ -118,24 +118,33 @@ $(window).on('load', function () {
 
       calc_total_time(now_time);
       $.each(gon.avatars, function (index, avatar) {
-        var url = "/avatars/" + avatar.id;
         $.ajax({
-          type: "PUT",
-          url: url,
-          data: {
-            last_station_id: avatar.curr_station_id,
-            last_location_lat: avatar.curr_location_lat,
-            last_location_long: avatar.curr_location_long,
-            train_timetable: train_timetable_empty
-          },
+          type: "GET",
+          url: "/avatars/reload",
           dataType: "json"
-        })
-          .done(function () {
-            console.log("save done");
+        }).done(function (avatar_info) {
+          // 駅情報をcsvからゲットできたら、保存
+          var url = "/avatars/" + avatar.id;
+          $.ajax({
+            type: "PUT",
+            url: url,
+            data: {
+              last_station_id: avatar_info.sta_id,
+              last_location_lat: avatar_info.curr_lat,
+              last_location_long: avatar_info.curr_long,
+              train_timetable: train_timetable_empty
+            },
+            dataType: "json"
           })
-          .fail(function () {
-            alert("ユーザ情報の保存に失敗しました。");
-          });
+            .done(function () {
+              console.log("save done");
+            })
+            .fail(function () {
+              alert("ユーザ情報の保存に失敗しました。");
+            });
+        }).fail(function () {
+          alert("ユーザ情報の保存に失敗しました。");
+        });
       });
     }
 

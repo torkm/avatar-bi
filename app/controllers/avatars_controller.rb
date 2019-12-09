@@ -89,7 +89,7 @@ class AvatarsController < ApplicationController
     params.require(:avatar).permit(:name, :avatar_type, :stage,
                                    :curr_station_id, :last_station_id, :home_station_id,
                                    :curr_location_lat, :last_location_lat,
-                                   :curr_location_long, :last_location_long).merge(user_id: current_user.id)
+                                   :curr_location_long, :last_location_long, :train_timetable).merge(user_id: current_user.id)
   end
 
   def update_params
