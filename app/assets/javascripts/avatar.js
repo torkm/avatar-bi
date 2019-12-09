@@ -38,6 +38,7 @@ $(window).on('load', function () {
                   <input value="${home_station.lat}" type="hidden" name="avatar[last_location_lat]" id="avatar_last_location_lat">
                   <input value="${home_station.long}" type="hidden" name="avatar[curr_location_long]" id="avatar_curr_location_long">
                   <input value="${home_station.long}" type="hidden" name="avatar[last_location_long]" id="avatar_last_location_long">
+                  <input value="" type="hidden" name="avatar[train_timetable]" id="avatar_train_timetable">
                   `;
       $('.form__home-station-input').append(html);
     }
