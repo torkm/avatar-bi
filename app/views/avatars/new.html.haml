@@ -18,13 +18,13 @@
       .form__type-select
         = f.hidden_field :stage, value: 1
         .form__type-select__op
-          = image_tag "test.png", size: "180x100", alt: "アバタータイプ1", class: "form__type-select__op__img--1"
+          = image_tag "avatar_type1.png", size: "150x150", alt: "アバタータイプ1", class: "form__type-select__op__img--1"
           %p タイプ１
         .form__type-select__op
-          = image_tag "test.png", size: "180x100", alt: "アバタータイプ2", class: "form__type-select__op__img--2"
+          = image_tag "avatar_type2.png", size: "150x150", alt: "アバタータイプ2", class: "form__type-select__op__img--2"
           %p タイプ２
         .form__type-select__op
-          = image_tag "test.png", size: "180x100", alt: "アバタータイプ3", class: "form__type-select__op__img--3"
+          = image_tag "avatar_type3.png", size: "150x150", alt: "アバタータイプ3", class: "form__type-select__op__img--3"
           %p タイプ３
       .form__submit
         = f.button '登録する', type: 'button', onclick: 'submit();',class:"btn"
