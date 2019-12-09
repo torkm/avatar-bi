@@ -37,7 +37,7 @@ class AvatarsController < ApplicationController
     end
     @position = Travel.getTrainPosition(@train_timetable, @time) #Bで現在地更新
     # ② 終点についていたらtrain_timetable 削除
-    if @position[0] == @train_timetable[-1][0] #終点についていたら削除
+    if Station.find(@position[0]).odpt_sameAs == @train_timetable[-1][0] #終点についていたら削除
       @train_timetable = ""
     end
 
@@ -47,7 +47,7 @@ class AvatarsController < ApplicationController
     # curr_locationは使用しなくなった
     @avatar.save
 
-    #③-2  DB操作 (pass_sta): current駅が変わっていたら通過駅の記録を更新
+    #③-2  DB操作 (passed_station): current駅が変わっていたら通過駅の記録を更新
     unless starting_id == @position[0]
       @passed_station = @avatar.passed_stations.find_by(station_id: @position[0])
       @passed_station.has_passed += 1
