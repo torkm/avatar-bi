@@ -62,6 +62,19 @@
             .info_key
               現在地：
             .value
-              = Station.find(current_user.curr_station_id)
+              - station = Station.find(current_user.avatars[0].curr_station_id)
+              - railway_str = "(" + Railway.find(station.railway_id).jname + ")"
+              = station.name
+              駅
+              = railway_str
+          .avatars_infos__main__right___infolist
+            .info_key
+              拠点駅：
+            .value
+              - home_station = Station.find(current_user.avatars[0].home_station_id)
+              - home_railway_str = "(" + Railway.find(home_station.railway_id).jname + ")"
+              = home_station.name
+              駅
+              = home_railway_str
         .avatars_infos__main__map
   
