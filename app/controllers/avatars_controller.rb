@@ -54,6 +54,7 @@ class AvatarsController < ApplicationController
       # content << [@position]
       content << [sta.id, sta.odpt_sameAs, sta.name, sta.railway.jname, @position[2], @position[3], n_sta.id, n_sta.name, @position[4], @train_timetable]
     end
+    
     ###############################################
   end
 
