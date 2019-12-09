@@ -47,10 +47,12 @@ class AvatarsController < ApplicationController
     @avatar.save
 
     # 現在位置などはcsvに保存
-    # 現在駅id, 現在駅名, 現在路線,　現在lat, 現在long, 次駅id, 次駅名, 進行方向の角度
-    # ↑にしていくが、今は position[0]-[5]で
+    # 現在駅id, 現在駅sameAs, 現在駅名, 現在路線,　現在lat, 現在long, 次駅id, 次駅名, 進行方向の角度, 現在時刻表
+    sta = Station.find_by(odpt_sameAs: @position[0])
+    n_sta = Station.find_by(odpt_sameAs: @position[1])
     CSV.open("db/csv/#{@avatar.id}_curr.csv", "w") do |content|
-      content << @position
+      # content << [@position]
+      content << [sta.id, sta.odpt_sameAs, sta.name, sta.railway.jname, @position[2], @position[3], n_sta.id, n_sta.name, @position[4], @train_timetable]
     end
     ###############################################
   end
