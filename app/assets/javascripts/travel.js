@@ -16,7 +16,7 @@ $(window).on('load', function () {
                 type: "GET",
                 url: url,
                 dataType: "json"
-              })
+              }) // 場所の確認
                 .done(function () {
                   $.ajax({
                     type: "GET",

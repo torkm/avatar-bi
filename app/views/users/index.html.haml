@@ -12,14 +12,15 @@
         =link_to 'ユーザ情報変更', edit_user_registration_path(current_user), class: "header__right__left-btn_edit"
     .left
       .left__avatar-status
-
-
         =link_to 'アバターをつくる', new_avatar_path
+       
         #gmap{style: "width:400px; height:360px; position:relative;"}       
           %button#gmap__panTo--user
             ユーザーの現在地
           %button#gmap__panTo--avatar
             アバターの現在地
+          %input#auto-refresh{type: 'checkbox'}
+            地図を自動更新する
           #gmap__map{style: "width:400px; height:300px"}
 
         #panorama

@@ -58,16 +58,15 @@ class AvatarsController < ApplicationController
   end
 
   def reload
-    keys = ["sta_id", "sta_sameAs", "sta_name", "railway", "curr_lat", "curr_long", "n_sta_id", "n_sta_name", "viewangle", "timetable"]
-
-    # avatar複数の時は変更
+    # avatar複数の時は[0]を変更
     values = CSV.read("db/csv/#{current_user.id}_curr.csv")[0]
-
+    # csvの中身をhashに変換
+    keys = ["sta_id", "sta_sameAs", "sta_name", "railway", "curr_lat", "curr_long", "n_sta_id", "n_sta_name", "viewangle", "timetable"]
     ary = [keys, values].transpose
     avatar_info = Hash[*ary.flatten]
-
+    # hashをjsonにして返す
     render json: avatar_info
-    # render json: current_user.avatars
+    
   end
 
   def edit

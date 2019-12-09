@@ -6,9 +6,6 @@ $(function () {
   if ($('#gmap').size()) {
     console.log("map js");
 
-    function get_info() {
-
-    }
 
     ////////////////////////////////////////////
     //////  google map　クリックすると表示  ////////
@@ -17,10 +14,24 @@ $(function () {
     // Gmapsインスタンスの生成 (課金対象)
     let gmap = new GMaps({
       div: '#gmap__map', //地図を表示する要素
-      lat: gon.global.curr_location_lat, //緯度
-      lng: gon.global.curr_location_long, //軽度
+      lat: 40, //緯度
+      lng: 140, //軽度
       zoom: 16 //倍率（1～21）
     });
+    // Gmap の初回描画
+    $(function () {
+      $.ajax({
+        type: "GET",
+        url: "/avatars/reload",
+        dataType: "json"
+      }).done(function (avatar_info) {
+        gmap.panTo(new google.maps.LatLng(avatar_info.curr_lat, avatar_info.curr_long));
+        console.log('gmap initial')
+      }).fail(function () {
+        alert("地図の表示に失敗しました。")
+      });
+    });
+
 
 
     // マップの更新メソッド
@@ -36,7 +47,8 @@ $(function () {
         });
     };
 
-    // アバター現在地ボタン押すと アバターの場所更新して表示
+
+    // アバター現在地ボタン押すと アバターの場所更新して表示 
     $("#gmap__panTo--avatar").on("click", map_refresh);
 
     // ユーザー現在地ボタン押すと ユーザーの場所更新して表示
@@ -64,11 +76,20 @@ $(function () {
       });
     })
 
+    // チェックボックス入れるとマップ自動更新
+    $("#auto-refresh").on('click', function () {
+      if ($(this).prop("checked")) {
+        console.log('checked_gmap')
+        autoGmapRefresh = setInterval(map_refresh, 5000);
+      } else {
+        clearInterval(autoGmapRefresh);
+      };
+    });
 
 
 
     ////////////////////////////////////////////
-    //////  streetビュー　クリックすると表示  ////////
+    //////  streetビュー クリックすると表示  ////////
     ///////////////////////////////////////////
 
     // ストリートビューの描画+更新ボタンの追加
@@ -78,16 +99,32 @@ $(function () {
       $("#panorama__option").append("<input id='panorama__option--auto-refresh' type='checkbox'>自動更新")
 
       // Panoramaインスタンスの作成(課金対象)
-
       let panorama = GMaps.createPanorama({
         el: '#panorama__view', //ストリートビューを表示する要素
-        lat: gon.global.curr_location_lat, //緯度
-        lng: gon.global.curr_location_long, //経度
+        lat: 40, //緯度
+        lng: 140, //経度
         zoom: 0, //倍率（0～2）
         pov: {
-          heading: Number(gon.global.viewangle), //水平角
+          heading: 0, //水平角
           pitch: 0 //垂直角
         }
+      });
+
+      //ストリートビューの初回描画
+      $(function () {
+        $.ajax({
+          type: "GET",
+          url: "/avatars/reload",
+          dataType: "json"
+        }).done(function (avatar_info) {
+          panorama.setPov({
+            heading: Number(avatar_info.viewangle), //水平角
+            pitch: 0 //垂直角
+          })
+          panorama.setPosition(new google.maps.LatLng(avatar_info.curr_lat, avatar_info.curr_long)); console.log('street initial')
+        }).fail(function () {
+          alert("ストリートビューの表示に失敗しました。")
+        });
       });
 
       // ストリートビューの更新メソッド
@@ -103,7 +140,6 @@ $(function () {
               pitch: 0 //垂直角
             })
             panorama.setPosition(new google.maps.LatLng(avatar_info.curr_lat, avatar_info.curr_long));
-            console.log('donee')
           });
       };
 
@@ -119,7 +155,17 @@ $(function () {
           clearInterval(autoPanoramaRefresh);
         };
       });
+
+
     });
+
+    ////////////////////////////////////////
+    ///////////  自動更新  ///////////////////
+    /////////////////////////////////////////
+    // 同時に更新するか検討中
+
+
+
 
 
 

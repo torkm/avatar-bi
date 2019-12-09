@@ -141,27 +141,33 @@ $(window).on('load', function () {
         // var now = new Date;
         // end_time = now.getTime();
         // diff = (end_time - start_time)/1000;
-        train_timetable_empty = "";
 
+        // アバターが複数のときはavatar_infoのとり方を書き直す必要あり
         $.each(gon.avatars, function (index, avatar) {
           var url = "/avatars/" + avatar.id;
           $.ajax({
-            type: "PUT",
-            url: url,
-            data: {
-              last_station_id: avatar.curr_station_id,
-              last_location_lat: avatar.curr_location_lat,
-              last_location_long: avatar.curr_location_long,
-              train_timetable: train_timetable_empty
-            },
-            dataType: "json"
-          })
-            .done(function () {
-              console.log("save done");
+            type: "GET",
+            url: "/avatars/reload",
+            dataType: "json",
+          }).done(function (avatar_info) {
+            $.ajax({
+              type: "PUT",
+              url: url,
+              data: {
+                last_station_id: avatar_info.curr_id,
+                last_location_lat: avatar_info.curr_lat,
+                last_location_long: avatar_info.curr_long,
+                train_timetable: ""
+              },
+              dataType: "json"
             })
-            .fail(function () {
-              alert("ユーザ情報の保存に失敗しました。");
-            });
+              .done(function () {
+                console.log("save done");
+              })
+              .fail(function () {
+                alert("ユーザ情報の保存に失敗しました。");
+              });
+          });
 
           calc_total_time(now_time);
 
