@@ -15,8 +15,12 @@ class Users::SessionsController < Devise::SessionsController
 
   # DELETE /resource/sign_out
   def destroy
-    current_user.is_movin
-    super
+    if current_user.is_moving then
+      flash[:alert] = "移動終了してからログアウトしてください。"
+      redirect_to root_path
+    else
+      super 
+    end
   end
 
   # protected
