@@ -7,7 +7,7 @@
     .user_infos
       .user_infos__header
         = current_user.name
-        = link_to 'ユーザ情報変更', edit_user_registration_path(current_user), class: "header__right__left-btn_edit"
+        = link_to 'ユーザ情報変更', edit_user_registration_path(current_user), class: "header__left-btn_edit"
       .user_infos__main
         .user_infos_main__infolist
           .info_key
@@ -58,6 +58,7 @@
     .avatars_infos
       .avatars_infos__header
         = current_user.avatars[0].name
+        = link_to 'アバター情報変更', edit_avatar_path(current_user), class: "avatar__header__btn_edit"
       .avatars_infos__main
         .avatars_infos__main__right
 
