@@ -1,14 +1,31 @@
 
 $(function () {
-  // if (document.URL.match('/')) {  
-  var url = location.href;
-  // if (url == "http://localhost:3000/") {
+  function getNow() {
+    var now = new Date();
+    var year = now.getFullYear();
+    var mon = now.getMonth() + 1; //１を足すこと
+    var day = now.getDate();
+    var hour = now.getHours();
+    var min = now.getMinutes();
+    var sec = now.getSeconds();
+
+    //出力用
+    // var s = year + "年" + mon + "月" + day + "日" + hour + "時" + min + "分" + sec + "秒";
+    var s = hour + "時" + min + "分" + sec + "秒"
+    return s;
+  }
+  // メイン画面での地図表示
   if ($('#gmap').size()) {
     console.log("map js");
 
 
+    var user_marker;
+    var avatar_marker;
+    var user_circle;
+    var avatar_latest_pos;
+
     ////////////////////////////////////////////
-    //////  google map　クリックすると表示  ////////
+    //////  google map リロードで自動表示  ////////
     ///////////////////////////////////////////
 
     // Gmapsインスタンスの生成 (課金対象)
@@ -26,15 +43,55 @@ $(function () {
         dataType: "json"
       }).done(function (avatar_info) {
         gmap.panTo(new google.maps.LatLng(avatar_info.curr_lat, avatar_info.curr_long));
+        avatar_marker = add_marker_avatar(gmap, avatar_info.curr_lat, avatar_info.curr_long); // 最初にマーカー
+        avatar_latest_pos = [avatar_info.curr_lat, avatar_info.curr_long] //polyline用
         console.log('gmap initial')
       }).fail(function () {
         alert("地図の表示に失敗しました。")
       });
     });
 
+    // 地図にマーカーを乗せる
+    function add_marker_avatar(gmap, lat, long) {
+      gmap.addMarker({
+        lat: lat,
+        lng: long,
+        title: 'アバター',
+        infoWindow: {
+          content: getNow()
+        },
+        icon: {
+          url: `../assets/avatar_type${gon.icon_type}.png`, //アイコンの画像パス
+          scaledSize: {
+            width: 50,
+            height: 50
+          }
+        }
+      });
+    };
+    function add_marker_user(gmap, lat, long) {
+      gmap.addMarker({
+        lat: lat,
+        lng: long,
+        title: 'ユーザー',
+        infoWindow: {
+          content: 'ユーザーの現在位置'
+        },
+        flat: true
+      });
+    };
 
+    // 地図に移動履歴を線で残す
+    function add_polyline(gmap, lat1, long1, lat2, long2) {
+      gmap.drawPolyline({
+        path: [[lat1, long1], [lat2, long2]], //ポリラインの頂点の座標配列
+        strokeColor: '#FF2626', //ポリラインの色
+        strokeOpacity: 0.75, //ポリラインの透明度
+        strokeWeight: 3, //ポリラインの太さ
+      });
+    };
 
-    // マップの更新メソッド
+    // マップの更新メソッド(アバター中心)
     function map_refresh() {
       $.ajax({
         type: "GET",
@@ -43,13 +100,15 @@ $(function () {
       })
         .done(function (avatar_info) {
           gmap.panTo(new google.maps.LatLng(avatar_info.curr_lat, avatar_info.curr_long));
+          // マーカー更新
+          gmap.removeMarkers(avatar_marker); //古いの消去
+          avatar_marker = add_marker_avatar(gmap, avatar_info.curr_lat, avatar_info.curr_long); // 新しいマーカー
+          // 軌跡追加
+          add_polyline(gmap, avatar_latest_pos[0], avatar_latest_pos[1], avatar_info.curr_lat, avatar_info.curr_long)
+          avatar_latest_pos = [avatar_info.curr_lat, avatar_info.curr_long] //polyline用
           console.log('gmap done')
         });
     };
-
-
-    // アバター現在地ボタン押すと アバターの場所更新して表示 
-    $("#gmap__panTo--avatar").on("click", map_refresh);
 
     // ユーザー現在地ボタン押すと ユーザーの場所更新して表示
     $("#gmap__panTo--user").on("click", function () {
@@ -66,6 +125,24 @@ $(function () {
 
         // 現在位置にピンをたてる
         var currentPos = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+        // マーカーを更新
+        gmap.removeMarkers(user_marker);
+        user_marker = add_marker_user(gmap, pos.coords.latitude, pos.coords.longitude);
+        // サークルを更新
+        if (user_circle) {
+          user_circle.setMap(null);
+        };
+        user_circle = gmap.drawCircle({
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+          radius: pos.coords.accuracy,
+          fillColor: 'blue',
+          fillOpacity: 0.25,
+          strokeWeight: 0,
+          click: function (e) {
+          }
+        });
+
         // 現在地にスクロールさせる
         gmap.panTo(currentPos);
 
@@ -75,6 +152,11 @@ $(function () {
         return false;
       });
     })
+
+
+    // アバター現在地ボタン押すと 更新してアバターの場所中心で表示
+    $("#gmap__panTo--avatar").on("click", map_refresh);
+
 
     // チェックボックス入れるとマップ自動更新
     $("#auto-refresh").on('click', function () {
@@ -159,15 +241,51 @@ $(function () {
 
     });
 
-    ////////////////////////////////////////
-    ///////////  自動更新  ///////////////////
-    /////////////////////////////////////////
-    // 同時に更新するか検討中
-
-
-
-
-
-
   };
+
+  // ユーザー詳細画面での地図表示
+  if ($('.avatars_infos__main__map').size()) {
+    ////////////////////////////////////////////
+    //////  google map リロードで自動表示  ////////
+    ///////////////////////////////////////////
+
+    // Gmapsインスタンスの生成 (課金対象)
+    let gmap = new GMaps({
+      div: '.avatars_infos__main__map__gmap', //地図を表示する要素
+      lat: 35.6813, //緯度(東京駅)
+      lng: 139.767, //経度(東京駅)
+      zoom: 9 //倍率（1～21）
+    });
+
+    // アバターの現在地をマーカー表示
+    gmap.addMarker({
+      lat: gon.avatar.curr_location_lat,
+      lng: gon.avatar.curr_location_long,
+      title: 'アバター',
+      infoWindow: {
+        content: getNow()
+      },
+      icon: {
+        url: `../assets/avatar_type${gon.icon_type}.png`, //アイコンの画像パス
+        scaledSize: {
+          width: 50,
+          height: 50
+        }
+      }
+    });
+
+    // 通過した駅を全て表示
+    $.each(gon.stations, function (i, val) {
+      gmap.addMarker({
+        lat: val[2],
+        lng: val[3],
+        title: `${val[0]} ${val[1]}`,
+        infoWindow: {
+          content: `${val[0]}: ${val[1]}駅 / ${val[4]}回通過 (最新:${val[5]})`
+        },
+        flat: true
+      });
+    });
+  };
+
 });
