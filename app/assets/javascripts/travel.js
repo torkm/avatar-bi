@@ -12,14 +12,12 @@ $(window).on('load', function () {
             dataType: "json"
           }) // 場所の確認
             .done(function () {
-              console.log("done");
               $.ajax({
                 type: "GET",
                 url: "/avatars/reload",
                 dataType: "json"
               })
                 .done(function (avatar_info) {
-                  console.log(avatar_info);
                   $('#test_curr_timetable').text(avatar_info.timetable);
                   $('#test_curr_station').text(avatar_info.sta_name);
                   $('#test_curr_location_lat').text(avatar_info.curr_lat);
