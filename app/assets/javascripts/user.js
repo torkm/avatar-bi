@@ -56,11 +56,14 @@ $(window).on('load', function () {
       url = "users/" + gon.current_user.id;
 
       if (string === "start") {
+        var html = `<div id="is_moving"></div>`
+        $(".fr").append(html);
         data = {
           start_time: now,
           is_moving: true
         }
       } else {
+        $("#is_moving").remove(html);
         data = {
           end_time: now,
           is_moving: false
