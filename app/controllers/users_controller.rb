@@ -41,29 +41,29 @@ class UsersController < ApplicationController
 
     @comp_rw = 0 # 制覇路線数
     @comp_st = 0 # 制覇駅数
-    # {路線名: [踏破駅数,総駅数,残り駅数]}の組み合わせ(1つでも行っていたら)をhashで保存
+    # {路線名: [路線id, 踏破駅数,総駅数,残り駅数]}の組み合わせ(1つでも行っていたら)をhashで保存
     @passed_rw_st = {}
     current_user.avatars[0].passed_stations.each do |p|
       if p.has_passed != 0 # 踏破してたらhashに追加 (路線で初なら新規, あれば+1)
         @comp_st += 1
-        rw = Station.find(p.station_id).railway.jname
-        if @passed_rw_st.has_key?(rw)
-          @passed_rw_st[rw][0] += 1
-          @passed_rw_st[rw][2] -= 1
+        rw = Station.find(p.station_id).railway
+        if @passed_rw_st.has_key?(rw.jname)
+          @passed_rw_st[rw.jname][1] += 1
+          @passed_rw_st[rw.jname][3] -= 1
         else
-          total = Railway.find_by(jname: rw).station_num
-          @passed_rw_st[rw] = [1, total, total - 1]
+          @passed_rw_st[rw.jname] = [rw.id, 1, rw.station_num, rw.station_num - 1]
         end
       end
     end
 
     # Passed_railwaysテーブルに踏破路線を保存
     @passed_rw_st.each do |key, value|
-      railway = Railway.find_by(jname: key)
-      if value == railway.station_num
-        p_r = PassedRailway.new(avatar_id: current_user.avatars[0].id, railway_id: railway.id)
-        p_r.save
+      if value[3] == 0 #全駅踏破
         @comp_rw += 1
+        p_r = PassedRailway.new(avatar_id: current_user.avatars[0].id, railway_id: value[0])
+        unless PassedRailway.find_by(avatar_id: p_r.avatar_id, railway_id: p_r.railway_id)
+          p_r.save
+        end
       end
     end
   end
