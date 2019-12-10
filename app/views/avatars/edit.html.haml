@@ -22,11 +22,13 @@
         - home_station = Station.find(current_user.avatars[0].home_station_id)
         - station_str = "#{home_station.name}駅(#{Railway.find(home_station.railway_id).jname})"
         = f.text_field   :keyword, value: station_str,placeholder: "アバターの出発駅", id: "home_station_input-field"
-        = f.hidden_field :curr_station_id,   value: home_station.id, class: "hidden_remove"
-        = f.hidden_field :curr_station_lat,  value: home_station.lat, class: "hidden_remove"
-        = f.hidden_field :curr_station_long, value: home_station.long, class: "hidden_remove"
-        = f.hidden_field :last_station_id,   value: home_station.id, class: "hidden_remove"
-        = f.hidden_field :last_station_lat,  value: home_station.lat, class: "hidden_remove"
-        = f.hidden_field :last_station_long, value: home_station.long, class: "hidden_remove"
+        -# = f.hidden_field :curr_station_id,   value: home_station.id, id: "avatar_curr_station_id"
+        -# = f.hidden_field :curr_station_lat,  value: home_station.lat, id: "avatar_curr_location_lat"
+        -# = f.hidden_field :curr_station_long, value: home_station.long, id: "avatar_curr_location_long"
+        -# = f.hidden_field :last_station_id,   value: home_station.id, id: "avatar_last_station_id"
+        -# = f.hidden_field :last_station_lat,  value: home_station.lat, id: "avatar_last_location_lat"
+        -# = f.hidden_field :last_station_long, value: home_station.long, id: "avatar_last_location_long"
+      %input#change_curr_station{type: 'checkbox'}
+        アバターの現在地を拠点駅にする
       .form__submit
         = f.button '変更する', type: 'button', onclick: 'submit();',class:"btn"

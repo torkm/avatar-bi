@@ -101,7 +101,7 @@ class AvatarsController < ApplicationController
     @avatar.update_attributes(avatar_params)
     if @avatar.save
       respond_to do |format|
-        format.html { redirect_to root_path }
+        format.html { redirect_to root_path, notice: "アバター情報を変更しました" }
         format.json
       end
     end
