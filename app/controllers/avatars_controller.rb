@@ -44,7 +44,9 @@ class AvatarsController < ApplicationController
     # ③-1  DB操作 (avatar)
     @avatar.train_timetable = @train_timetable.to_s # 文字列にして時刻表更新
     @avatar.curr_station_id = @position[0]
-    # curr_locationは使用しなくなった
+    @avatar.curr_location_lat = @position[2]
+    @avatar.curr_location_long = @position[3]
+    # curr_locationはユーザー詳細ページで使用
     @avatar.save
 
     #③-2  DB操作 (passed_station): current駅が変わっていたら通過駅の記録を更新

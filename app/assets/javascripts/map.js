@@ -1,23 +1,24 @@
 
 $(function () {
+  function getNow() {
+    var now = new Date();
+    var year = now.getFullYear();
+    var mon = now.getMonth() + 1; //１を足すこと
+    var day = now.getDate();
+    var hour = now.getHours();
+    var min = now.getMinutes();
+    var sec = now.getSeconds();
+
+    //出力用
+    // var s = year + "年" + mon + "月" + day + "日" + hour + "時" + min + "分" + sec + "秒";
+    var s = hour + "時" + min + "分" + sec + "秒"
+    return s;
+  }
   // メイン画面での地図表示
   if ($('#gmap').size()) {
     console.log("map js");
 
-    function getNow() {
-      var now = new Date();
-      var year = now.getFullYear();
-      var mon = now.getMonth() + 1; //１を足すこと
-      var day = now.getDate();
-      var hour = now.getHours();
-      var min = now.getMinutes();
-      var sec = now.getSeconds();
 
-      //出力用
-      // var s = year + "年" + mon + "月" + day + "日" + hour + "時" + min + "分" + sec + "秒";
-      var s = hour + "時" + min + "分" + sec + "秒"
-      return s;
-    }
     var user_marker;
     var avatar_marker;
     var user_circle;
@@ -256,16 +257,31 @@ $(function () {
       zoom: 9 //倍率（1～21）
     });
 
+    // アバターの現在地をマーカー表示
+    gmap.addMarker({
+      lat: gon.avatar.curr_location_lat,
+      lng: gon.avatar.curr_location_long,
+      title: 'アバター',
+      infoWindow: {
+        content: getNow()
+      },
+      icon: {
+        url: `../assets/avatar_type${gon.icon_type}.png`, //アイコンの画像パス
+        scaledSize: {
+          width: 50,
+          height: 50
+        }
+      }
+    });
 
-
+    // 通過した駅を全て表示
     $.each(gon.stations, function (i, val) {
-      console.log(i + ': ' + val);
       gmap.addMarker({
         lat: val[2],
         lng: val[3],
         title: `${val[0]} ${val[1]}`,
         infoWindow: {
-          content: `${val[0]} ${val[1]} / ${val[4]}回通過 (最新:${val[5]})`
+          content: `${val[0]}: ${val[1]}駅 / ${val[4]}回通過 (最新:${val[5]})`
         },
         flat: true
       });
