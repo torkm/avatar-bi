@@ -1,0 +1,32 @@
+.fr
+  - if current_user.is_moving
+    #is_moving
+.contents
+  = render 'layouts/header'
+  .form
+    = form_with model: @avatar ,local: true do |f|
+      - if @avatar.errors.any?
+        .form__errors
+          %h2= "#{@avatar.errors.full_messages.count}件のエラーが発生しました"
+          %ul
+            - @avatar.errors.full_messages.each do |message|
+              %li= message
+      .avatar-img
+        - img_src = "avatar_type" + current_user.avatars[0].avatar_type.to_s + ".png"
+        = image_tag img_src, size: "200x200", alt: "アバタータイプ"
+      .form__name-input
+        %p アバターの名前を入力してください(何も入力しなければ変更されません)
+        = f.text_field :name, value: current_user.avatars[0].name, placeholder: "アバターの名前" ,class: "new_avatar_name"
+      .form__home-station-input
+        %p アバターの拠点駅を選んでください(何も入力しなければ変更されません)
+        - home_station = Station.find(current_user.avatars[0].home_station_id)
+        - station_str = "#{home_station.name}駅(#{Railway.find(home_station.railway_id).jname})"
+        = f.text_field   :keyword, value: station_str,placeholder: "アバターの出発駅", id: "home_station_input-field"
+        = f.hidden_field :curr_station_id,   value: home_station.id, class: "hidden_remove"
+        = f.hidden_field :curr_station_lat,  value: home_station.lat, class: "hidden_remove"
+        = f.hidden_field :curr_station_long, value: home_station.long, class: "hidden_remove"
+        = f.hidden_field :last_station_id,   value: home_station.id, class: "hidden_remove"
+        = f.hidden_field :last_station_lat,  value: home_station.lat, class: "hidden_remove"
+        = f.hidden_field :last_station_long, value: home_station.long, class: "hidden_remove"
+      .form__submit
+        = f.button '変更する', type: 'button', onclick: 'submit();',class:"btn"
