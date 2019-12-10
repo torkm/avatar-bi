@@ -26,13 +26,33 @@ $(function () {
         dataType: "json"
       }).done(function (avatar_info) {
         gmap.panTo(new google.maps.LatLng(avatar_info.curr_lat, avatar_info.curr_long));
+        add_markers(avatar_info.curr_lat, avatar_info.curr_long, avatar_info.curr_lat, avatar_info.curr_long);
         console.log('gmap initial')
       }).fail(function () {
         alert("地図の表示に失敗しました。")
       });
     });
 
-
+    function add_markers(a_lat, a_long, u_lat, u_long) {
+      gmap.addMarker({
+        lat: a_lat,
+        lng: a_long,
+        title: '尾道市役所',
+        infoWindow: {
+          content: '<h4>尾道市役所</h4><ul><li>〒722-8501 広島県尾道市久保一丁目15-1</li><li>TEL：（0848）38-9111</li></ul>'
+        },
+        icon: 'app/assets/images/avatar_type2.png' //アイコンの画像パス
+      });
+      gmap.addMarker({
+        lat: u_lat,
+        lng: u_long,
+        title: '尾道',
+        infoWindow: {
+          content: '<h4>尾道市役所</h4><ul><li>〒722-8501 広島県尾道市久保一丁目15-1</li><li>TEL：（0848）38-9111</li></ul>'
+        },
+        icon: 'app/assets/images/avatar_type1.png' //アイコンの画像パス
+      });
+    };
 
     // マップの更新メソッド
     function map_refresh() {
