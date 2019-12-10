@@ -41,16 +41,18 @@ class UsersController < ApplicationController
 
     @comp_rw = 0 # 制覇路線数
     @comp_st = 0 # 制覇駅数
-    # 踏破した路線と駅の組み合わせをhashで保存
+    # {路線名: [踏破駅数,総駅数,残り駅数]}の組み合わせ(1つでも行っていたら)をhashで保存
     @passed_rw_st = {}
     current_user.avatars[0].passed_stations.each do |p|
       if p.has_passed != 0 # 踏破してたらhashに追加 (路線で初なら新規, あれば+1)
         @comp_st += 1
         rw = Station.find(p.station_id).railway.jname
         if @passed_rw_st.has_key?(rw)
-          @passed_rw_st[rw] += 1
+          @passed_rw_st[rw][0] += 1
+          @passed_rw_st[rw][2] -= 1
         else
-          @passed_rw_st[rw] = 1
+          total = Railway.find_by(jname: rw).station_num
+          @passed_rw_st[rw] = [1, total, total - 1]
         end
       end
     end

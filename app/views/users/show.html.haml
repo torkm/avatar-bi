@@ -49,8 +49,8 @@
           .info_key
             = "路線別踏破駅数："
           .value 
-            - Hash[ @passed_rw_st.sort_by{ |_, v| -v } ].each do |key, value|
-              = "#{key}: #{value}駅 / 全#{Railway.find_by(jname: key).station_num}駅 "
+            - Hash[ @passed_rw_st.sort_by{ |_, v| v[2] } ].each do |key, value|
+              = "#{key}: #{value[0]}駅 / 全#{value[1]}駅 "
               %br/
     .avatars_infos
       .avatars_infos__header
