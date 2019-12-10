@@ -4,17 +4,19 @@ class UsersController < ApplicationController
   def index
     if user_signed_in?
       # csvなかった場合、作成
-      unless File.exist?("db/csv/#{current_user.avatars[0].id}_curr.csv")
-        a_id = current_user.avatars[0].id
-        sta = Station.find(Avatar.find(a_id).home_station_id)
+      avatar = current_user.avatars[0]
+      # avatar複数ならここからループ
+
+      unless File.exist?("db/csv/#{avatar.id}_curr.csv")
+        sta = Station.find(avatar.home_station_id)
         CSV.open("db/csv/#{current_user.id}_curr.csv", "w") do |content|
           content << [sta.id, sta.odpt_sameAs, sta.name, sta.railway.jname, sta.lat, sta.long, sta.id, sta.name, 0, ""]
           # 現在駅id, 現在駅sameAs, 現在駅名, 現在路線,　現在lat, 現在long, 次駅id, 次駅名, 進行方向の角度, 現在時刻表
         end
       end
       # passed_stationsのためのcsv 現在は使わない予定
-      # unless File.exist?("db/csv/#{current_user.id}_#{current_user.avatars[0].id}_record.csv")
-      #   CSV.open("db/csv/#{current_user.id}_#{current_user.avatars[0].id}_record.csv", "w") do |content|
+      # unless File.exist?("db/csv/#{current_user.id}_#{avatar.id}_record.csv")
+      #   CSV.open("db/csv/#{current_user.id}_#{avatar.id}_record.csv", "w") do |content|
       #     content << [0,"","",0,"",0,0,Time.now]
       #     # 駅id, 駅sameAs, 駅名, 路線id, 路線名, 通過回数, 最新到着時刻
       #   end
@@ -22,9 +24,8 @@ class UsersController < ApplicationController
 
       gon.avatars = current_user.avatars
       # 1-9でアイコンタイプを指定
-      gon.icon_type = current_user.avatars[0].avatar_type + 3 * (current_user.avatars[0].stage - 1)
-      gon.current_user = current_user 
-
+      gon.icon_type = avatar.avatar_type + 3 * (avatar.stage - 1)
+      gon.current_user = current_user
     end
   end
 
@@ -37,16 +38,19 @@ class UsersController < ApplicationController
       redirect_to root_path
     end
 
+    avatar = current_user.avatars[0]
+    # 複数ならここから下ループ
+
     # 全駅数と路線数は計算量節約のため定数で
     @total_st, @total_rw = 1086, 60
-    # @total_st = PassedStation.where(avatar_id: current_user.avatars[0].id).count # 全駅数
+    # @total_st = PassedStation.where(avatar_id: avatar.id).count # 全駅数
     # @total_rw = Railway.where(has_TrainTimetable: true).count  #全路線数
 
     @comp_rw = 0 # 制覇路線数
     @comp_st = 0 # 制覇駅数
     # {路線名: [路線id, 踏破駅数,総駅数,残り駅数]}の組み合わせ(1つでも行っていたら)をhashで保存
     @passed_rw_st = {}
-    current_user.avatars[0].passed_stations.each do |p|
+    avatar.passed_stations.each do |p|
       if p.has_passed != 0 # 踏破してたらhashに追加 (路線で初なら新規, あれば+1)
         @comp_st += 1
         rw = Station.find(p.station_id).railway
@@ -68,6 +72,13 @@ class UsersController < ApplicationController
           p_r.save
         end
       end
+    end
+
+    # 地図を表示 [路線名, 駅名, lat, long, has_passed, created_at]を返す
+
+    gon.stations = [["山手線", "東京駅", 35.6813, 139.767, 1, Time.now]]
+    PassedStation.where(avatar_id: avatar.id).where("has_passed > ?", 0).each do |ps|
+      gon.stations << [ps.station.railway.jname, ps.station.name, ps.station.lat, ps.station.long, ps.has_passed, ps.updated_at]
     end
   end
 
