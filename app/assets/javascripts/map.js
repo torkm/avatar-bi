@@ -1,11 +1,26 @@
 
 $(function () {
-  // if (document.URL.match('/')) {  
   var url = location.href;
-  // if (url == "http://localhost:3000/") {
   if ($('#gmap').size()) {
     console.log("map js");
 
+    function getNow() {
+      var now = new Date();
+      var year = now.getFullYear();
+      var mon = now.getMonth() + 1; //１を足すこと
+      var day = now.getDate();
+      var hour = now.getHours();
+      var min = now.getMinutes();
+      var sec = now.getSeconds();
+
+      //出力用
+      // var s = year + "年" + mon + "月" + day + "日" + hour + "時" + min + "分" + sec + "秒";
+      var s = hour + "時" + min + "分" + sec + "秒"
+      return s;
+    }
+    var user_marker;
+    var avatar_marker;
+    var user_circle;
 
     ////////////////////////////////////////////
     //////  google map　クリックすると表示  ////////
@@ -26,35 +41,44 @@ $(function () {
         dataType: "json"
       }).done(function (avatar_info) {
         gmap.panTo(new google.maps.LatLng(avatar_info.curr_lat, avatar_info.curr_long));
-        add_markers(avatar_info.curr_lat, avatar_info.curr_long, avatar_info.curr_lat, avatar_info.curr_long);
+        avatar_marker = add_marker_avatar(gmap, avatar_info.curr_lat, avatar_info.curr_long); // 最初にマーカー
         console.log('gmap initial')
       }).fail(function () {
         alert("地図の表示に失敗しました。")
       });
     });
 
-    function add_markers(a_lat, a_long, u_lat, u_long) {
+    // 地図にマーカーを乗せる
+    function add_marker_avatar(gmap, lat, long) {
       gmap.addMarker({
-        lat: a_lat,
-        lng: a_long,
-        title: '尾道市役所',
+        lat: lat,
+        lng: long,
+        title: 'アバター',
         infoWindow: {
-          content: '<h4>尾道市役所</h4><ul><li>〒722-8501 広島県尾道市久保一丁目15-1</li><li>TEL：（0848）38-9111</li></ul>'
+          content: getNow()
         },
-        icon: 'app/assets/images/avatar_type2.png' //アイコンの画像パス
+        icon: {
+          url: `../assets/avatar_type${gon.icon_type}.png`, //アイコンの画像パス
+          scaledSize: {
+            width: 50,
+            height: 50
+          }
+        }
       });
+    };
+    function add_marker_user(gmap, lat, long) {
       gmap.addMarker({
-        lat: u_lat,
-        lng: u_long,
-        title: '尾道',
+        lat: lat,
+        lng: long,
+        title: 'ユーザー',
         infoWindow: {
-          content: '<h4>尾道市役所</h4><ul><li>〒722-8501 広島県尾道市久保一丁目15-1</li><li>TEL：（0848）38-9111</li></ul>'
+          content: 'ユーザーの現在位置'
         },
-        icon: 'app/assets/images/avatar_type1.png' //アイコンの画像パス
+        flat: true
       });
     };
 
-    // マップの更新メソッド
+    // マップの更新メソッド(アバター中心)
     function map_refresh() {
       $.ajax({
         type: "GET",
@@ -63,13 +87,11 @@ $(function () {
       })
         .done(function (avatar_info) {
           gmap.panTo(new google.maps.LatLng(avatar_info.curr_lat, avatar_info.curr_long));
+          gmap.removeMarkers(avatar_marker); //古いの消去
+          avatar_marker = add_marker_avatar(gmap, avatar_info.curr_lat, avatar_info.curr_long);
           console.log('gmap done')
         });
     };
-
-
-    // アバター現在地ボタン押すと アバターの場所更新して表示 
-    $("#gmap__panTo--avatar").on("click", map_refresh);
 
     // ユーザー現在地ボタン押すと ユーザーの場所更新して表示
     $("#gmap__panTo--user").on("click", function () {
@@ -86,6 +108,24 @@ $(function () {
 
         // 現在位置にピンをたてる
         var currentPos = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+        // マーカーを更新
+        gmap.removeMarkers(user_marker);
+        user_marker = add_marker_user(gmap, pos.coords.latitude, pos.coords.longitude);
+        // サークルを更新
+        if (user_circle) {
+          user_circle.setMap(null);
+        };
+        user_circle = gmap.drawCircle({
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+          radius: pos.coords.accuracy,
+          fillColor: 'blue',
+          fillOpacity: 0.25,
+          strokeWeight: 0,
+          click: function (e) {
+          }
+        });
+
         // 現在地にスクロールさせる
         gmap.panTo(currentPos);
 
@@ -95,6 +135,11 @@ $(function () {
         return false;
       });
     })
+
+
+    // アバター現在地ボタン押すと 更新してアバターの場所中心で表示
+    $("#gmap__panTo--avatar").on("click", map_refresh);
+
 
     // チェックボックス入れるとマップ自動更新
     $("#auto-refresh").on('click', function () {
