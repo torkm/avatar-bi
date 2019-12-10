@@ -5,7 +5,12 @@ class AvatarsController < ApplicationController
   protect_from_forgery except: :create
 
   def new
-    @avatar = Avatar.new
+    unless current_user.avatars[0] == nil then
+      redirect_to root_path, notice: "すでにアバターを持っています"
+      return
+    else
+      @avatar = Avatar.new
+    end
   end
 
   def create

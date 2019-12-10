@@ -100,25 +100,6 @@ $(window).on('load', function () {
       };
     });
 
-    // ここから
-    // $('#change_curr_station').change(function () {
-    //   let home_station_id = $('#home_station_select').val();
-    //   console.log(home_station_id);
-    //   $.each(candidate_stations, function (index, station) {
-    //     if (station.id === Number(home_station_id)) {
-    //       if ($(this).prop('checked')) {
-
-    //         buildSendHome_Station_ID(station, "change");
-    //       } else {
-    //         $('#avatar_curr_station_id').remove();
-    //         $('#avatar_curr_location_lat').remove();
-    //         $('#avatar_curr_location_long').remove();
-    //       }
-    //     }
-    //   });
-    // });
-
-
 
     $('.form__type-select__op__img--1').on("click", function (e) {
       e.preventDefault();
