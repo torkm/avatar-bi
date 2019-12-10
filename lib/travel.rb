@@ -215,7 +215,7 @@ class Travel
           long = (long_c * (time - time_n).abs + long_n * (time - time_c).abs) / (time_c - time_n).abs
         end
 
-        position = [curr_station.odpt_sameAs, next_station.odpt_sameAs, lat, long, azimuth(lat_c, long_c, lat_n, long_n)]
+        position = [curr_station.id, next_station.id, lat, long, azimuth(lat_c, long_c, lat_n, long_n)]
         break
       end
     end
@@ -223,7 +223,7 @@ class Travel
     if position == []
       curr_station = Station.find_by(odpt_sameAs: train_timetable[-1][0])
       puts curr_station.odpt_sameAs
-      position = [curr_station.odpt_sameAs, curr_station.odpt_sameAs, curr_station.lat, curr_station.long, 0]
+      position = [curr_station.id, curr_station.id, curr_station.lat, curr_station.long, 0]
     end
     return position
   end

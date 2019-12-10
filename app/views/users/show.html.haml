@@ -42,9 +42,16 @@
               = current_user.end_time.strftime("%Y年%m月%d日")
         .user_infos_main__infolist
           .info_key
-            制覇した路線数：
+            = "制覇した路線数："
           .value
-            ●●
+            = "#{@comp_rw} 路線 / 全#{@total_rw}路線"   
+        .user_infos_main__infolist
+          .info_key
+            = "路線別踏破駅数："
+          .value 
+            - Hash[ @passed_rw_st.sort_by{ |_, v| -v } ].each do |key, value|
+              = "#{key}: #{value}駅 / 全#{Railway.find_by(jname: key).station_num}駅 "
+              %br/
     .avatars_infos
       .avatars_infos__header
         = current_user.avatars[0].name
@@ -76,5 +83,13 @@
               = home_station.name
               駅
               = home_railway_str
+          .avatars_infos__main__right___infolist
+            .info_key
+              踏破駅数：
+            .value
+              = @comp_st
+              = "駅(全#{@total_st}駅)"
+
+              = @test
         .avatars_infos__main__map
   

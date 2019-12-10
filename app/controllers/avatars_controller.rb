@@ -27,38 +27,47 @@ class AvatarsController < ApplicationController
 
     #############  これを一定時間でループ   #############
     @avatar = current_user.avatars[0]
+    starting_id = @avatar.curr_station_id
 
-    @station = Station.find(@avatar.curr_station_id)
+    @station = Station.find(starting_id)
     @train_timetable = eval(@avatar.train_timetable) #avatarから呼び出し、配列に変換
+    @time = Time.now
     unless @train_timetable # avatarが時刻表持っていない場合(= 旅行開始時、終点に着いて次の移動)
-      @train_timetable = Travel.getCurrentTrainTimetable(@station, Time.now)  #Aで時刻表ゲット
+      @train_timetable = Travel.getCurrentTrainTimetable(@station, @time)  #Aで時刻表ゲット
     end
-    @position = Travel.getTrainPosition(@train_timetable, Time.now) #Bで現在地更新
+    @position = Travel.getTrainPosition(@train_timetable, @time) #Bで現在地更新
     # ② 終点についていたらtrain_timetable 削除
-    if @position[0] == @train_timetable[-1][0] #終点についていたら削除
+    if Station.find(@position[0]).odpt_sameAs == @train_timetable[-1][0] #終点についていたら削除
       @train_timetable = ""
     end
 
-    # ③ DB操作
+    # ③-1  DB操作 (avatar)
     @avatar.train_timetable = @train_timetable.to_s # 文字列にして時刻表更新
-    @avatar.curr_station_id = Station.find_by(odpt_sameAs: @position[0]).id
-    @avatar.curr_location_lat = @position[2]
-    @avatar.curr_location_long = @position[3]
+    @avatar.curr_station_id = @position[0]
+    # curr_locationは使用しなくなった
     @avatar.save
 
-    # 現在位置などはcsvに保存
+    #③-2  DB操作 (passed_station): current駅が変わっていたら通過駅の記録を更新
+    unless starting_id == @position[0]
+      @passed_station = @avatar.passed_stations.find_by(station_id: @position[0])
+      @passed_station.has_passed += 1
+      @passed_station.passed_at = @time
+      @passed_station.save
+    end
+
+    # ④ 現在位置などはcsvに保存
     # 現在駅id, 現在駅sameAs, 現在駅名, 現在路線,　現在lat, 現在long, 次駅id, 次駅名, 進行方向の角度, 現在時刻表
-    sta = Station.find_by(odpt_sameAs: @position[0])
-    n_sta = Station.find_by(odpt_sameAs: @position[1])
+    sta = Station.find(@position[0])
+    n_sta = Station.find(@position[1])
     CSV.open("db/csv/#{@avatar.id}_curr.csv", "w") do |content|
-      # content << [@position]
       content << [sta.id, sta.odpt_sameAs, sta.name, sta.railway.jname, @position[2], @position[3], n_sta.id, n_sta.name, @position[4], @train_timetable]
     end
+
     ###############################################
   end
 
   def reload
-    # avatar複数の時は[0]を変更
+    # avatar複数の時は行をループ
     values = CSV.read("db/csv/#{current_user.id}_curr.csv")[0]
     # csvの中身をhashに変換
     keys = ["sta_id", "sta_sameAs", "sta_name", "railway", "curr_lat", "curr_long", "n_sta_id", "n_sta_name", "viewangle", "timetable"]
@@ -66,7 +75,20 @@ class AvatarsController < ApplicationController
     avatar_info = Hash[*ary.flatten]
     # hashをjsonにして返す
     render json: avatar_info
-    
+  end
+
+  def record
+    # avatar複数の時は[0]を変更
+    values = CSV.read("db/csv/#{current_user.id}_#{current_user.avatars[0].id}_record.csv")
+    # csvの中身をhashに変換
+    # (7つ)駅id, 駅sameAs, 駅名, 路線id, 路線名, 通過回数, 最新到着時刻
+
+    # 要検討
+    # keys = ["sta_id", "sta_sameAs", "sta_name", "rw_id", "rw_name", "num", "latest"]
+    # ary = [keys, values].transpose
+    # avatar_info = Hash[*ary.flatten]
+    # # hashをjsonにして返す
+    # render json: avatar_info
   end
 
   def edit
