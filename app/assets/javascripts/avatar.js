@@ -27,11 +27,18 @@ $(window).on('load', function () {
       $('#home_station_select').val(0);
     };
 
-    function buildSendHome_Station_ID(home_station) {
-      $('#avatar_home_station_id').remove();
-      $('#avatar_curr_station_id').remove();
-      $('#avatar_last_station_id').remove();
-      let html = `<input value="${home_station.id}" type="hidden" name="avatar[home_station_id]" id="avatar_home_station_id">
+    function buildSendHome_Station_ID(home_station, action) {
+      let html;
+      if (action == "new") {
+        $('#avatar_home_station_id').remove();
+        $('#avatar_curr_station_id').remove();
+        $('#avatar_curr_location_lat').remove();
+        $('#avatar_curr_location_long').remove();
+        $('#avatar_last_station_id').remove();
+        $('#avatar_last_location_lat').remove();
+        $('#avatar_last_location_long').remove();
+        $('.hidden_remove').remove();
+        html = `<input value="${home_station.id}" type="hidden" name="avatar[home_station_id]" id="avatar_home_station_id">
                   <input value="${home_station.id}" type="hidden" name="avatar[curr_station_id]" id="avatar_curr_station_id">
                   <input value="${home_station.id}" type="hidden" name="avatar[last_station_id]" id="avatar_last_station_id">
                   <input value="${home_station.lat}" type="hidden" name="avatar[curr_location_lat]" id="avatar_curr_location_lat">
@@ -40,6 +47,15 @@ $(window).on('load', function () {
                   <input value="${home_station.long}" type="hidden" name="avatar[last_location_long]" id="avatar_last_location_long">
                   <input value="" type="hidden" name="avatar[train_timetable]" id="avatar_train_timetable">
                   `;
+      } else if (action == "edit") {
+        $('#avatar_home_station_id').remove();
+        html = `<input value="${home_station.id}" type="hidden" name="avatar[home_station_id]" id="avatar_home_station_id">`;
+      } else if (action == "change") {
+        html = `<input value="${home_station.id}" type="hidden" name="avatar[curr_station_id]" id="avatar_curr_station_id">
+                <input value="${home_station.lat}" type="hidden" name="avatar[curr_location_lat]" id="avatar_curr_location_lat">
+                <input value="${home_station.long}" type="hidden" name="avatar[curr_location_long]" id="avatar_curr_location_long">
+                `;
+      }
       $('.form__home-station-input').append(html);
     }
 
@@ -74,11 +90,35 @@ $(window).on('load', function () {
         $('#home_station_select').remove();
         $.each(candidate_stations, function (index, station) {
           if (station.id === Number(home_station_id)) {
-            buildSendHome_Station_ID(station);
+            if (document.URL.match('/new')) {
+              buildSendHome_Station_ID(station, "new");
+            } else if (document.URL.match('/edit')) {
+              buildSendHome_Station_ID(station, "edit");
+            };
           };
         });
       };
     });
+
+    // ここから
+    // $('#change_curr_station').change(function () {
+    //   let home_station_id = $('#home_station_select').val();
+    //   console.log(home_station_id);
+    //   $.each(candidate_stations, function (index, station) {
+    //     if (station.id === Number(home_station_id)) {
+    //       if ($(this).prop('checked')) {
+
+    //         buildSendHome_Station_ID(station, "change");
+    //       } else {
+    //         $('#avatar_curr_station_id').remove();
+    //         $('#avatar_curr_location_lat').remove();
+    //         $('#avatar_curr_location_long').remove();
+    //       }
+    //     }
+    //   });
+    // });
+
+
 
     $('.form__type-select__op__img--1').on("click", function (e) {
       e.preventDefault();

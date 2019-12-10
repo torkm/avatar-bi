@@ -93,14 +93,15 @@ class AvatarsController < ApplicationController
   end
 
   def edit
+    @avatar = Avatar.find(params[:id])
   end
 
   def update
     @avatar = Avatar.find(params[:id])
-    @avatar.update_attributes(update_params)
+    @avatar.update_attributes(avatar_params)
     if @avatar.save
       respond_to do |format|
-        format.html { redirect_to root_path }
+        format.html { redirect_to root_path, notice: "アバター情報を変更しました" }
         format.json
       end
     end
@@ -113,12 +114,5 @@ class AvatarsController < ApplicationController
                                    :curr_station_id, :last_station_id, :home_station_id,
                                    :curr_location_lat, :last_location_lat,
                                    :curr_location_long, :last_location_long, :train_timetable).merge(user_id: current_user.id)
-  end
-
-  def update_params
-    params.permit(:name, :avatar_type, :stage,
-                  :curr_station_id, :last_station_id, :home_station_id,
-                  :curr_location_lat, :last_location_lat,
-                  :curr_location_long, :last_location_long, :train_timetable)
   end
 end
