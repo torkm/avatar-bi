@@ -30,7 +30,12 @@ $(window).on('load', function () {
     function buildSendHome_Station_ID(home_station) {
       $('#avatar_home_station_id').remove();
       $('#avatar_curr_station_id').remove();
+      $('#avatar_curr_location_lat').remove();
+      $('#avatar_curr_location_long').remove();
       $('#avatar_last_station_id').remove();
+      $('#avatar_last_location_lat').remove();
+      $('#avatar_last_location_long').remove();
+      $('.hidden_remove').remove();
       let html = `<input value="${home_station.id}" type="hidden" name="avatar[home_station_id]" id="avatar_home_station_id">
                   <input value="${home_station.id}" type="hidden" name="avatar[curr_station_id]" id="avatar_curr_station_id">
                   <input value="${home_station.id}" type="hidden" name="avatar[last_station_id]" id="avatar_last_station_id">
