@@ -68,7 +68,8 @@ class AvatarsController < ApplicationController
 
   def reload
     # avatar複数の時は行をループ
-    values = CSV.read("db/csv/#{current_user.id}_curr.csv")[0]
+    # values = CSV.read("db/csv/#{current_user.id}_curr.csv")[0]
+    values = CSV.read("db/csv/#{current_user.avatars[0].id}_curr.csv")[0]
     # csvの中身をhashに変換
     keys = ["sta_id", "sta_sameAs", "sta_name", "railway", "curr_lat", "curr_long", "n_sta_id", "n_sta_name", "viewangle", "timetable"]
     ary = [keys, values].transpose
