@@ -21,7 +21,10 @@ class UsersController < ApplicationController
       # end
 
       gon.avatars = current_user.avatars
-      gon.current_user = current_user
+      # 1-9でアイコンタイプを指定
+      gon.icon_type = current_user.avatars[0].avatar_type + 3 * (current_user.avatars[0].stage - 1)
+      gon.current_user = current_user 
+
     end
   end
 
