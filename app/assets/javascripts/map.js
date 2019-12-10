@@ -1,6 +1,6 @@
 
 $(function () {
-  var url = location.href;
+  // メイン画面での地図表示
   if ($('#gmap').size()) {
     console.log("map js");
 
@@ -21,9 +21,10 @@ $(function () {
     var user_marker;
     var avatar_marker;
     var user_circle;
+    var avatar_latest_pos;
 
     ////////////////////////////////////////////
-    //////  google map　クリックすると表示  ////////
+    //////  google map リロードで自動表示  ////////
     ///////////////////////////////////////////
 
     // Gmapsインスタンスの生成 (課金対象)
@@ -42,6 +43,7 @@ $(function () {
       }).done(function (avatar_info) {
         gmap.panTo(new google.maps.LatLng(avatar_info.curr_lat, avatar_info.curr_long));
         avatar_marker = add_marker_avatar(gmap, avatar_info.curr_lat, avatar_info.curr_long); // 最初にマーカー
+        avatar_latest_pos = [avatar_info.curr_lat, avatar_info.curr_long] //polyline用
         console.log('gmap initial')
       }).fail(function () {
         alert("地図の表示に失敗しました。")
@@ -78,6 +80,16 @@ $(function () {
       });
     };
 
+    // 地図に移動履歴を線で残す
+    function add_polyline(gmap, lat1, long1, lat2, long2) {
+      gmap.drawPolyline({
+        path: [[lat1, long1], [lat2, long2]], //ポリラインの頂点の座標配列
+        strokeColor: '#FF2626', //ポリラインの色
+        strokeOpacity: 0.75, //ポリラインの透明度
+        strokeWeight: 3, //ポリラインの太さ
+      });
+    };
+
     // マップの更新メソッド(アバター中心)
     function map_refresh() {
       $.ajax({
@@ -87,8 +99,12 @@ $(function () {
       })
         .done(function (avatar_info) {
           gmap.panTo(new google.maps.LatLng(avatar_info.curr_lat, avatar_info.curr_long));
+          // マーカー更新
           gmap.removeMarkers(avatar_marker); //古いの消去
-          avatar_marker = add_marker_avatar(gmap, avatar_info.curr_lat, avatar_info.curr_long);
+          avatar_marker = add_marker_avatar(gmap, avatar_info.curr_lat, avatar_info.curr_long); // 新しいマーカー
+          // 軌跡追加
+          add_polyline(gmap, avatar_latest_pos[0], avatar_latest_pos[1], avatar_info.curr_lat, avatar_info.curr_long)
+          avatar_latest_pos = [avatar_info.curr_lat, avatar_info.curr_long] //polyline用
           console.log('gmap done')
         });
     };
@@ -224,15 +240,36 @@ $(function () {
 
     });
 
-    ////////////////////////////////////////
-    ///////////  自動更新  ///////////////////
-    /////////////////////////////////////////
-    // 同時に更新するか検討中
-
-
-
-
-
-
   };
+
+  // ユーザー詳細画面での地図表示
+  if ($('.avatars_infos__main__map').size()) {
+    ////////////////////////////////////////////
+    //////  google map リロードで自動表示  ////////
+    ///////////////////////////////////////////
+
+    // Gmapsインスタンスの生成 (課金対象)
+    let gmap = new GMaps({
+      div: '.avatars_infos__main__map__gmap', //地図を表示する要素
+      lat: 35.6813, //緯度(東京駅)
+      lng: 139.767, //経度(東京駅)
+      zoom: 9 //倍率（1～21）
+    });
+
+
+
+    $.each(gon.stations, function (i, val) {
+      console.log(i + ': ' + val);
+      gmap.addMarker({
+        lat: val[2],
+        lng: val[3],
+        title: `${val[0]} ${val[1]}`,
+        infoWindow: {
+          content: `${val[0]} ${val[1]} / ${val[4]}回通過 (最新:${val[5]})`
+        },
+        flat: true
+      });
+    });
+  };
+
 });
