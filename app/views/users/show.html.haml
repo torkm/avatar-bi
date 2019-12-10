@@ -60,8 +60,9 @@
         = current_user.avatars[0].name
       .avatars_infos__main
         .avatars_infos__main__right
+
           .avatars_infos__main__right__image
-            - img_src = "avatar_type" + current_user.avatars[0].avatar_type.to_s + ".png"
+            - img_src = "avatar_type" + (current_user.avatars[0].avatar_type + 3*(current_user.avatars[0].stage-1)).to_s + ".png"
             = image_tag img_src, size: "200x200", alt: "アバタータイプ"
           .avatars_infos__main__right___infolist
             .info_key
@@ -95,4 +96,6 @@
 
               = @test
         .avatars_infos__main__map
-  
+          .avatars_infos__main__map__gmap{style: "width:600px; height:600px;   position:relative;"} 
+          .avatars_infos__main__map__detail
+            詳細情報
