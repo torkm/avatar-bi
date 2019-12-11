@@ -1,5 +1,16 @@
 .header
   .header__app-title
-    あばたび
-  .header__copy
-    アバターがあなたの代わりに旅をします
+    .abatabi
+      あばたび
+    .copy
+      アバターがあなたの代わりに旅をします
+  .btn_var
+    - if user_signed_in?
+      .btn_var__left-btn
+        - unless current_page?(root_path(current_user)) || current_page?( new_avatar_path )
+          %input{type: :button, value: 'TOPへ戻る', href: root_path(current_user), class: "btn_var__left-btn_show", method: :get}
+        - unless current_page?(user_path(current_user)) || current_page?( new_avatar_path )
+          -# %input{type: :button, href: user_path(current_user) ,value: 'ユーザページ', class: "btn_var__left-btn_show", method: :get}
+          %input{type: :button, onClick: user_path(current_user) ,value: 'ユーザページ', class: "btn_var__left-btn_show", method: :get}
+      .btn_var__right-btn
+        %input{type: :button, value: 'ログアウト', href: destroy_user_session_path, class: "btn_var__right-btn_logout",method: :delete}
