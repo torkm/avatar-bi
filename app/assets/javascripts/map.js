@@ -22,8 +22,7 @@ $(function () {
     var user_marker;
     var avatar_marker;
     var user_circle;
-    var avatar_latest_pos;
-
+    var polyline;
     ////////////////////////////////////////////
     //////  google map リロードで自動表示  ////////
     ///////////////////////////////////////////
@@ -44,10 +43,9 @@ $(function () {
       }).done(function (avatar_info) {
         gmap.panTo(new google.maps.LatLng(avatar_info.curr_lat, avatar_info.curr_long));
         avatar_marker = add_marker_avatar(gmap, avatar_info.curr_lat, avatar_info.curr_long); // 最初にマーカー
-        avatar_latest_pos = [avatar_info.curr_lat, avatar_info.curr_long] //polyline用
-        console.log('gmap initial')
-        console.log(avatar_info.path)
-
+        polyline = add_polyline(gmap, eval(avatar_info.path));
+        // 軌跡の線描画
+        console.log('gmap initial');
       }).fail(function () {
         alert("地図の表示に失敗しました。")
       });
@@ -104,12 +102,12 @@ $(function () {
           gmap.panTo(new google.maps.LatLng(avatar_info.curr_lat, avatar_info.curr_long));
           // マーカー更新
           gmap.removeMarkers(avatar_marker); //古いの消去
-          avatar_marker = add_marker_avatar(gmap, avatar_info.curr_lat, avatar_info.curr_long); // 新しいマーカー
+          avatar_marker = add_marker_avatar(gmap, avatar_info.curr_lat, avatar_info.curr_long); // 新規
+
           // 軌跡追加
-          path = [avatar_latest_pos, [avatar_info.curr_lat, avatar_info.curr_long]]
-          add_polyline(gmap, path)
-          avatar_latest_pos = [avatar_info.curr_lat, avatar_info.curr_long] //polyline用
-          console.log('gmap done')
+          gmap.removePolylines(polyline); //古いの消去
+          polyline = add_polyline(gmap, eval(avatar_info.path)); //新規
+          console.log('gmap done');
         });
     };
 

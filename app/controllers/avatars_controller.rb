@@ -75,9 +75,9 @@ class AvatarsController < ApplicationController
         @passed_station = PassedStation.new(avatar_id: @avatar.id, station_id: @position[0], has_passed: 1, passed_at: @time)
       end
       @passed_station.save
-      # 一駅通過するごとに、id_path.csvファイルに、最新の一個前の駅座標を格納
+      # 現在駅が更新されるごとに、id_path.csvファイルに最新の駅座標を格納
       CSV.open("db/csv/#{@avatar.id}_path.csv", "a") do |content|
-        content << [Station.find(starting_id).lat, Station.find(starting_id).long]
+        content << [Station.find(@position[0]).lat, Station.find(@position[0]).long]
       end
     end
     # ④ 現在位置などはcsvに保存
@@ -96,9 +96,14 @@ class AvatarsController < ApplicationController
     # values = CSV.read("db/csv/#{current_user.id}_curr.csv")[0]
     avatar = current_user.avatars[0]
     values = CSV.read("db/csv/#{avatar.id}_curr.csv")[0]
-    path = CSV.read("db/csv/#{avatar.id}_path.csv")
-    path = path.map { |path| path.map { |path| path.to_f } }.to_s
-    values << path
+    if File.exist?("db/csv/#{avatar.id}_path.csv")
+      path = CSV.read("db/csv/#{avatar.id}_path.csv")
+      path = path.map { |path| path.map { |path| path.to_f } }
+      path << [values[4], values[5]] #現在の座標追加
+    else
+      path = [values[4], values[5]] #現在の座標追加
+    end
+    values << path.to_s
     # csvの中身をhashに変換
     keys = ["sta_id", "sta_sameAs", "sta_name", "railway", "curr_lat", "curr_long", "n_sta_id", "n_sta_name", "viewangle", "timetable", "path"]
     ary = [keys, values].transpose
@@ -113,9 +118,10 @@ class AvatarsController < ApplicationController
 
   def update
     @avatar = Avatar.find(params[:id])
+    # 旅行終了ボタン押したときだけ↓のifに (path.csvに最後の駅だけ残す)
     if params.require(:avatar)[:end]
-      if File.exist?("db/csv/#{@avatar.id}_path.csv")
-        File.delete("db/csv/#{@avatar.id}_path.csv")
+      CSV.open("db/csv/#{@avatar.id}_path.csv", "w") do |content|
+        content << [Station.find(@avatar.curr_station_id).lat, Station.find(@avatar.curr_station_id).long]
       end
     end
     @avatar.update_attributes(avatar_params)
