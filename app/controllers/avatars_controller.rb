@@ -119,6 +119,11 @@ class AvatarsController < ApplicationController
 
   def update
     @avatar = Avatar.find(params[:id])
+    if params.require(:avatar)[:end] then
+      if File.exist?("db/csv/#{@avatar.id}_path.csv") then
+        File.delete("db/csv/#{@avatar.id}_path.csv")
+      end
+    end
     @avatar.update_attributes(avatar_params)
     if @avatar.save
       respond_to do |format|
