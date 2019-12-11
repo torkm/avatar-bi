@@ -63,7 +63,8 @@ class AvatarsController < ApplicationController
     @avatar.save
 
     #③-2  DB操作 (passed_station): current駅が変わっていたら、
-    #[avatar_id, 通過駅_id]の組み合わせをpassed_stationに保存
+    #・[avatar_id, 通過駅_id]の組み合わせをpassed_stationに保存
+    # ・最新駅一個手前の駅までの、今回の移動で行った駅の座標csvに保存
     unless starting_id == @position[0]
       # すでに一度訪れているなら、レコード利用 / なかったら、新規作成
       if @avatar.passed_stations.find_by(station_id: @position[0])
@@ -74,8 +75,11 @@ class AvatarsController < ApplicationController
         @passed_station = PassedStation.new(avatar_id: @avatar.id, station_id: @position[0], has_passed: 1, passed_at: @time)
       end
       @passed_station.save
+      # 一駅通過するごとに、id_path.csvファイルに、最新の一個前の駅座標を格納
+      CSV.open("db/csv/#{@avatar.id}_path.csv", "a") do |content|
+        content << [Station.find(starting_id).lat, Station.find(starting_id).long]
+      end
     end
-
     # ④ 現在位置などはcsvに保存
     # 現在駅id, 現在駅sameAs, 現在駅名, 現在路線,　現在lat, 現在long, 次駅id, 次駅名, 進行方向の角度, 現在時刻表
     sta = Station.find(@position[0])
@@ -99,19 +103,6 @@ class AvatarsController < ApplicationController
     render json: avatar_info
   end
 
-  def record
-    # avatar複数の時は[0]を変更
-    values = CSV.read("db/csv/#{current_user.id}_#{current_user.avatars[0].id}_record.csv")
-    # csvの中身をhashに変換
-    # (7つ)駅id, 駅sameAs, 駅名, 路線id, 路線名, 通過回数, 最新到着時刻
-
-    # 要検討
-    # keys = ["sta_id", "sta_sameAs", "sta_name", "rw_id", "rw_name", "num", "latest"]
-    # ary = [keys, values].transpose
-    # avatar_info = Hash[*ary.flatten]
-    # # hashをjsonにして返す
-    # render json: avatar_info
-  end
 
   def edit
     @avatar = Avatar.find(params[:id])
@@ -119,8 +110,8 @@ class AvatarsController < ApplicationController
 
   def update
     @avatar = Avatar.find(params[:id])
-    if params.require(:avatar)[:end] then
-      if File.exist?("db/csv/#{@avatar.id}_path.csv") then
+    if params.require(:avatar)[:end]
+      if File.exist?("db/csv/#{@avatar.id}_path.csv")
         File.delete("db/csv/#{@avatar.id}_path.csv")
       end
     end
