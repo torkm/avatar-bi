@@ -12,8 +12,12 @@
 
 .btn{
   padding: 0 20px;
-  background-color: $form_btn_defo_bgc;
-  height: 40px;
+  background-color: $gene_btn_color;
+  color: #e9e5dd;
+  width: 140px;
+  height: 70px;
+  transition: .4s;
+  border-radius: 48%;
 }
 
 #error_explanation{

@@ -1,0 +1,11 @@
+.right_var
+  - if user_signed_in?
+    .right_var__left-btn
+      - unless current_page?(root_path(current_user)) || current_page?( new_avatar_path )
+        %input{type: :button, value: 'TOPへ戻る', href: root_path(current_user), class: "header__right__left-btn_show", class: "btn", method: :get}
+      - unless current_page?(user_path(current_user)) || current_page?( new_avatar_path )
+        -# =button_to 'ユーザ情報詳細', user_path(current_user), class: "btn header__right__left-btn_show"
+        %input{type: :button, href: user_path(current_user) ,value: 'ユーザページ', class: "header__right__left-btn_show", class: "btn", method: :get}
+        -# , href:  user_path(current_user), class: "header__right__left-btn_show btn", method: :get
+    .right_var__right-btn
+      %input{type: :button, value: 'ログアウト', href: destroy_user_session_path, class: "header__right__right-btn_logout", class: "btn",method: :delete}
