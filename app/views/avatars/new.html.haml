@@ -14,13 +14,14 @@
         = f.text_field :name, placeholder: "アバターの名前" ,class: "new_avatar_name"
       .form__home-station-input
         %p アバターが出発する駅を選んでください
+        -# デフォルト値：東京駅（中央線快速）（curr,lastのみ）
         = f.text_field   :keyword, placeholder: "アバターの出発駅", id: "home_station_input-field"
-        = f.hidden_field :curr_station_id,   value: 0, class: "hidden_remove"
-        = f.hidden_field :curr_station_lat,  value: 0, class: "hidden_remove"
-        = f.hidden_field :curr_station_long, value: 0, class: "hidden_remove"
-        = f.hidden_field :last_station_id,   value: 0, class: "hidden_remove"
-        = f.hidden_field :last_station_lat,  value: 0, class: "hidden_remove"
-        = f.hidden_field :last_station_long, value: 0, class: "hidden_remove"
+        = f.hidden_field :curr_station_id,   value: 71,      class: "hidden_remove"
+        = f.hidden_field :curr_station_lat,  value: 35.6813, class: "hidden_remove"
+        = f.hidden_field :curr_station_long, value: 139.767, class: "hidden_remove"
+        = f.hidden_field :last_station_id,   value: 71,      class: "hidden_remove"
+        = f.hidden_field :last_station_lat,  value: 35.6813, class: "hidden_remove"
+        = f.hidden_field :last_station_long, value: 139.767, class: "hidden_remove"
       .form__type-select
         = f.hidden_field :stage, value: 1
         .form__type-select__op
