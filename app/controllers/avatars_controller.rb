@@ -21,6 +21,13 @@ class AvatarsController < ApplicationController
         passed_station = PassedStation.new(avatar_id: @avatar.id, station_id: station.id)
         passed_station.save
       end
+
+      # アバター作成時、csvを作成
+      sta = Station.find(@avatar.home_station_id)
+      CSV.open("db/csv/#{@avatar.id}_curr.csv", "w") do |content|
+        content << [sta.id, sta.odpt_sameAs, sta.name, sta.railway.jname, sta.lat, sta.long, sta.id, sta.name, 0, nil]
+      end
+
       redirect_to root_path, notice: "アバターを登録しました"
     else
       render :new
