@@ -94,15 +94,18 @@ class AvatarsController < ApplicationController
   def reload
     # avatar複数の時は行をループ
     # values = CSV.read("db/csv/#{current_user.id}_curr.csv")[0]
-    values = CSV.read("db/csv/#{current_user.avatars[0].id}_curr.csv")[0]
+    avatar = current_user.avatars[0]
+    values = CSV.read("db/csv/#{avatar.id}_curr.csv")[0]
+    path = CSV.read("db/csv/#{avatar.id}_path.csv")
+    path = path.map { |path| path.map { |path| path.to_f } }.to_s
+    values << path
     # csvの中身をhashに変換
-    keys = ["sta_id", "sta_sameAs", "sta_name", "railway", "curr_lat", "curr_long", "n_sta_id", "n_sta_name", "viewangle", "timetable"]
+    keys = ["sta_id", "sta_sameAs", "sta_name", "railway", "curr_lat", "curr_long", "n_sta_id", "n_sta_name", "viewangle", "timetable", "path"]
     ary = [keys, values].transpose
     avatar_info = Hash[*ary.flatten]
     # hashをjsonにして返す
     render json: avatar_info
   end
-
 
   def edit
     @avatar = Avatar.find(params[:id])

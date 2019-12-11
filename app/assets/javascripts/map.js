@@ -46,6 +46,8 @@ $(function () {
         avatar_marker = add_marker_avatar(gmap, avatar_info.curr_lat, avatar_info.curr_long); // 最初にマーカー
         avatar_latest_pos = [avatar_info.curr_lat, avatar_info.curr_long] //polyline用
         console.log('gmap initial')
+        console.log(avatar_info.path)
+
       }).fail(function () {
         alert("地図の表示に失敗しました。")
       });
