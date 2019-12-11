@@ -285,7 +285,7 @@ $(function () {
           content: `${val[0]}: ${val[2]}駅 / ${val[5]}回通過 (最新:${val[6]})`
         },
         icon: {
-          url: `../assets/train_61.png`, //アイコンの画像パス
+          url: `../assets/${val[1]}_${val[0]}.png`, //アイコンの画像パス
           scaledSize: {
             width: 30,
             height: 30
