@@ -5,7 +5,7 @@ class AvatarsController < ApplicationController
   protect_from_forgery except: :create
 
   def new
-    unless current_user.avatars[0] == nil then
+    unless current_user.avatars[0] == nil
       redirect_to root_path, notice: "すでにアバターを持っています"
       return
     else
@@ -54,11 +54,17 @@ class AvatarsController < ApplicationController
     # curr_locationはユーザー詳細ページで使用
     @avatar.save
 
-    #③-2  DB操作 (passed_station): current駅が変わっていたら通過駅の記録を更新
+    #③-2  DB操作 (passed_station): current駅が変わっていたら、
+    #[avatar_id, 通過駅_id]の組み合わせをpassed_stationに保存
     unless starting_id == @position[0]
-      @passed_station = @avatar.passed_stations.find_by(station_id: @position[0])
-      @passed_station.has_passed += 1
-      @passed_station.passed_at = @time
+      # すでに一度訪れているなら、レコード利用 / なかったら、新規作成
+      if @avatar.passed_stations.find_by(station_id: @position[0])
+        @passed_station = @avatar.passed_stations.find_by(station_id: @position[0])
+        @passed_station.has_passed += 1
+        @passed_station.passed_at = @time
+      else
+        @passed_station = PassedStation.new(avatar_id: @avatar.id, station_id: @position[0], has_passed: 1, passed_at: @time)
+      end
       @passed_station.save
     end
 

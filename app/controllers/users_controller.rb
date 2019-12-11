@@ -42,9 +42,12 @@ class UsersController < ApplicationController
     # 複数ならここから下ループ
 
     # 全駅数と路線数は計算量節約のため定数で
-    @total_st, @total_rw = 1086, 60
-    # @total_st = PassedStation.where(avatar_id: avatar.id).count # 全駅数
+    @total_st, @total_rw = 1173, 62
+
     # @total_rw = Railway.where(has_TrainTimetable: true).count  #全路線数
+    # Railway.where(has_TrainTimetable: true).each do |r|
+    #   @total_st += r.station_num  #各路線の総駅数を足す
+    # end
 
     @comp_rw = 0 # 制覇路線数
     @comp_st = 0 # 制覇駅数

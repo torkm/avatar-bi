@@ -10,23 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_05_040105) do
+ActiveRecord::Schema.define(version: 2019_12_11_024628) do
 
   create_table "avatars", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id"
     t.string "name", null: false
     t.integer "avatar_type", null: false
     t.integer "stage", null: false
-    t.integer "curr_station_id", null: false
+    t.bigint "curr_station_id", null: false
     t.float "curr_location_lat"
     t.float "curr_location_long"
-    t.integer "last_station_id", null: false
+    t.bigint "last_station_id", null: false
     t.float "last_location_lat"
     t.float "last_location_long"
-    t.integer "home_station_id", null: false
+    t.bigint "home_station_id", null: false
     t.text "train_timetable"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["curr_station_id"], name: "fk_rails_5c73ee31ed"
+    t.index ["home_station_id"], name: "fk_rails_3c17d3f601"
+    t.index ["last_station_id"], name: "fk_rails_a9b2aba03b"
     t.index ["user_id"], name: "index_avatars_on_user_id"
   end
 
@@ -94,6 +97,9 @@ ActiveRecord::Schema.define(version: 2019_12_05_040105) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "avatars", "stations", column: "curr_station_id"
+  add_foreign_key "avatars", "stations", column: "home_station_id"
+  add_foreign_key "avatars", "stations", column: "last_station_id"
   add_foreign_key "avatars", "users"
   add_foreign_key "passed_railways", "avatars"
   add_foreign_key "passed_railways", "railways"
