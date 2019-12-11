@@ -3,29 +3,34 @@ require "time"
 class UsersController < ApplicationController
   def index
     if user_signed_in?
-      # csvなかった場合、作成
-      avatar = current_user.avatars[0]
-      # avatar複数ならここからループ
+      if current_user.avatars[0] == nil then
+        redirect_to '/avatars/new' , notice: "ログインしました。アバターを持っていません"
+      else
 
-      unless File.exist?("db/csv/#{avatar.id}_curr.csv")
-        sta = Station.find(avatar.home_station_id)
-        CSV.open("db/csv/#{current_user.id}_curr.csv", "w") do |content|
-          content << [sta.id, sta.odpt_sameAs, sta.name, sta.railway.jname, sta.lat, sta.long, sta.id, sta.name, 0, ""]
-          # 現在駅id, 現在駅sameAs, 現在駅名, 現在路線,　現在lat, 現在long, 次駅id, 次駅名, 進行方向の角度, 現在時刻表
+        # csvなかった場合、作成
+        avatar = current_user.avatars[0]
+        # avatar複数ならここからループ
+
+        unless File.exist?("db/csv/#{avatar.id}_curr.csv")
+          sta = Station.find(avatar.home_station_id)
+          CSV.open("db/csv/#{current_user.id}_curr.csv", "w") do |content|
+            content << [sta.id, sta.odpt_sameAs, sta.name, sta.railway.jname, sta.lat, sta.long, sta.id, sta.name, 0, ""]
+            # 現在駅id, 現在駅sameAs, 現在駅名, 現在路線,　現在lat, 現在long, 次駅id, 次駅名, 進行方向の角度, 現在時刻表
+          end
         end
-      end
-      # passed_stationsのためのcsv 現在は使わない予定
-      # unless File.exist?("db/csv/#{current_user.id}_#{avatar.id}_record.csv")
-      #   CSV.open("db/csv/#{current_user.id}_#{avatar.id}_record.csv", "w") do |content|
-      #     content << [0,"","",0,"",0,0,Time.now]
-      #     # 駅id, 駅sameAs, 駅名, 路線id, 路線名, 通過回数, 最新到着時刻
-      #   end
-      # end
+        # passed_stationsのためのcsv 現在は使わない予定
+        # unless File.exist?("db/csv/#{current_user.id}_#{avatar.id}_record.csv")
+        #   CSV.open("db/csv/#{current_user.id}_#{avatar.id}_record.csv", "w") do |content|
+        #     content << [0,"","",0,"",0,0,Time.now]
+        #     # 駅id, 駅sameAs, 駅名, 路線id, 路線名, 通過回数, 最新到着時刻
+        #   end
+        # end
 
-      gon.avatars = current_user.avatars
-      # 1-9でアイコンタイプを指定
-      gon.icon_type = avatar.avatar_type + 3 * (avatar.stage - 1)
-      gon.current_user = current_user
+        gon.avatars = current_user.avatars
+        # 1-9でアイコンタイプを指定
+        gon.icon_type = avatar.avatar_type + 3 * (avatar.stage - 1)
+        gon.current_user = current_user
+      end
     end
   end
 
