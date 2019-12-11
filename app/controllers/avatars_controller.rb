@@ -16,17 +16,17 @@ class AvatarsController < ApplicationController
   def create
     @avatar = Avatar.new(avatar_params)
     if @avatar.save
-      stations = Station.select { |s| s.railway[:has_TrainTimetable] == true }
-      stations.each do |station|
-        passed_station = PassedStation.new(avatar_id: @avatar.id, station_id: station.id)
-        passed_station.save
-      end
+      # 拠点駅に選んだ駅を、passed_stationに登録
+      PassedStation.create(avatar_id: @avatar.id, station_id: @avatar.curr_station_id)
 
       # アバター作成時、csvを作成
       sta = Station.find(@avatar.home_station_id)
       empty_timetable = ""
       CSV.open("db/csv/#{@avatar.id}_curr.csv", "w") do |content|
         content << [sta.id, sta.odpt_sameAs, sta.name, sta.railway.jname, sta.lat, sta.long, sta.id, sta.name, 0, empty_timetable]
+      end
+      CSV.open("db/csv/#{@avatar.id}_path.csv", "w") do |content|
+        content << [Station.find(@avatar.curr_station_id).lat, Station.find(@avatar.curr_station_id).long]
       end
 
       redirect_to root_path, notice: "アバターを登録しました"
@@ -63,7 +63,8 @@ class AvatarsController < ApplicationController
     @avatar.save
 
     #③-2  DB操作 (passed_station): current駅が変わっていたら、
-    #[avatar_id, 通過駅_id]の組み合わせをpassed_stationに保存
+    #・[avatar_id, 通過駅_id]の組み合わせをpassed_stationに保存
+    # ・最新駅一個手前の駅までの、今回の移動で行った駅の座標csvに保存
     unless starting_id == @position[0]
       # すでに一度訪れているなら、レコード利用 / なかったら、新規作成
       if @avatar.passed_stations.find_by(station_id: @position[0])
@@ -74,8 +75,11 @@ class AvatarsController < ApplicationController
         @passed_station = PassedStation.new(avatar_id: @avatar.id, station_id: @position[0], has_passed: 1, passed_at: @time)
       end
       @passed_station.save
+      # 現在駅が更新されるごとに、id_path.csvファイルに最新の駅座標を格納
+      CSV.open("db/csv/#{@avatar.id}_path.csv", "a") do |content|
+        content << [Station.find(@position[0]).lat, Station.find(@position[0]).long]
+      end
     end
-
     # ④ 現在位置などはcsvに保存
     # 現在駅id, 現在駅sameAs, 現在駅名, 現在路線,　現在lat, 現在long, 次駅id, 次駅名, 進行方向の角度, 現在時刻表
     sta = Station.find(@position[0])
@@ -90,27 +94,22 @@ class AvatarsController < ApplicationController
   def reload
     # avatar複数の時は行をループ
     # values = CSV.read("db/csv/#{current_user.id}_curr.csv")[0]
-    values = CSV.read("db/csv/#{current_user.avatars[0].id}_curr.csv")[0]
+    avatar = current_user.avatars[0]
+    values = CSV.read("db/csv/#{avatar.id}_curr.csv")[0]
+    if File.exist?("db/csv/#{avatar.id}_path.csv")
+      path = CSV.read("db/csv/#{avatar.id}_path.csv")
+      path = path.map { |path| path.map { |path| path.to_f } }
+      path << [values[4], values[5]] #現在の座標追加
+    else
+      path = [values[4], values[5]] #現在の座標追加
+    end
+    values << path.to_s
     # csvの中身をhashに変換
-    keys = ["sta_id", "sta_sameAs", "sta_name", "railway", "curr_lat", "curr_long", "n_sta_id", "n_sta_name", "viewangle", "timetable"]
+    keys = ["sta_id", "sta_sameAs", "sta_name", "railway", "curr_lat", "curr_long", "n_sta_id", "n_sta_name", "viewangle", "timetable", "path"]
     ary = [keys, values].transpose
     avatar_info = Hash[*ary.flatten]
     # hashをjsonにして返す
     render json: avatar_info
-  end
-
-  def record
-    # avatar複数の時は[0]を変更
-    values = CSV.read("db/csv/#{current_user.id}_#{current_user.avatars[0].id}_record.csv")
-    # csvの中身をhashに変換
-    # (7つ)駅id, 駅sameAs, 駅名, 路線id, 路線名, 通過回数, 最新到着時刻
-
-    # 要検討
-    # keys = ["sta_id", "sta_sameAs", "sta_name", "rw_id", "rw_name", "num", "latest"]
-    # ary = [keys, values].transpose
-    # avatar_info = Hash[*ary.flatten]
-    # # hashをjsonにして返す
-    # render json: avatar_info
   end
 
   def edit
@@ -119,9 +118,10 @@ class AvatarsController < ApplicationController
 
   def update
     @avatar = Avatar.find(params[:id])
-    if params.require(:avatar)[:end] then
-      if File.exist?("db/csv/#{@avatar.id}_path.csv") then
-        File.delete("db/csv/#{@avatar.id}_path.csv")
+    # 旅行終了ボタン押したときだけ↓のifに (path.csvに最後の駅だけ残す)
+    if params.require(:avatar)[:end]
+      CSV.open("db/csv/#{@avatar.id}_path.csv", "w") do |content|
+        content << [Station.find(@avatar.curr_station_id).lat, Station.find(@avatar.curr_station_id).long]
       end
     end
     @avatar.update_attributes(avatar_params)
