@@ -82,9 +82,9 @@ $(function () {
     };
 
     // 地図に移動履歴を線で残す
-    function add_polyline(gmap, lat1, long1, lat2, long2) {
+    function add_polyline(gmap, path) {
       gmap.drawPolyline({
-        path: [[lat1, long1], [lat2, long2]], //ポリラインの頂点の座標配列
+        path: path, //ポリラインの頂点の座標配列
         strokeColor: '#FF2626', //ポリラインの色
         strokeOpacity: 0.75, //ポリラインの透明度
         strokeWeight: 3, //ポリラインの太さ
@@ -104,7 +104,8 @@ $(function () {
           gmap.removeMarkers(avatar_marker); //古いの消去
           avatar_marker = add_marker_avatar(gmap, avatar_info.curr_lat, avatar_info.curr_long); // 新しいマーカー
           // 軌跡追加
-          add_polyline(gmap, avatar_latest_pos[0], avatar_latest_pos[1], avatar_info.curr_lat, avatar_info.curr_long)
+          path = [avatar_latest_pos, [avatar_info.curr_lat, avatar_info.curr_long]]
+          add_polyline(gmap, path)
           avatar_latest_pos = [avatar_info.curr_lat, avatar_info.curr_long] //polyline用
           console.log('gmap done')
         });
@@ -276,12 +277,20 @@ $(function () {
 
     // 通過した駅を全て表示
     $.each(gon.stations, function (i, val) {
+      // val = [路線名,路線id, 駅名, lat, long, has_passed, passed_at]
       gmap.addMarker({
-        lat: val[2],
-        lng: val[3],
-        title: `${val[0]} ${val[1]}`,
+        lat: val[3],
+        lng: val[4],
+        title: `${val[0]} ${val[2]}`,
         infoWindow: {
-          content: `${val[0]}: ${val[1]}駅 / ${val[4]}回通過 (最新:${val[5]})`
+          content: `${val[0]}: ${val[2]}駅 / ${val[5]}回通過 (最新:${val[6]})`
+        },
+        icon: {
+          url: `../assets/${val[1]}_${val[0]}.png`, //アイコンの画像パス
+          scaledSize: {
+            width: 30,
+            height: 30
+          }
         },
         flat: true
       });

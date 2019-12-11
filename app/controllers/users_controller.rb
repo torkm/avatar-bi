@@ -82,12 +82,12 @@ class UsersController < ApplicationController
       end
     end
 
-    # 地図を表示 [路線名, 駅名, lat, long, has_passed, created_at]を返す
+    # 地図を表示 [路線名, 路線id, 駅名, lat, long, has_passed, passed_at]を返す
     gon.avatar = avatar
     gon.icon_type = avatar.avatar_type + 3 * (avatar.stage - 1)
     gon.stations = []
     PassedStation.where(avatar_id: avatar.id).where("has_passed > ?", 0).each do |ps|
-      gon.stations << [ps.station.railway.jname, ps.station.name, ps.station.lat, ps.station.long, ps.has_passed, ps.updated_at]
+      gon.stations << [ps.station.railway.jname, ps.station.railway_id, ps.station.name, ps.station.lat, ps.station.long, ps.has_passed, ps.updated_at]
     end
   end
 
