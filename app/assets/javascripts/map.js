@@ -276,12 +276,20 @@ $(function () {
 
     // 通過した駅を全て表示
     $.each(gon.stations, function (i, val) {
+      // val = [路線名,路線id, 駅名, lat, long, has_passed, passed_at]
       gmap.addMarker({
-        lat: val[2],
-        lng: val[3],
-        title: `${val[0]} ${val[1]}`,
+        lat: val[3],
+        lng: val[4],
+        title: `${val[0]} ${val[2]}`,
         infoWindow: {
-          content: `${val[0]}: ${val[1]}駅 / ${val[4]}回通過 (最新:${val[5]})`
+          content: `${val[0]}: ${val[2]}駅 / ${val[5]}回通過 (最新:${val[6]})`
+        },
+        icon: {
+          url: `../assets/train_61.png`, //アイコンの画像パス
+          scaledSize: {
+            width: 30,
+            height: 30
+          }
         },
         flat: true
       });
