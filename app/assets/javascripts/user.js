@@ -136,7 +136,8 @@ $(window).on('load', function () {
                 last_station_id: avatar_info.sta_id,
                 last_location_lat: avatar_info.curr_lat,
                 last_location_long: avatar_info.curr_long,
-                train_timetable: train_timetable_empty
+                train_timetable: train_timetable_empty,
+                end: true
               }
             },
             dataType: "json"
