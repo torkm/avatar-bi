@@ -3,7 +3,7 @@
 }
 
 .header{
-  background-color: rgb(231, 104, 73);
+  background-color:$header_bgc;
   width: 100vw;
   height: $header_height;
   display: flex;
