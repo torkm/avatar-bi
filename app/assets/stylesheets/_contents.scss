@@ -9,10 +9,13 @@
   
   .main{
     display: flex;
+    text-align: center;
+    padding: 50px;
 
-    .right{
+    .left{
+      display:inline-block;
       height: 100%;
-      width : $contents_right_width;
+      // width : $contents_right_width;
       padding: 10px;
       &__movin{
         margin: 10px;
@@ -26,16 +29,23 @@
       }
     }
 
-    .left{
+    .right{
+      display:inline-block;
       height: 100%;
-      width: calc(100vw - $contents_right_width);
+      // width: calc(100vw - $contents_right_width);
       padding: 10px;
       &__avatar-status{
         margin: 10px;
         height: 100%;
-        width: 1000px;
+        // width: 1000px;
         background-color:$contents_left_avatar-status_bgc;
       }
+    }
+
+    .btn_var{
+      display:inline-block;
+      width: 300px;
+      padding: 0 20px;
     }
   }
 }
