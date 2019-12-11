@@ -16,17 +16,17 @@ class AvatarsController < ApplicationController
   def create
     @avatar = Avatar.new(avatar_params)
     if @avatar.save
-      stations = Station.select { |s| s.railway[:has_TrainTimetable] == true }
-      stations.each do |station|
-        passed_station = PassedStation.new(avatar_id: @avatar.id, station_id: station.id)
-        passed_station.save
-      end
+      # 拠点駅に選んだ駅を、passed_stationに登録
+      PassedStation.create(avatar_id: @avatar.id, station_id: @avatar.curr_station_id)
 
       # アバター作成時、csvを作成
       sta = Station.find(@avatar.home_station_id)
       empty_timetable = ""
       CSV.open("db/csv/#{@avatar.id}_curr.csv", "w") do |content|
         content << [sta.id, sta.odpt_sameAs, sta.name, sta.railway.jname, sta.lat, sta.long, sta.id, sta.name, 0, empty_timetable]
+      end
+      CSV.open("db/csv/#{@avatar.id}_path.csv", "w") do |content|
+        content << [Station.find(@avatar.curr_station_id).lat, Station.find(@avatar.curr_station_id).long]
       end
 
       redirect_to root_path, notice: "アバターを登録しました"
