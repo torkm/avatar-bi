@@ -23,12 +23,7 @@
               - sec   = (time - (days*60*60*24)-(hours*60*60)-mins*60).floor
               - time_str = days.to_s + "日" + hours.to_s + "時間" + mins.to_s + "分" + sec.to_s + "秒"
               = time_str
-        .user_infos_main__infolist
-          .info_key
-            総移動距離[km]：
-          .value
-            ●●
-            km
+            =  "(ランク#{@rank_time}位)"
         .user_infos_main__infolist
           .info_key
             経過日数[日]：
@@ -47,14 +42,17 @@
           .info_key
             = "制覇した路線数："
           .value
-            = "#{@comp_rw} 路線 / 全#{@total_rw}路線"   
+            = "#{@comp_rw} 路線 / 全#{@total_rw}路線"  
+            =  "(ランク#{@rank_railway}位)" 
         .user_infos_main__infolist
           .info_key
             = "路線別踏破駅数："
-          .value 
+          .value
+            =  "(ランク#{@rank_railway}位)" 
             - Hash[ @passed_rw_st.sort_by{ |_, v| v[3] } ].each do |key, value|
               = "#{key}: #{value[1]}駅 / 全#{value[2]}駅 "
               %br/
+            
     .avatars_infos
       .avatars_infos__header
         = current_user.avatars[0].name
@@ -63,7 +61,7 @@
         .avatars_infos__main__right
 
           .avatars_infos__main__right__image
-            - img_src = "avatar_type" + (current_user.avatars[0].avatar_type + 3*(current_user.avatars[0].stage-1)).to_s + ".png"
+            - img_src = "avatar_type" + @avatar_type+ ".png"
             = image_tag img_src, size: "200x200", alt: "アバタータイプ"
           .avatars_infos__main__right___infolist
             .info_key
