@@ -8,9 +8,9 @@
       .left__movin
         .left__movin__onoff-btn
           - if current_user.is_moving
-            %input{type: 'button', value: '移動終了', data: {btn: 'end'}, class: "start_end_btn btn"}
+            %input{type: 'button', value: '移動終了', data: {btn: 'end'}, class: "start_end_btn large_btn"}
           - else
-            %input{type: 'button', value: '移動開始', data: {btn: 'start'}, class: "start_end_btn btn"}
+            %input{type: 'button', value: '移動開始', data: {btn: 'start'}, class: "start_end_btn large_btn"}
         .left__movin__avatar-img
           -# ※アイコン画像に変更すること
           - img_src = "avatar_type" + (current_user.avatars[0].avatar_type + 3*(current_user.avatars[0].stage-1)).to_s + ".png"

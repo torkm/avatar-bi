@@ -9,9 +9,11 @@
   height: $header_height;
   color: $general_color;
   display: flex;
+  padding: 10px 30px;
+  // position: relative;
   .header__app-title{
-    width: 100%;
     min-width: 150px;
+    margin: 0 auto;
     text-align: center;
     .abatabi{
       display:inline-block;
@@ -36,28 +38,21 @@
     }
   }
   .btn_var{
+    // position: absolute;
+    // right: 0;
+    min-width: 320px;
     display: flex;
-    margin: 0 0 0 auto;
     padding: 0 10px;
     line-height: $header_height;
-    &__left-btn{
-      // line-height: $header_height;
-      &__show{
-        // @include input_btn();
-        // line-height: 50px;
-        // background-color: $gene_btn_bgc;
-        // color: #e9e5dd;
-        // border-radius: 48%;
-        // padding: 0 10px;
-        // margin:  0 10px;
-      }
-    }
-    &__right-btn{
-      line-height: $header_height;
-      &_logout{
-        @include input_btn;
-        height: 50px;
-      }
-    }
   }
+}
+
+a.btn{
+  @include input_btn();
+}
+
+.large_btn{
+  outline: none;
+  appearance: none;
+  @include large_btn();
 }
