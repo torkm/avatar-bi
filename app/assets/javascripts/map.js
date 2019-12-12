@@ -258,6 +258,41 @@ $(function () {
       zoom: 9 //倍率（1～21）
     });
 
+    // 路線網に特化したマップにするためのスタイル設定
+    var railsStyles = [
+      {
+        featureType: "all",
+        elementType: "all",
+        stylers: [{ visibility: "off" }]
+      },
+      {
+        featureType: "water",
+        elementType: "geometry",
+        stylers: [
+          { hue: "#8899CC" }, // 航路の線と色相を合わせて目立たなくする
+          { visibility: "simplifed" }
+        ]
+      },
+      {
+        featureType: "transit.line",// 交通機関の路線
+        elementType: "all", // ラベルを含めてすべて
+        stylers: [
+          { visibility: "on" }
+        ]
+      },
+      {
+        featureType: "transit.station.rail",// 電車の駅
+        elementType: "all", // ラベルを含めてすべて
+        stylers: [
+          { visibility: "on" }
+        ]
+      }
+    ];
+    var railsMapType = new google.maps.StyledMapType(railsStyles, { name: "鉄道網" });
+
+    gmap.map.mapTypes.set("rails", railsMapType);// 登録
+    gmap.map.setMapTypeId("rails");
+
     // アバターの現在地をマーカー表示
     gmap.addMarker({
       lat: gon.avatar.curr_location_lat,
@@ -275,9 +310,13 @@ $(function () {
       }
     });
 
+
     // 通過した駅を全て表示
+    //
+
     $.each(gon.stations, function (i, val) {
       // val = [路線名,路線id, 駅名, lat, long, has_passed, passed_at]
+      eval(`marker_`);
       gmap.addMarker({
         lat: val[3],
         lng: val[4],
@@ -295,6 +334,8 @@ $(function () {
         flat: true
       });
     });
+
+
   };
 
 });
