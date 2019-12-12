@@ -341,7 +341,6 @@ $(function () {
         flat: true
       });
     });
-    console.log(latLngs);
     gmap.addMarkers(markers);
   };
 
