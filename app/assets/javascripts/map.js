@@ -312,30 +312,37 @@ $(function () {
 
 
     // 通過した駅を全て表示
-    //
-
+    //同じ座標の駅はrandomにずらして表示
+    var markers = [];
+    var latLngs = [];
     $.each(gon.stations, function (i, val) {
       // val = [路線名,路線id, 駅名, lat, long, has_passed, passed_at]
-      eval(`marker_`);
-      gmap.addMarker({
+      latLng = String([val[3], val[4]]);
+      if (latLngs.indexOf(latLng) >= 0) {
+        val[3] += (Math.random() * 0.0008 - 0.0004);
+        val[4] += (Math.random() * 0.0008 - 0.0004);
+      } else {
+        latLngs.push(latLng);
+      };
+      markers.push({
         lat: val[3],
         lng: val[4],
         title: `${val[0]} ${val[2]}`,
         infoWindow: {
-          content: `${val[0]}: ${val[2]}駅 / ${val[5]}回通過 (最新:${val[6]})`
+          content: `${val[0]}${val[2]}駅 / ${val[5]}回通過 (最新:${val[6]})`
         },
         icon: {
           url: `../assets/${val[1]}_${val[0]}.png`, //アイコンの画像パス
           scaledSize: {
-            width: 30,
+            width: 28,
             height: 30
           }
         },
         flat: true
       });
     });
-
-
+    console.log(latLngs);
+    gmap.addMarkers(markers);
   };
 
 });
