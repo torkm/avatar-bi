@@ -8,9 +8,8 @@
     - if user_signed_in?
       .btn_var__left-btn
         - unless current_page?(root_path(current_user)) || current_page?( new_avatar_path )
-          %input{type: :button, value: 'TOPへ戻る', class: "btn_var__left-btn_show", method: :get}
+          %input{type: :button, value: 'TOPへ戻る', class: "btn_var__left-btn__show", method: :get}
         - unless current_page?(user_path(current_user)) || current_page?( new_avatar_path )
-          -# %input{type: :button, value: 'ユーザページ', onclick: "location.href='./users/#{current_user.id}'", class: "btn_var__left-btn_show", method: :get}
-          =button_to 'ユーザページ',user_path(current_user), {class: "btn_var__left-btn_show", method: :get}
+          = link_to 'ユーザページ', user_path(current_user), {class: "btn_var__left-btn__show"}
       .btn_var__right-btn
         -# %input{type: :button, value: 'ログアウト', href: destroy_user_session_path, class: "btn_var__right-btn_logout",method: :delete}

@@ -1,7 +1,9 @@
-@mixin input_btn(){
-  background-color: $gene_btn_color;
+@mixin input_btn($height: 50px, $width: 100px){
+  background-color: $gene_btn_bgc;
   color: #e9e5dd;
   border-radius: 48%;
   padding: 0 10px;
   margin:  0 10px;
+  height:  $height;
+  width:   $width;
 }
