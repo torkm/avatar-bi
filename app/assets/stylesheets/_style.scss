@@ -1,0 +1,36 @@
+a.btn{
+  padding: 20px;
+  margin:  0 10px;
+  @include input_btn();
+}
+
+a.small_btn{
+  padding: 10px;
+  @include input_btn(45px);
+  font-size: 18px;
+  box-shadow: 0px 0px 0px 5px $gene_btn_bgc;
+}
+
+.large_btn{
+  outline: none;
+  appearance: none;
+  @include large_btn();
+}
+
+.avatar_img{
+  border: solid 6px $accent_color;
+}
+
+ul.infos_items{
+  position: relative;
+}
+
+li{
+  color: $general_color;
+  border-left: solid 8px #992E24;/*左側の線*/
+  margin-bottom: 10px;/*下のバーとの余白*/
+  line-height: 25px;
+  padding: 10px;
+  list-style-type: none!important;/*ポチ消す*/
+  text-align:left;
+}

@@ -10,7 +10,6 @@
   color: $general_color;
   display: flex;
   padding: 10px 30px;
-  // position: relative;
   .header__app-title{
     min-width: 150px;
     margin: 0 auto;
@@ -38,21 +37,9 @@
     }
   }
   .btn_var{
-    // position: absolute;
-    // right: 0;
     min-width: 320px;
     display: flex;
     padding: 0 10px;
     line-height: $header_height;
   }
-}
-
-a.btn{
-  @include input_btn();
-}
-
-.large_btn{
-  outline: none;
-  appearance: none;
-  @include large_btn();
 }
