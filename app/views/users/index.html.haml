@@ -4,7 +4,7 @@
 .contents
   = render 'layouts/header'
   .main
-    .left
+    .left.inline
       .left__movin
         .left__movin__onoff-btn
           - if current_user.is_moving
@@ -26,25 +26,29 @@
             %li (アバター名) #{current_user.avatars[0].name}
             %li#test_curr_station #{station.name}
 
-    .right
+    .right.inline
       .right__avatar-status
        
-        #gmap{style: "width:400px; height:360px; position:relative;"}       
-          %button#gmap__panTo--user{class: "map_btn"}
-            ユーザーの現在地
-          %button#gmap__panTo--avatar{class: "map_btn"}
-            アバターの現在地
-          %input#auto-refresh{type: 'checkbox'}
-            地図を自動更新する
+        #gmap{style: "width:400px; height:360px; position:relative;"}
+          #gmap__option       
+            -# %button#gmap__panTo--user{class: "map_btn"}
+            %a#gmap__panTo--user{class: "map_btn"}
+              ユーザーの現在地
+            -# %button#gmap__panTo--avatar{class: "map_btn"}
+            %a#gmap__panTo--avatar{class: "map_btn"}
+              アバターの現在地
+            %input#auto-refresh{type: 'checkbox'}
+              自動更新
           #gmap__map{style: "width:400px; height:300px"}
 
         #panorama
           #panorama__option
-            %a{href: "javascript:void(0)", id: 'panorama__option--display' }
+            %a{href: "javascript:void(0)", id: 'panorama__option--display', class: "map_btn"}
               #{current_user.avatars[0].name}くんの視界を表示
             %a{href: "javascript:void(0)", id: 'panorama__option--refresh' }
             
-          #panorama__view{style: "width:400px; height:200px"}
+          -# #panorama__view{style: "width:400px; height:200px"}
+          #panorama__view{style: "width:400px; height:300px"}
 
         -# #test_curr_timetable
         -# #test_curr_station

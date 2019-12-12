@@ -9,12 +9,12 @@
   
   .main{
     display: flex;
-    text-align: center;
     padding: 20px 50px;
     background-color: $contents_bgc;
-
+    text-align: center;
     .left{
-      display:inline-block;
+      
+      text-align: center;
       height: 100%;
       padding: 10px;
       &__movin{
@@ -46,42 +46,56 @@
       display:inline-block;
       height: 100%;
       padding: 10px;
-
-      &__avatar-status{
-        margin: 10px;
-        height: 100%;
-        display: flex; 
-        @media screen and (max-width: 800px) {
-          display: block;
-        }
-      }
-    }
-
-    .btn_var{
-      display:inline-block;
-      width: 300px;
-      padding: 0 20px;
     }
   }
+}
+
+.right__avatar-status{
+  margin: 10px;
+  height: 100%;
+  display: flex; 
+}
+
+#gmap{
+  text-align: left;
+}
+
+#gmap__option{
+  height: 25px;
 }
 
 #gmap__map{
   border: solid 8px $general_color;
   box-sizing: content-box;
-  margin: 5px;
+  margin: 10px 5px;
+}
+
+#panorama{
+  margin: 0 40px;
+}
+
+#panorama__option{
+  text-align: left;
+  height: 25px;
 }
 
 #panorama__view{
   border: solid 8px $general_color;
   box-sizing: content-box;
-  margin: 5px;
+  margin: 10px 0;
 }
 
-// @media screen and (max-width: 780px) {
-//   .right__avatar-status{
-//     display: block;
-//   }
-// }
+@media screen and (max-width: 1000px) {
+  .right__avatar-status{
+    display: block; 
+    #panorama{
+      margin: 10px 0;
+    }
+    #panorama__view{
+      margin: 10px 5px;
+    }
+  }
+}
 
 .map_btn{
   @include input_btn(30px);
@@ -90,4 +104,8 @@
   border: solid 3px $accent_color;
   outline: none;
   appearance: none;
+  // フォントあとで変えます
+  font: 400 11px system-ui;
+  padding: 5px;
+  margin: 0 5px;
 }
