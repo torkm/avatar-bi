@@ -17,18 +17,9 @@
               まだ移動したことがありません
             -else
               = @total_time
-            %a.modal_timeRank{href: "#modal_timeRank"}
+            %a.modalRank__time{href: "#modalRank__time"}
               = "(ランク#{@user_rank_time}位)"
-            #modal_timeRank{style: "display:none"}
-              順位 ユーザー名 総経過時間 登録日
-              %br
-              - @ranks_time.each_with_index do |u,i|
-                = i+1
-                = u[0]
-                = link_to u[1], `/users/#{u[0]}`
-                = u[2]
-                = u[3].strftime('%Y/%m/%d')
-                %br/
+
         .user_infos_main__infolist
           .info_key
             経過日数[日]：
@@ -47,13 +38,17 @@
           .info_key
             = "制覇した路線数："
           .value
-            = "#{@comp_rw} 路線 / 全#{@total_rw}路線"  
-            =  "(ランク#{@user_rank_railway}位)" 
+            = "#{@comp_rw} 路線 / 全#{@total_rw}路線" 
+            %a.modalRank__railway{href: "#modalRank__railway"} 
+              =  "(ランク#{@user_rank_railway}位)" 
         .user_infos_main__infolist
           .info_key
             = "路線別踏破駅数："
           .value
-            =  "(ランク#{@user_rank_railway}位)" 
+            = "#{@comp_st} 駅 / 全#{@total_st}駅" 
+            %a.modalRank__station{href: "#modalRank__station"} 
+              =  "(ランク#{@user_rank_station}位)" 
+            %br/
             - Hash[ @passed_rw_st.sort_by{ |_, v| v[3] } ].each do |key, value|
               = "#{key}: #{value[1]}駅 / 全#{value[2]}駅 "
               %br/
@@ -104,3 +99,42 @@
           .avatars_infos__main__map__detail
             詳細情報
 
+
+
+
+-# モーダル画面 
+#modalRank__time{style: "display:none"}
+  順位 ユーザー名 総経過時間 登録日
+  %br
+  -# [userid,username,avatarname,総経過時間, 登録日]
+  - @ranks_time.each_with_index do |u,i|
+    = "#{i+1}位"
+    %a{href: "/users/#{u[0]}"}
+      ="#{u[1]}(#{u[2]})"
+    = u[3]
+    = u[4].strftime('%Y/%m/%d')
+    %br/
+
+#modalRank__railway{style: "display:none"}
+  順位 ユーザー名(アバター名) 制覇路線数
+  %br
+  -# [userid,username,avatarname,路線数, 登録日]
+  - @ranks_railway.each_with_index do |u,i|
+    = "#{i+1}位"
+    %a{href: "/users/#{u[0]}"}
+      ="#{u[1]}(#{u[2]})"
+    = "#{u[3]} 路線" 
+    = u[4].strftime('%Y/%m/%d')
+    %br/
+  
+#modalRank__station{style: "display:none"}
+  順位 ユーザー名(アバター名) 踏破駅数
+  %br
+  -# [userid,username,avatarname,駅数, 登録日]
+  - @ranks_station.each_with_index do |u,i|
+    = "#{i+1}位"
+    %a{href: "/users/#{u[0]}"}
+      ="#{u[1]}(#{u[2]})"
+    = "#{u[3]} 駅" 
+    = u[4].strftime('%Y/%m/%d')
+    %br/
