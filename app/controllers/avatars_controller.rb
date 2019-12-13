@@ -17,7 +17,7 @@ class AvatarsController < ApplicationController
     @avatar = Avatar.new(avatar_params)
     if @avatar.save
       # 拠点駅に選んだ駅を、passed_stationに登録
-      PassedStation.create(avatar_id: @avatar.id, station_id: @avatar.curr_station_id)
+      PassedStation.create(avatar_id: @avatar.id, station_id: @avatar.curr_station_id, has_passed: 1, passed_at: Time.now)
 
       # アバター作成時、csvを作成
       sta = Station.find(@avatar.home_station_id)

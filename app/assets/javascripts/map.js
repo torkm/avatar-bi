@@ -32,7 +32,7 @@ $(function () {
       div: '#gmap__map', //地図を表示する要素
       lat: 40, //緯度
       lng: 140, //軽度
-      zoom: 16 //倍率（1～21）
+      zoom: 14 //倍率（1～21）
     });
     // Gmap の初回描画
     $(function () {

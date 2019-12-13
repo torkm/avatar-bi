@@ -16,19 +16,19 @@
             - if current_user.total_travel_time == nil
               まだ移動したことがありません
             -else
-              - time  =  current_user.total_travel_time
-              - days  = (time/(60*60*24)).floor
-              - hours = ((time - (days*60*60*24))/(60*60)).floor
-              - mins   = (time - (days*60*60*24)-(hours*60*60))/60.floor
-              - sec   = (time - (days*60*60*24)-(hours*60*60)-mins*60).floor
-              - time_str = days.to_s + "日" + hours.to_s + "時間" + mins.to_s + "分" + sec.to_s + "秒"
-              = time_str
-        .user_infos_main__infolist
-          .info_key
-            総移動距離[km]：
-          .value
-            ●●
-            km
+              = @total_time
+            %a.modal_timeRank{href: "#modal_timeRank"}
+              = "(ランク#{@user_rank_time}位)"
+            #modal_timeRank{style: "display:none"}
+              順位 ユーザー名 総経過時間 登録日
+              %br
+              - @ranks_time.each_with_index do |u,i|
+                = i+1
+                = u[0]
+                = link_to u[1], `/users/#{u[0]}`
+                = u[2]
+                = u[3].strftime('%Y/%m/%d')
+                %br/
         .user_infos_main__infolist
           .info_key
             経過日数[日]：
@@ -47,14 +47,17 @@
           .info_key
             = "制覇した路線数："
           .value
-            = "#{@comp_rw} 路線 / 全#{@total_rw}路線"   
+            = "#{@comp_rw} 路線 / 全#{@total_rw}路線"  
+            =  "(ランク#{@user_rank_railway}位)" 
         .user_infos_main__infolist
           .info_key
             = "路線別踏破駅数："
-          .value 
+          .value
+            =  "(ランク#{@user_rank_railway}位)" 
             - Hash[ @passed_rw_st.sort_by{ |_, v| v[3] } ].each do |key, value|
               = "#{key}: #{value[1]}駅 / 全#{value[2]}駅 "
               %br/
+            
     .avatars_infos
       .avatars_infos__header
         = current_user.avatars[0].name
@@ -63,7 +66,7 @@
         .avatars_infos__main__right
 
           .avatars_infos__main__right__image
-            - img_src = "avatar_type" + (current_user.avatars[0].avatar_type + 3*(current_user.avatars[0].stage-1)).to_s + ".png"
+            - img_src = "avatar_type" + @avatar_type+ ".png"
             = image_tag img_src, size: "200x200", alt: "アバタータイプ"
           .avatars_infos__main__right___infolist
             .info_key
@@ -100,3 +103,4 @@
           .avatars_infos__main__map__gmap{style: "width:600px; height:600px;   position:relative;"} 
           .avatars_infos__main__map__detail
             詳細情報
+
