@@ -4,6 +4,19 @@ a.btn{
   @include input_btn();
 }
 
+a.btn_small_nega{
+  @include input_btn(30px);
+  background-color: $base_color;
+  color: $accent_color;
+  border: solid 3px $accent_color;
+  outline: none;
+  appearance: none;
+  // フォントあとで変えます
+  font: 400 11px system-ui;
+  padding: 5px 20px;
+  
+}
+
 a.small_btn{
   padding: 10px;
   @include input_btn(45px);
@@ -39,4 +52,46 @@ li{
   padding: 10px;
   list-style-type: none!important;/*ポチ消す*/
   text-align:left;
+}
+
+.list{
+  color: $general_color;
+  border-left: solid 8px #992E24;/*左側の線*/
+  margin-bottom: 10px;/*下のバーとの余白*/
+  line-height: 20px;
+  padding: 10px;
+}
+
+.devise_form{
+  margin: 0 auto;
+  padding: 30px;
+  text-align: center;
+}
+
+.links{
+  margin: 10px;
+}
+
+.form_title{
+  text-align: center;
+}
+
+#error_explanation{
+  height: auto;
+  background-color: $error_message_bgc;
+}
+
+.field{
+  width: 35vw;
+  min-width: 200px;
+  text-align:left;
+  margin: 2vw auto;
+}
+
+input[type=text],input[type=email], input[type=password]{
+  width: 32vw;
+  min-width: 180px;
+  height: 2em;
+  text-align: left;
+  padding: 0 0.5em;
 }

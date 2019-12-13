@@ -4,8 +4,8 @@
       あばたび
     .copy
       アバターがあなたの代わりに旅をします
-  .btn_var
-    - if user_signed_in?
+  - if user_signed_in?
+    .btn_var
       .btn_var__left-btn
         .btn_var__left-btn__show
           - unless current_page?(root_path(current_user)) || current_page?( new_avatar_path )
