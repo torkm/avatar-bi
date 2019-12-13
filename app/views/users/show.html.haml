@@ -16,14 +16,19 @@
             - if current_user.total_travel_time == nil
               まだ移動したことがありません
             -else
-              - time  =  current_user.total_travel_time
-              - days  = (time/(60*60*24)).floor
-              - hours = ((time - (days*60*60*24))/(60*60)).floor
-              - mins   = (time - (days*60*60*24)-(hours*60*60))/60.floor
-              - sec   = (time - (days*60*60*24)-(hours*60*60)-mins*60).floor
-              - time_str = days.to_s + "日" + hours.to_s + "時間" + mins.to_s + "分" + sec.to_s + "秒"
-              = time_str
-            =  "(ランク#{@rank_time}位)"
+              = @total_time
+            %a.modal_timeRank{href: "#modal_timeRank"}
+              = "(ランク#{@user_rank_time}位)"
+            #modal_timeRank{style: "display:none"}
+              順位 ユーザー名 総経過時間 登録日
+              %br
+              - @ranks_time.each_with_index do |u,i|
+                = i+1
+                = u[0]
+                = link_to u[1], `/users/#{u[0]}`
+                = u[2]
+                = u[3].strftime('%Y/%m/%d')
+                %br/
         .user_infos_main__infolist
           .info_key
             経過日数[日]：
@@ -43,12 +48,12 @@
             = "制覇した路線数："
           .value
             = "#{@comp_rw} 路線 / 全#{@total_rw}路線"  
-            =  "(ランク#{@rank_railway}位)" 
+            =  "(ランク#{@user_rank_railway}位)" 
         .user_infos_main__infolist
           .info_key
             = "路線別踏破駅数："
           .value
-            =  "(ランク#{@rank_railway}位)" 
+            =  "(ランク#{@user_rank_railway}位)" 
             - Hash[ @passed_rw_st.sort_by{ |_, v| v[3] } ].each do |key, value|
               = "#{key}: #{value[1]}駅 / 全#{value[2]}駅 "
               %br/
@@ -98,3 +103,4 @@
           .avatars_infos__main__map__gmap{style: "width:600px; height:600px;   position:relative;"} 
           .avatars_infos__main__map__detail
             詳細情報
+

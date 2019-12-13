@@ -10,10 +10,9 @@
     = javascript_include_tag 'application'
     = include_gon
   %body
-
     %script{type: "text/javascript", charset: "utf-8", src: "https://map.yahooapis.jp/js/V1/jsapi?appid="+Rails.application.credentials.ymap[:y_id]}
     %script{src: "https://maps.googleapis.com/maps/api/js?key="+ Rails.application.credentials.gmap[:gmap_secret_key]}
-    %script{src: "https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.5/jquery.csv.min.js"}
-    
+    -# %script{src: "modaal.min.js"}
+    -# %script{src: "https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.5/jquery.csv.min.js"}
     = render 'layouts/flash'
     = yield

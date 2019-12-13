@@ -36,6 +36,15 @@ class UsersController < ApplicationController
       redirect_to root_path
     end
 
+    # 秒を時間に
+    def sec_to_time(sec)
+      if sec 
+        return sec.divmod(86400).each_slice(2).map { |day, sec_r| (Time.parse("1/1") + sec_r).strftime("#{day}日%H時間%M分") }.first
+      else  
+        return "0日0時間0分"
+      end
+    end
+    @total_time = sec_to_time(current_user.total_travel_time)
     avatar = current_user.avatars[0]
     # 複数ならここから下ループ
 
@@ -86,16 +95,20 @@ class UsersController < ApplicationController
     @avatar_type = (avatar.avatar_type + 3*(avatar.stage-1)).to_s 
 
     # ランキングを表示
-    h = User.order("total_travel_time DESC").pluck(:id)
-    @rank_time = h.index(avatar.id) + 1
-
+    users = User.order("total_travel_time DESC") #時間長い順
+    h = users.pluck(:id)
+    @user_rank_time = h.index(avatar.id) + 1
+    @ranks_time = users.pluck(:id, :name, :total_travel_time, :created_at)
+    @ranks_time.map!{|r| [r[0],r[1], sec_to_time(r[2]), r[3]]}
+    
     h = PassedStation.group(:avatar_id).count
-    h = Hash[ h.sort_by{ |_, v| -v } ]
-    @rank_station = h.keys.index(avatar.id) + 1
+    h = Hash[ h.sort_by{ |_, v| -v } ]  #駅多い順
+    @user_rank_station = h.keys.index(avatar.id) + 1
+
 
     h = PassedRailway.group(:avatar_id).count
-    h = Hash[ h.sort_by{ |_, v| -v } ]
-    @rank_railway = h.keys.index(avatar.id) + 1
+    h = Hash[ h.sort_by{ |_, v| -v } ] #路線多い順
+    @user_rank_railway = h.keys.index(avatar.id) ? h.keys.index(avatar.id) + 1: h.size+1 #0路線の場合もエラーが出ないように
 
     # 地図を表示 [路線名, 路線id, 駅名, lat, long, has_passed, passed_at]を返す
     gon.avatar = avatar
