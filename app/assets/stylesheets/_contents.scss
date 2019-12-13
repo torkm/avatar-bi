@@ -6,21 +6,21 @@
   height: $contents_height;
   width:  $contents_width;
   background-color:$contents_bgc;
-  
+
   .main{
     display: flex;
-    padding: 20px 50px;
+    // margin: 0 auto;
+    padding: 20px 0;
     background-color: $contents_bgc;
-    text-align: center;
+    width:  100vh;
+    min-width: 0;
     .left{
-      
       text-align: center;
       height: 100%;
       padding: 10px;
       &__movin{
         margin: 10px;
         max-width: 300px;
-
         &__onoff-btn{
           margin: 10px;
         }
@@ -43,17 +43,13 @@
     }
 
     .right{
-      display:inline-block;
       height: 100%;
       padding: 10px;
+      margin: 10px;
+      display: flex;
+      
     }
   }
-}
-
-.right__avatar-status{
-  margin: 10px;
-  height: 100%;
-  display: flex; 
 }
 
 #gmap{
@@ -86,8 +82,8 @@
 }
 
 @media screen and (max-width: 1000px) {
-  .right__avatar-status{
-    display: block; 
+  .right{
+    display: block;
     #panorama{
       margin: 10px 0;
     }
