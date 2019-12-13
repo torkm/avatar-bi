@@ -95,20 +95,36 @@ class UsersController < ApplicationController
     @avatar_type = (avatar.avatar_type + 3*(avatar.stage-1)).to_s 
 
     # ランキングを表示
-    users = User.order("total_travel_time DESC") #時間長い順
+    disp_num = 5 # ランキング表示する上位のユーザー数
+
+    users = User.order("total_travel_time DESC").first(disp_num) #時間長い順
     h = users.pluck(:id)
     @user_rank_time = h.index(avatar.id) + 1
     @ranks_time = users.pluck(:id, :name, :total_travel_time, :created_at)
-    @ranks_time.map!{|r| [r[0],r[1], sec_to_time(r[2]), r[3]]}
-    
-    h = PassedStation.group(:avatar_id).count
-    h = Hash[ h.sort_by{ |_, v| -v } ]  #駅多い順
-    @user_rank_station = h.keys.index(avatar.id) + 1
-
+    @ranks_time.map!{|r| [r[0],r[1], User.find(r[0]).avatars[0].name, sec_to_time(r[2]), r[3]]}
 
     h = PassedRailway.group(:avatar_id).count
     h = Hash[ h.sort_by{ |_, v| -v } ] #路線多い順
     @user_rank_railway = h.keys.index(avatar.id) ? h.keys.index(avatar.id) + 1: h.size+1 #0路線の場合もエラーが出ないように
+
+    @ranks_railway = []
+    h.first(disp_num).each do |k,v|
+      a = Avatar.find(k)
+      u = a.user
+      @ranks_railway << [u.id, u.name, a.name, v, u.created_at]
+    end
+
+    h = PassedStation.group(:avatar_id).count
+    h = Hash[ h.sort_by{ |_, v| -v } ]  #駅多い順
+    @user_rank_station = h.keys.index(avatar.id) + 1
+
+    @ranks_station = []
+    h.first(disp_num).each do |k,v|
+      a = Avatar.find(k)
+      u = a.user
+      @ranks_station << [u.id, u.name, a.name, v,  u.created_at]
+    end
+
 
     # 地図を表示 [路線名, 路線id, 駅名, lat, long, has_passed, passed_at]を返す
     gon.avatar = avatar
