@@ -43,6 +43,8 @@
     display: flex;
     padding: 0 10px;
     line-height: $header_height;
-    text-align: right;
+    .btn_var__btns{
+      margin: 0 0 0 auto;
+    }
   }
 }

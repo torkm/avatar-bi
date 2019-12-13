@@ -3,7 +3,7 @@
     #is_moving
 .contents
   = render 'layouts/header'
-  .form
+  .form.form_style
     = form_with model: @avatar ,local: true do |f|
       - if @avatar.errors.any?
         .form__errors
@@ -14,13 +14,15 @@
       .avatar-img
         - img_src = "avatar_type" + current_user.avatars[0].avatar_type.to_s + ".png"
         = image_tag img_src, size: "200x200", alt: "アバタータイプ"
-      .form__name-input
-        %p アバターの名前を入力してください(何も入力しなければ変更されません)
+      .form__name-input.field.list
+        %p アバターの名前
+        %p{class: "small_str"} (何も入力しなければ変更されません)
         = f.text_field :name, value: current_user.avatars[0].name, placeholder: "アバターの名前" ,class: "new_avatar_name"
-      .form__home-station-input
-        %p アバターの拠点駅を選んでください(何も入力しなければ変更されません)
+      .form__home-station-input.field.list
+        %p アバターの拠点駅
+        %p{class: "small_str"} (何も入力しなければ変更されません)
         - home_station = Station.find(current_user.avatars[0].home_station_id)
         - station_str = "#{home_station.name}駅(#{Railway.find(home_station.railway_id).jname})"
         = f.text_field   :keyword, value: station_str,placeholder: "アバターの出発駅", id: "home_station_input-field"
       .form__submit
-        = f.button '変更する', type: 'button', onclick: 'submit();',class:"btn"
+        = f.button '変更する', type: 'button', onclick: 'submit();',class:"btn_btn"

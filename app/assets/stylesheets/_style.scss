@@ -1,9 +1,11 @@
+// link_toのボタン化
 a.btn{
   padding: 20px;
   margin:  0 10px;
   @include input_btn();
 }
 
+// link_toのボタン化(小さめ、色反転)
 a.btn_small_nega{
   @include input_btn(30px);
   background-color: $base_color;
@@ -17,6 +19,7 @@ a.btn_small_nega{
   
 }
 
+// link_toのボタン化（1文字用）
 a.small_btn{
   padding: 10px;
   @include input_btn(45px);
@@ -24,12 +27,14 @@ a.small_btn{
   box-shadow: 0px 0px 0px 5px $gene_btn_bgc;
 }
 
+// buttonタグのボタン化
 .btn_btn{
   padding: 0 20px;
   margin:  0 10px;
   @include input_btn();
 }
 
+// 移動開始等、大きいボタン
 .large_btn{
   outline: none;
   appearance: none;
@@ -68,6 +73,12 @@ li{
   text-align: center;
 }
 
+.form_style{
+  margin: 0 auto;
+  padding: 30px;
+  text-align: center;
+}
+
 .links{
   margin: 10px;
 }
@@ -85,7 +96,7 @@ li{
   width: 35vw;
   min-width: 200px;
   text-align:left;
-  margin: 2vw auto;
+  margin: 2vh auto;
 }
 
 input[type=text],input[type=email], input[type=password]{
@@ -94,4 +105,8 @@ input[type=text],input[type=email], input[type=password]{
   height: 2em;
   text-align: left;
   padding: 0 0.5em;
+}
+
+.small_str{
+  font-size: 0.7em;
 }

@@ -12,13 +12,3 @@
         - unless current_page?(user_path(current_user)) || current_page?( new_avatar_path )
           = link_to 'ユーザページ', user_path(current_user), class: "btn"
         = link_to 'ログアウト', destroy_user_session_path, method: :delete, class: "btn"
-
-
-      -# .btn_var__left-btn
-      -#   .btn_var__left-btn__show
-      -#     - unless current_page?(root_path(current_user)) || current_page?( new_avatar_path )
-      -#       = link_to 'TOPへ戻る', root_path(current_user),class: "btn"
-      -#     - unless current_page?(user_path(current_user)) || current_page?( new_avatar_path )
-      -#       = link_to 'ユーザページ', user_path(current_user), class: "btn"
-      -# .btn_var__right__right-btn
-      -#   = link_to 'ログアウト', destroy_user_session_path, method: :delete, class: "btn"

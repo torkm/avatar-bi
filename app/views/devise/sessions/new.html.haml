@@ -1,6 +1,6 @@
 .contents
   = render 'layouts/header'
-  .devise_form
+  .devise_form.form_style
     -# %h2{ class: 'form_title' } ログイン
     = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
       .field.list
