@@ -107,6 +107,18 @@ input[type=text],input[type=email], input[type=password]{
   padding: 0 0.5em;
 }
 
+// 文字が小さい文章で
 .small_str{
   font-size: 0.7em;
+}
+
+// ページタイトルで
+h2.page_title{
+  display: inline-block;
+  color: $accent_color;
+  font-size: 1.07em;
+  border-top   : dotted 2px $accent_color;
+  border-bottom: dotted 2px $accent_color;
+  padding: 0.7em 1em;
+  margin-bottom: 1em;
 }

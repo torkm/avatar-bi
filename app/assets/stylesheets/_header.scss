@@ -39,12 +39,14 @@
     }
   }
   .btn_var{ 
-    min-width: 470px;
     display: flex;
     padding: 0 10px;
     line-height: $header_height;
     .btn_var__btns{
-      margin: 0 0 0 auto;
+      min-width: 470px;
+      .btns{
+        float: right;
+      }
     }
   }
 }

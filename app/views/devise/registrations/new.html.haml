@@ -1,7 +1,7 @@
 .contents
   = render 'layouts/header'
   .devise_form
-    -# %h2{ class: 'form_title' } 新規登録
+    %h2.page_title 新規登録
     = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
       = render "devise/shared/error_messages", resource: resource
       .field.list

@@ -1,7 +1,7 @@
 .contents
   = render 'layouts/header'
-  アバターをつくりましょう
   .form.form_style
+    %h2.page_title 旅をするアバターを作りましょう
     = form_with model: @avatar ,local: true do |f|
       - if @avatar.errors.any?
         .form__errors
@@ -9,10 +9,10 @@
           %ul
             - @avatar.errors.full_messages.each do |message|
               %li= message
-      .form__name-input
+      .form__name-input.list.field
         %p アバターの名前を入力してください
         = f.text_field :name, placeholder: "アバターの名前" ,class: "new_avatar_name"
-      .form__home-station-input
+      .form__home-station-input.list.field
         %p アバターが出発する駅を選んでください
         -# デフォルト値：東京駅（中央線快速）（curr,lastのみ）
         = f.text_field   :keyword, placeholder: "アバターの出発駅", id: "home_station_input-field"
@@ -34,4 +34,4 @@
           = image_tag "avatar_type3.png", size: "150x150", alt: "アバタータイプ3", class: "form__type-select__op__img--3"
           %p タイプ３
       .form__submit
-        = f.button '登録する', type: 'button', onclick: 'submit();',class:"btn"
+        = f.button '登録する', type: 'button', onclick: 'submit();',class:"btn_btn"
