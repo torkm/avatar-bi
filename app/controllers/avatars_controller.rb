@@ -12,7 +12,7 @@ class AvatarsController < ApplicationController
       @avatar = Avatar.new
     end
   end
-
+  
   def create
     @avatar = Avatar.new(avatar_params)
     if @avatar.save

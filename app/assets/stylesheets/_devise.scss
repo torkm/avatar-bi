@@ -10,11 +10,12 @@
   text-align: center;
 }
 
-.btn{
-  padding: 0 20px;
-  background-color: $form_btn_defo_bgc;
-  height: 40px;
-}
+// .btn{
+//   @include input_btn;
+//   padding: 0 20px;
+//   width: 140px;
+//   height: 70px;
+// }
 
 #error_explanation{
   height: auto;

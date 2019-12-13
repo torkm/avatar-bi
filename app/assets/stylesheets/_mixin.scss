@@ -1,0 +1,20 @@
+@mixin input_btn($height: 50px){
+  // min-width: 120px;
+  background-color: $gene_btn_bgc;
+  color: #e9e5dd;
+  border-radius: 50px;
+  height:  $height;
+  text-decoration: none;
+}
+
+@mixin large_btn($height: 70px){
+  min-width: 120px;
+  background-color: $gene_btn_bgc;
+  color: #e9e5dd;
+  border-radius: 50px;
+  border: dotted 3px #e9e5dd;
+  box-shadow: 0px 0px 0px 5px $gene_btn_bgc;
+  padding: 20px;
+  margin:  0 10px;
+  height:  $height;
+}

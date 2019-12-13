@@ -1,43 +1,45 @@
+
 *{
   box-sizing : border-box;
 }
 
 .header{
-  background-color: rgb(231, 104, 73);
+  background-color:$header_bgc;
   width: 100vw;
   height: $header_height;
+  color: $general_color;
   display: flex;
-
-  &__app-title{
-    color: #fff;
-    font-size: $title-font-size;
+  padding: 10px 30px;
+  .header__app-title{
+    min-width: 250px;
+    margin: 0 auto;
+    text-align: center;
+    .abatabi{
+      display:inline-block;
+      font-size: $title-font-size;
+      padding: 0 10px;
+      line-height: 70px;
+      height: 60%;
+      text-align: center;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .copy{
+      display:inline-block;
+      color: $general_color;
+      font-size: calc($title-font-size/2);
+      padding: 0 10px;
+      line-height: 30px;
+      height: 30px;
+      text-align: center;
+      width: 100%;
+      margin: 0 auto;
+    }
+  }
+  .btn_var{
+    min-width: 320px;
+    display: flex;
     padding: 0 10px;
     line-height: $header_height;
   }
-
-  &__right{
-    display:flex;
-    padding: 0 20px;
-    margin: 0 0 0 auto;
-    &__left-btn{
-      line-height: $header_height;
-
-      &_show{
-        margin: 10px;
-        height: 50px;
-        width: 50px;
-        line-height: $header_height;
-      }
-    }
-    &__right-btn{
-      line-height: $header_height;
-      &_logout{
-        margin: 10px;
-        height: 50px;
-        width: 50px;
-        line-height: $header_height;
-      }
-    }
-  }
 }
-

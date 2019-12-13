@@ -1,17 +1,36 @@
-$flash_bgc : rgb(245, 238, 173);
-$form_bgc  : rgb(178, 223, 178);
+// base  : #e9e5dd
+// accent: #992E24
+// accent: #d04925
+// accent: #696464
 
-$header_height    : 70px;
-$title-font-size  : 20px;
-$contents_bgc     :  rgb(226, 221, 221);
+$accent_color: #992E24;
+$base_color  : #e9e5dd;
+
+
+$general_color:#696464;
+$flash_bgc :   #D04925;
+// $form_bgc  : rgb(178, 223, 178);
+$form_bgc  :   #e9e5dd;
+$header_bgc:   #e9e5dd;
+$gene_btn_bgc: #D04925;
+
+
+
+$header_height    : 100px;
+$title-font-size  : 30px;
+$contents_bgc     :#e9e5dd;
 
 $contents_height  : 100vh;
 $contents_width   : 100vw;
 
-$contents_right_width  : 400px;
+
+// $contents_right_width  : 80%;
 $contents_right_height : 300px;
-$contents_right_bgc    : rgb(248, 243, 197);
-$contents_right_user-status_bgc    : rgb(241, 211, 182);
+// $contents_right_bgc    : rgb(248, 243, 197);
+// $contents_right_user-status_bgc    : rgb(241, 211, 182);
+$contents_right_bgc    : #e9e5dd;
+$contents_right_user-status_bgc    : #e9e5dd;
+
 
 $contents_left_width : calc(100vw - $contents_right_width);
 $contents_left_avatar-status_bgc: rgb(178, 223, 178);

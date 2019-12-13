@@ -3,42 +3,56 @@
     #is_moving
 .contents
   = render 'layouts/header'
-  .main
-    .right
-      .right__movin
-        .right__movin__onoff-btn
-          - if current_user.is_moving
-            %input{type: 'button', value: '移動終了', data: {btn: 'end'}, class: "start_end_btn btn"}
-          - else
-            %input{type: 'button', value: '移動開始', data: {btn: 'start'}, class: "start_end_btn btn"}
-      .right__user-status
-        =link_to 'ユーザ情報変更', edit_user_registration_path(current_user), class: "header__right__left-btn_edit"
+  .main_page
     .left
-      .left__avatar-status
-        =link_to 'アバターを編集する', edit_avatar_path(current_user.avatars[0].id)
-       
-        #gmap{style: "width:400px; height:360px; position:relative;"}       
-          %button#gmap__panTo--user
+      .left__movin
+        .left__movin__onoff-btn
+          - if current_user.is_moving
+            %input{type: 'button', value: '移動終了', data: {btn: 'end'}, class: "start_end_btn large_btn"}
+          - else
+            %input{type: 'button', value: '移動開始', data: {btn: 'start'}, class: "start_end_btn large_btn"}
+
+        .left__movin__avatar-img
+          -# ※アイコン画像に変更すること
+          - img_src = "avatar_type" + (current_user.avatars[0].avatar_type + 3*(current_user.avatars[0].stage-1)).to_s + ".png"
+          = image_tag img_src, size: "200x200", alt: "アバター画像", class: "avatar_img"
+          =link_to edit_avatar_path(current_user.avatars[0].id), class: "small_btn avatar_edit_btn" do
+            =fa_icon "edit"
+
+        .left__movin__infos
+
+          %ul.infos_items
+            - station = Station.find(current_user.avatars[0].curr_station_id)
+            %li (アバター名) #{current_user.avatars[0].name}
+            %li#test_curr_station #{station.name}
+
+    .right
+      #gmap{style: "width:400px; height:360px; position:relative;"}
+        #gmap__option       
+          -# %button#gmap__panTo--user{class: "map_btn"}
+          %a#gmap__panTo--user{class: "map_btn"}
             ユーザーの現在地
-          %button#gmap__panTo--avatar
+          -# %button#gmap__panTo--avatar{class: "map_btn"}
+          %a#gmap__panTo--avatar{class: "map_btn"}
             アバターの現在地
           %input#auto-refresh{type: 'checkbox'}
-            地図を自動更新する
-          #gmap__map{style: "width:400px; height:300px"}
+            自動更新
+        #gmap__map{style: "width:400px; height:300px"}
+        
+      #panorama
+        #panorama__option
+          %a{href: "javascript:void(0)", id: 'panorama__option--display', class: "map_btn"}
+            #{current_user.avatars[0].name}くんの視界を表示
+          %a{href: "javascript:void(0)", id: 'panorama__option--refresh' }
+          
+        -# #panorama__view{style: "width:400px; height:200px"}
+        #panorama__view{style: "width:400px; height:300px"}
 
-        #panorama
-          #panorama__option
-            %a{href: "javascript:void(0)", id: 'panorama__option--display' }
-              <アバターくん>の視界を表示
-            %a{href: "javascript:void(0)", id: 'panorama__option--refresh' }
-            
-          #panorama__view{style: "width:400px; height:200px"}
+      -# #test_curr_timetable
+      -# #test_curr_station
+      -# #test_curr_location_lat
+      -# #test_curr_location_long
 
-        #test_curr_timetable
-        #test_curr_station
-        #test_curr_location_lat
-        #test_curr_location_long
-
-        #info
-          情報:
-          = @curr
+      -# #info
+      -#   情報:
+      -#   = @curr
