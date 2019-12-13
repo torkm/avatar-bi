@@ -97,11 +97,11 @@ class UsersController < ApplicationController
     # ランキングを表示
     disp_num = 5 # ランキング表示する上位のユーザー数
 
-    users = User.order("total_travel_time DESC").first(disp_num) #時間長い順
+    users = User.order("total_travel_time DESC") #時間長い順
     h = users.pluck(:id)
     @user_rank_time = h.index(avatar.id) + 1
     @ranks_time = users.pluck(:id, :name, :total_travel_time, :created_at)
-    @ranks_time.map!{|r| [r[0],r[1], User.find(r[0]).avatars[0].name, sec_to_time(r[2]), r[3]]}
+    @ranks_time.map!{|r| [r[0],r[1], User.find(r[0]).avatars[0].name, sec_to_time(r[2]), r[3]]}.first(disp_num)
 
     h = PassedRailway.group(:avatar_id).count
     h = Hash[ h.sort_by{ |_, v| -v } ] #路線多い順
