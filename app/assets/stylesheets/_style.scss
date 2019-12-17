@@ -1,9 +1,25 @@
+// link_toのボタン化
 a.btn{
   padding: 20px;
   margin:  0 10px;
   @include input_btn();
 }
 
+// link_toのボタン化(小さめ、色反転)
+a.btn_small_nega{
+  @include input_btn(30px);
+  background-color: $base_color;
+  color: $accent_color;
+  border: solid 3px $accent_color;
+  outline: none;
+  appearance: none;
+  // フォントあとで変えます
+  font: 400 11px system-ui;
+  padding: 5px 20px;
+  
+}
+
+// link_toのボタン化（1文字用）
 a.small_btn{
   padding: 10px;
   @include input_btn(45px);
@@ -11,6 +27,16 @@ a.small_btn{
   box-shadow: 0px 0px 0px 5px $gene_btn_bgc;
 }
 
+// buttonタグのボタン化
+.btn_btn{
+  padding: 0 20px;
+  margin:  0 10px;
+  appearance: none;
+  outline: none;
+  @include input_btn();
+}
+
+// 移動開始等、大きいボタン
 .large_btn{
   outline: none;
   appearance: none;
@@ -34,3 +60,68 @@ li{
   list-style-type: none!important;/*ポチ消す*/
   text-align:left;
 }
+
+.list{
+  color: $general_color;
+  border-left: solid 8px #992E24;/*左側の線*/
+  margin-bottom: 10px;/*下のバーとの余白*/
+  line-height: 15px;
+  padding: 10px;
+}
+
+.devise_form{
+  margin: 0 auto;
+  padding: 30px;
+  text-align: center;
+}
+
+.form_style{
+  margin: 0 auto;
+  padding: 30px;
+  text-align: center;
+}
+
+.links{
+  margin: 10px;
+}
+
+.form_title{
+  text-align: center;
+}
+
+#error_explanation{
+  height: auto;
+  background-color: $error_message_bgc;
+}
+
+.field{
+  width: 35vw;
+  min-width: 200px;
+  text-align:left;
+  margin: 2vh auto;
+}
+
+input[type=text],input[type=email], input[type=password]{
+  width: 32vw;
+  min-width: 180px;
+  height: 2em;
+  text-align: left;
+  padding: 0 0.5em;
+}
+
+// 文字が小さい文章で
+.small_str{
+  font-size: 0.7em;
+}
+
+// ページタイトルで
+h2.page_title{
+  display: inline-block;
+  color: $accent_color;
+  font-size: 1.07em;
+  border-top   : dotted 2px $accent_color;
+  border-bottom: dotted 2px $accent_color;
+  padding: 0.7em 1em;
+  margin-bottom: 1em;
+}
+

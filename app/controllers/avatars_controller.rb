@@ -28,10 +28,10 @@ class AvatarsController < ApplicationController
       CSV.open("db/csv/#{@avatar.id}_path.csv", "w") do |content|
         content << [Station.find(@avatar.curr_station_id).lat, Station.find(@avatar.curr_station_id).long]
       end
-
       redirect_to root_path, notice: "アバターを登録しました"
     else
-      render :new
+      # redirect_to new_avatar_path
+      render 'new'
       return
     end
   end

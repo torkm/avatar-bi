@@ -59,7 +59,6 @@
         = link_to 'アバター情報変更', edit_avatar_path(current_user), class: "avatar__header__btn_edit"
       .avatars_infos__main
         .avatars_infos__main__right
-
           .avatars_infos__main__right__image
             - img_src = "avatar_type" + @avatar_type+ ".png"
             = image_tag img_src, size: "200x200", alt: "アバタータイプ"

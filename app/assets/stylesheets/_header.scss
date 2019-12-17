@@ -10,10 +10,12 @@
   color: $general_color;
   display: flex;
   padding: 10px 30px;
+
   .header__app-title{
     min-width: 250px;
     margin: 0 auto;
     text-align: center;
+
     .abatabi{
       display:inline-block;
       font-size: $title-font-size;
@@ -36,10 +38,15 @@
       margin: 0 auto;
     }
   }
-  .btn_var{
-    min-width: 320px;
+  .btn_var{ 
     display: flex;
     padding: 0 10px;
     line-height: $header_height;
+    .btn_var__btns{
+      min-width: 470px;
+      .btns{
+        float: right;
+      }
+    }
   }
 }

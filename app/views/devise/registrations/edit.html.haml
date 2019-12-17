@@ -3,24 +3,25 @@
     #is_moving
 .contents
   = render 'layouts/header'  
-  .devise_form
-    %h2{ class: 'form_title' }ユーザ情報の編集
+  .devise_form.form_style
+    %h2.page_title ユーザ情報の編集
     = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
       = render "devise/shared/error_messages", resource: resource
-      .field_form
+      -# .field_form.list
+      .field.list
         = f.label :name
         %br/
         = f.text_field :name, autofocus: true, autocomplete: "name"
-      .field
+      .field.list
         = f.label :email
         %br/
         = f.email_field :email, autofocus: true, autocomplete: "email"
       - if devise_mapping.confirmable? && resource.pending_reconfirmation?
         %div
           Currently waiting confirmation for: #{resource.unconfirmed_email}
-      .field
+      .field.list
         = f.label :password
-        %i (変更しない場合は空欄のままにしてください)
+        %i.small_str (変更しない場合は空欄のままにしてください)
         %br/
         = f.password_field :password, autocomplete: "new-password"
         - if @minimum_password_length
@@ -28,18 +29,19 @@
           %em
             = @minimum_password_length
             文字以上
-      .field
+      .field.list
         = f.label :password_confirmation
         %br/
         = f.password_field :password_confirmation, autocomplete: "new-password"
-      .field
+      .field.list
         = f.label :current_password
-        %i (確認のため、現在のパスワードを入力してください)
-        %br/
+        -# %i.small_str (確認のため、現在のパスワードを入力してください)
+        -# %br/
+        %p.small_str (確認のため、現在のパスワードを入力してください)
         = f.password_field :current_password, autocomplete: "current-password"
       .actions
-        = f.submit "更新" ,class: "btn"
+        = f.submit "更新" ,class: "btn_btn"
     -# %h3 Cancel my account
     -# %p
     -#   Unhappy? #{button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete}
-    = link_to "戻る", :back
+    -# = link_to "戻る", :back

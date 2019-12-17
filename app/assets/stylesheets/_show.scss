@@ -1,18 +1,18 @@
 .show{
   display: flex;
-  height: 100%;
-  width: 100%;
   padding: 20px;
 
   .user_infos{
     width: 35%;
-    height: 80%;
-    background-color: $user_infos__bgc;
+    max-height: 70vh;
+    // background-color: $user_infos__bgc;
+    border: solid 3px $accent_color;
     margin: 0 10px;
+    overflow: scroll;
 
     &__header{
       height: 40px;
-      background-color: $user_infos_header_bgc;
+      // background-color: $user_infos_header_bgc;
       line-height: 40px;
       padding: 0 10px; 
     }
@@ -23,7 +23,7 @@
   }
 
   .avatars_infos{
-    width: 65%;
+    max-width: 65%;
     height: 80%;
     background-color: $avatars_infos__bgc;
     margin: 0 10px;
@@ -38,6 +38,10 @@
     &__main{
       display: flex;
       padding: 10px;
+
+      &__map{
+        
+      }
     }
   }
 
@@ -54,5 +58,11 @@
       min-width: 150px;
       // あとでかえる
     }
+  }
+
+  .avatars_infos__main__map__gmap{
+    max-width: 45vw;
+    max-height: 60vh;
+    box-sizing: border-box;
   }
 }
