@@ -1,3 +1,7 @@
+*{
+  box-sizing: border-box;
+}
+
 .show{
   display: flex;
   padding: 20px;
@@ -26,7 +30,7 @@
     max-width: 65%;
     height: 80%;
     background-color: $avatars_infos__bgc;
-    margin: 0 10px;
+    // margin: 0 10px;
 
     &__header{
       height: 40px;
@@ -63,6 +67,7 @@
   .avatars_infos__main__map__gmap{
     max-width: 45vw;
     max-height: 60vh;
+    border: solid 8px $general_color;
     box-sizing: border-box;
   }
 }
