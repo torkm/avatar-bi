@@ -90,7 +90,7 @@ end
 #末尾にpushでつける
 railways.each_with_index do |railway, i|
   railway.unshift(i + 1)
-  if [11, 12, 16, 19, 20, 21, 23, 24, 28, 30, 31, 32, 35, 38, 39, 41, 42, 43, 44, 48, 52, 53, 59, 60, 61, 63, 67, 69, 71, 74, 75, 76, 79, 81, 82, 83, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110].include?(i + 1)
+  if [13, 14, 18, 21,22, 23, 25, 26, 30,  32,33,34, 35, 38, 39,  43, 44,45,46, 49,  53, 54, 60, 61, 63, 67, 69, 72, 75, 76, 77,80,  82, 83, 84,85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110].include?(i + 1)
     has_TrainTimetable = true
   else
     has_TrainTimetable = false
@@ -99,6 +99,10 @@ railways.each_with_index do |railway, i|
   railway.push(has_TrainTimetable)
 end
 puts railways
+CSV.open("rw.csv", mode = "w") do |f|
+  f << railways
+end
+
 #路線が順番に並んだだけの配列 (id = index + 1　, owl:sameAs)
 rw_id = []
 railways.each do |railway|
