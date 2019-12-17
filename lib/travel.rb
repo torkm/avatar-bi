@@ -65,12 +65,12 @@ class Travel
       end
     end
 
-    puts "選択肢は", possible_railways
+    # puts "選択肢は", possible_railways
 
     #②列車時刻表の提供されている路線から一つを選択(railwayテーブル)
     next_railway = possible_railways.sample #まだ適当
 
-    puts "乗る路線は", next_railway
+    # puts "乗る路線は", next_railway
     return next_railway
   end
 
@@ -120,11 +120,12 @@ class Travel
         train_number = time_number[0]
         break
       end
+      # もしその日付内になければ(23:58など)、翌日の始発を選択
+      # train_number = time_numbers[0][0]
     end
 
-    # puts "乗る列番は", train_number
+    puts "乗る列番は", train_number
     return train_number
-    #終電終わってたら、翌日の始発が返される
   end
 
   # 列番の時刻表を作成
@@ -182,6 +183,7 @@ class Travel
     train_number = getTrainNumber(dep_station, time)
     # ④指定した列番の時刻表生成 ([駅名,出発時刻])
     train_timetable = getTrainTimetable(dep_station, next_railway, train_number)
+    puts train_timetable
     return train_timetable
   end
 
@@ -230,3 +232,4 @@ class Travel
 
   ########################################################
 end
+

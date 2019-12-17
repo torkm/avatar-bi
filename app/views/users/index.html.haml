@@ -25,7 +25,7 @@
             - station = Station.find(current_user.avatars[0].curr_station_id)
             %li (アバター名) #{current_user.avatars[0].name}
             %li#test_curr_station #{station.name}
-
+            %li#test_curr_condition 
     .right
       #gmap{style: "width:400px; height:360px; position:relative;"}
         #gmap__option       
@@ -47,7 +47,8 @@
           
         -# #panorama__view{style: "width:400px; height:200px"}
         #panorama__view{style: "width:400px; height:300px"}
-
+      
+      
       #test_curr_timetable
       #test_curr_station
       #test_curr_location_lat

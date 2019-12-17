@@ -16,7 +16,7 @@ $(function () {
   }
   // メイン画面での地図表示
   if ($('#gmap').size()) {
-    console.log("map js");
+    // console.log("map js");
 
 
     var user_marker;
@@ -45,7 +45,7 @@ $(function () {
         avatar_marker = add_marker_avatar(gmap, avatar_info.curr_lat, avatar_info.curr_long); // 最初にマーカー
         polyline = add_polyline(gmap, eval(avatar_info.path));
         // 軌跡の線描画
-        console.log('gmap initial');
+        // console.log('gmap initial');
       }).fail(function () {
         alert("地図の表示に失敗しました。")
       });
@@ -107,7 +107,7 @@ $(function () {
           // 軌跡追加
           gmap.removePolylines(polyline); //古いの消去
           polyline = add_polyline(gmap, eval(avatar_info.path)); //新規
-          console.log('gmap done');
+          // console.log('gmap done');
         });
     };
 
@@ -162,7 +162,7 @@ $(function () {
     // チェックボックス入れるとマップ自動更新
     $("#auto-refresh").on('click', function () {
       if ($(this).prop("checked")) {
-        console.log('checked_gmap')
+        // console.log('checked_gmap')
         autoGmapRefresh = setInterval(map_refresh, 5000);
       } else {
         clearInterval(autoGmapRefresh);
@@ -204,7 +204,8 @@ $(function () {
             heading: Number(avatar_info.viewangle), //水平角
             pitch: 0 //垂直角
           })
-          panorama.setPosition(new google.maps.LatLng(avatar_info.curr_lat, avatar_info.curr_long)); console.log('street initial')
+          panorama.setPosition(new google.maps.LatLng(avatar_info.curr_lat, avatar_info.curr_long));
+          // console.log('street initial')
         }).fail(function () {
           alert("ストリートビューの表示に失敗しました。")
         });
@@ -232,7 +233,7 @@ $(function () {
       // チェックボックス入れるとストリートビュー自動更新
       $("#panorama__option--auto-refresh").on('click', function () {
         if ($(this).prop("checked")) {
-          console.log('checked')
+          // console.log('checked')
           autoPanoramaRefresh = setInterval(panorama_refresh, 5000);
         } else {
           clearInterval(autoPanoramaRefresh);
