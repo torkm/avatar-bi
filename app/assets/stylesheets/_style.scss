@@ -69,6 +69,14 @@ li{
   padding: 10px;
 }
 
+.big_list{
+  color: $general_color;
+  border-left: solid 10px #992E24;/*左側の線*/
+  // margin-bottom: 10px;/*下のバーとの余白*/
+  line-height: 15px;
+  padding: 10px;
+}
+
 .devise_form{
   margin: 0 auto;
   padding: 30px;

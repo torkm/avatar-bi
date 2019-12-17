@@ -6,8 +6,12 @@
   .show
     .user_infos
       .user_infos__header
-        = current_user.name
-        = link_to 'ユーザ情報変更', edit_user_registration_path(current_user), class: "header__left-btn_edit"
+        .name.big_list
+          (ユーザの名前)
+          = current_user.name
+        .edit_link
+          = link_to edit_user_registration_path(current_user), class: "small_btn header__left-btn_edit" do
+            =fa_icon "edit"
       .user_infos__main
         .user_infos_main__infolist
           .info_key
@@ -55,8 +59,11 @@
             
     .avatars_infos
       .avatars_infos__header
-        = current_user.avatars[0].name
-        = link_to 'アバター情報変更', edit_avatar_path(current_user), class: "avatar__header__btn_edit"
+        .name.big_list
+          (アバターの名前)
+          = current_user.avatars[0].name
+          = link_to edit_avatar_path(current_user), class: "small_btn avatar__header__btn_edit" do
+            =fa_icon "edit"
       .avatars_infos__main
         .avatars_infos__main__right
           .avatars_infos__main__right__image
