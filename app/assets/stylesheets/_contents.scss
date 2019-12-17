@@ -3,21 +3,19 @@
 }
 
 .contents{
-  height: $contents_height;
-  // width:  $contents_width;
+  min-height: $contents_height;
+  min-width: $contents_width;
   background-color:$contents_bgc;
 
   .main_page{
     display: flex;
-    // margin: 0 auto;
     padding: 20px 0;
+    min-width:  $contents_width;
     background-color: $contents_bgc;
-    // width:  100vw;
     justify-content: center;
     .left{
-      // background-color: blue;
       text-align: center;
-      height: 100%;
+      min-height: 100%;
       margin: 10px;
       &__movin{
         margin: 10px;
@@ -44,7 +42,6 @@
     }
 
     .right{
-      // background-color: red;
       height: 100%;
     }
   }
@@ -85,7 +82,7 @@
   margin: 10px 0;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1030px) {
   .right{
     display: block;
     #panorama{
