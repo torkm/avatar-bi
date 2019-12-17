@@ -28,3 +28,4 @@
 
 # ignore csv
 /db/csv/*
+!/db/csv/.keep
