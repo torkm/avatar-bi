@@ -136,14 +136,15 @@ CSV.open("result_rw.csv", mode = "w") do |f|
     f << [r[1], r[2], r[3], r[4], r[5]] # 最初のrailway_id は、idになるので消す
   end
 end
-# traintimetableが提供されている路線のみを登録
-CSV.open("result_rw_heroku.csv", mode = "w") do |f|
-  railways.each_with_index do |r,i|
-    if has_ttt_list.include?(i + 1)
-      f << [r[1], r[2], r[3], r[4], r[5]] 
-    end
-  end
-end
+
+# traintimetableが提供されている路線のみを登録 　はしない
+# CSV.open("result_rw_heroku.csv", mode = "w") do |f|
+#   railways.each_with_index do |r,i|
+#     if has_ttt_list.include?(i + 1)
+#       f << [r[1], r[2], r[3], r[4], r[5]] 
+#     end
+#   end
+# end
 
 
 

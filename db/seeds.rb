@@ -9,16 +9,14 @@
 
 #########################################################
 #  注意!!!! herokuへのseedについては、専用の
-#  result_st_heroku.csv
-#  result_rw_heroku.csvを使う！！！！！ 
+#  result_st_heroku.csvを使う！！！！！ 
 # idが10飛びになることへの対応及び データ数削減のためrw_id > 110を削除
 #########################################################
 
 require "csv"
 #csvファイルを扱うためのgemを読み込む
 
-# CSV.foreach("db/result_rw.csv") do |row|
-CSV.foreach("db/result_rw_heroku.csv") do |row|
+CSV.foreach("db/result_rw.csv") do |row|
   #foreachは、ファイル（hoge.csv）の各行を引数として、ブロック(do~endまでを範囲とする『引数のかたまり』)を繰り返し実行する
   #rowには、読み込まれた行が代入される
   Railway.create(jname: row[0], name: row[1], operator: row[2], station_num: row[3],has_TrainTimetable: row[4])
