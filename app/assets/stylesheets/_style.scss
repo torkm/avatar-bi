@@ -24,7 +24,7 @@ a.small_btn{
   padding: 10px;
   @include input_btn(45px);
   font-size: 18px;
-  box-shadow: 0px 0px 0px 5px $gene_btn_bgc;
+  // box-shadow: 0px 0px 0px 5px $gene_btn_bgc;
 }
 
 // buttonタグのボタン化
@@ -74,7 +74,8 @@ li{
   border-left: solid 10px #992E24;/*左側の線*/
   // margin-bottom: 10px;/*下のバーとの余白*/
   line-height: 15px;
-  padding: 10px;
+  padding: 0 10px;
+  // background-color: #992E24;
 }
 
 .devise_form{
@@ -133,3 +134,7 @@ h2.page_title{
   margin-bottom: 1em;
 }
 
+#error_explanation{
+  max-width: 40vw;
+  margin: 0 auto;
+}

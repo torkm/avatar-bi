@@ -62,7 +62,8 @@
         .name.big_list
           (アバターの名前)
           = current_user.avatars[0].name
-          = link_to edit_avatar_path(current_user), class: "small_btn avatar__header__btn_edit" do
+        .edit_link
+          = link_to edit_avatar_path(@avatar.id), class: "small_btn avatar__header__btn_edit" do
             =fa_icon "edit"
       .avatars_infos__main
         .avatars_infos__main__right
