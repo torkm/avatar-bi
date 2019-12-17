@@ -44,14 +44,15 @@ a.small_btn{
 }
 
 .avatar_img{
-  border: solid 6px $accent_color;
+  border: solid 4px $accent_color;
+  border-radius: 8% 8% 8% 8%;
 }
 
 ul.infos_items{
   position: relative;
 }
 
-li{
+li.default{
   color: $general_color;
   border-left: solid 8px #992E24;/*左側の線*/
   margin-bottom: 10px;/*下のバーとの余白*/
@@ -59,6 +60,14 @@ li{
   padding: 10px;
   list-style-type: none!important;/*ポチ消す*/
   text-align:left;
+}
+
+li.infolist{
+  color: $general_color;
+  list-style-type: disc;
+  margin-bottom: 10px;/*下のバーとの余白*/
+  line-height: 25px;
+  padding: 5px;
 }
 
 .list{
@@ -71,11 +80,11 @@ li{
 
 .big_list{
   color: $general_color;
-  border-left: solid 10px #992E24;/*左側の線*/
+  border-left: solid 10px $accent_color;
   // margin-bottom: 10px;/*下のバーとの余白*/
   line-height: 15px;
   padding: 0 10px;
-  // background-color: #992E24;
+  color: $accent_color;
 }
 
 .devise_form{

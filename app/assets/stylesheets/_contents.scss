@@ -9,31 +9,37 @@
 
   .main_page{
     display: flex;
-    padding: 20px 0;
+    padding: 10px 0;
     min-width:  $contents_width;
     background-color: $contents_bgc;
     justify-content: center;
     .left{
       text-align: center;
       min-height: 100%;
+      min-width: 200px;
+      width: 20%;
+      // min-width: 200px;
       margin: 10px;
+      
       &__movin{
         margin: 10px;
-        max-width: 300px;
+        // max-width: 200px;
         &__onoff-btn{
-          margin: 10px;
+          margin: 10px 10px 20px 10px;
         }
-        &__avatar-img{
-          margin: 30px 0;
-          position: relative;
-
-          .avatar_edit_btn{
-            position: absolute;
-            bottom: 0;
-            right: 0;
+        &__avatar{
+          background-color: $light_box_bgc;
+          padding: 10px;
+          border-radius: 5% 5% 5% 5%;
+          &__img{
+            position: relative;
+            .avatar_edit_btn{
+              position: absolute;
+              bottom: 0;
+              right: 0;
+            }
           }
         }
-
       }
       &__user-status{
         margin: 10px;
@@ -49,7 +55,7 @@
 
 .right{
   padding: 10px;
-  margin: 10px;
+  margin: 20px 10px;
   display: flex;
 }
 

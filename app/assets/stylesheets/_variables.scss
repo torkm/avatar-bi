@@ -4,21 +4,22 @@
 // accent: #696464
 
 $accent_color: #992E24;
-$base_color  : #e9e5dd;
+$base_color  : #f3efe8;
 
 
 $general_color:#696464;
 $flash_bgc :   #D04925;
 // $form_bgc  : rgb(178, 223, 178);
-$form_bgc  :   #e9e5dd;
-$header_bgc:   #e9e5dd;
+$form_bgc  :   $base_color;
+$header_bgc:   $base_color;
 $gene_btn_bgc: #D04925;
 
+$light_box_bgc: #fdfdf1;
 
 
 $header_height    : 100px;
 $title-font-size  : 30px;
-$contents_bgc     :#e9e5dd;
+$contents_bgc     :$base_color;
 
 $contents_height  : 100vh;
 $contents_width   : 100vw;

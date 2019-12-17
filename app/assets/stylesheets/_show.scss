@@ -10,18 +10,21 @@
   .user_infos{
     max-width: 30%;
     max-height: 70vh;
-    // border: solid 3px $accent_color;
     margin: 0 20px;
     overflow: scroll;
-    background-color: rgb(243, 243, 232);
-    border-radius: 0 10% 10% 10%;
+    background-color: $light_box_bgc;
+    border-radius: 0 5% 5% 5%;
 
     &__header{
+      position: sticky;
+      top: 0px;
       height: 50px;
+      width: 100%;
       line-height: 50px;
       padding: 0 10px 0 0; 
       display: flex;
       border-bottom: dotted 2px $accent_color;
+      background-color: $light_box_bgc;
     }
 
     &__main{
@@ -40,14 +43,15 @@
   .avatars_infos{
     max-width: 65%;
     height: 70vh;
-    // background-color: $avatars_infos__bgc;
+    background-color: $light_box_bgc;
+    border-radius: 0 5% 5% 5%;
     margin: 0 20px;
 
     &__header{
       height: 50px;
-      // background-color: $avatar_infos_header_bgc;
+      border-bottom: dotted 2px $accent_color;
       line-height: 50px;
-      padding: 0 10px; 
+      padding: 0 10px 0 0; 
       display: flex;
     }
 
