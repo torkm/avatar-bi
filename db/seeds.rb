@@ -6,6 +6,13 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+
+#########################################################
+#  注意!!!! herokuへのseedについては、専用の
+#  result_st_heroku.csvを使う！！！！！ 
+# idが10飛びになることへの対応及び データ数削減のためrw_id > 110を削除
+#########################################################
+
 require "csv"
 #csvファイルを扱うためのgemを読み込む
 
@@ -16,6 +23,7 @@ CSV.foreach("db/result_rw.csv") do |row|
   #usersテーブルの各カラムに、各行のn番目の値を代入している。
 end
 
-CSV.foreach("db/result_st.csv") do |row|
+# CSV.foreach("db/result_st.csv") do |row|
+CSV.foreach("db/result_st_heroku.csv") do |row|
   Station.create(railway_id: row[0], name: row[1], odpt_sameAs: row[2], lat: row[3], long: row[4])
 end

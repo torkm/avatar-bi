@@ -91,9 +91,10 @@ end
 #路線にid付与(1から始まる、unshiftで先頭に)
 #路線テーブルに、has_TrainTimetable付与(持っていればtrue,持っていなければfalse)
 #末尾にpushでつける
+has_ttt_list = [13, 14, 18, 21,22, 23, 25, 26, 30,  32,33,34, 35, 38, 39,  43, 44,45,46, 49,  53, 54, 60, 61, 63, 67, 69, 72, 75, 76, 77,80,  82, 83, 84,85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110]
 railways.each_with_index do |railway, i|
   railway.unshift(i + 1)
-  if [13, 14, 18, 21,22, 23, 25, 26, 30,  32,33,34, 35, 38, 39,  43, 44,45,46, 49,  53, 54, 60, 61, 63, 67, 69, 72, 75, 76, 77,80,  82, 83, 84,85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110].include?(i + 1)
+  if has_ttt_list.include?(i + 1)
     has_TrainTimetable = true
   else
     has_TrainTimetable = false
@@ -101,10 +102,7 @@ railways.each_with_index do |railway, i|
   # puts has_TrainTimetable
   railway.push(has_TrainTimetable)
 end
-puts railways
-CSV.open("rw.csv", mode = "w") do |f|
-  f << railways
-end
+
 
 #路線が順番に並んだだけの配列 (id = index + 1　, owl:sameAs)
 rw_id = []
@@ -112,7 +110,7 @@ railways.each do |railway|
   rw_id << railway[2]
 end
 
-# 駅取得
+# 13社全駅取得
 operators_rw.each do |operator|
   StationAPI.fetch({ "odpt:operator": operator }).each do |station|
     # result << station
@@ -139,11 +137,31 @@ CSV.open("result_rw.csv", mode = "w") do |f|
   end
 end
 
+# traintimetableが提供されている路線のみを登録 　はしない
+# CSV.open("result_rw_heroku.csv", mode = "w") do |f|
+#   railways.each_with_index do |r,i|
+#     if has_ttt_list.include?(i + 1)
+#       f << [r[1], r[2], r[3], r[4], r[5]] 
+#     end
+#   end
+# end
+
+
+
 CSV.open("result_st.csv", mode = "w") do |f|
   stations.each do |s|
     f << s
   end
 end
+# traintimetableが提供されている路線の駅のみ + 外部キーをid = 1 + (i-1)*10 で10おきに
+CSV.open("result_st_heroku.csv", mode = "w") do |f|
+  stations.each do |s|
+    if has_ttt_list.include?(s[0])
+      f << [(s[0]-1)*10+1, s[1], s[2], s[3],s[4], s[5]]
+    end 
+  end
+end
+
 
 # result = TrainTimetableAPI.fetch({ 'odpt:trainNumber': "1341F" })[0]["odpt:trainTimetableObject"]
 # result = StationAPI.fetch({ 'odpt:operator': "odpt.Operator:JR-East" })[120]
