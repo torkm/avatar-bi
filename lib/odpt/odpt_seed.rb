@@ -1,5 +1,8 @@
 # seeds.rbでロードするcsvファイルを生成する
-#ruby odpt_seed.rb で生成したcsvファイルをseed.rbディレクトリに移動してrails db:seed
+ 
+#ruby odpt_seed.rb で生成したcsvファイルから、railwayidが111以上を削除
+#seed.rbディレクトリに移動してrails db:seed
+
 require "faraday"
 require "json"
 require "csv"
