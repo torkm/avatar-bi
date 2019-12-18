@@ -178,6 +178,7 @@ $(function () {
 
     // ストリートビューの描画+更新ボタンの追加
     $("#panorama__option--display").on("click", function () {
+      // $("#panorama__option--display").empty()
       $("#panorama__option--display").empty()
       $("#panorama__option--refresh").append("ストリートビューを更新")
       $("#panorama__option").append("<input id='panorama__option--auto-refresh' type='checkbox'>自動更新")

@@ -52,11 +52,13 @@
         
       #panorama
         #panorama__option
-          %a{href: "javascript:void(0)", id: 'panorama__option--display', class: "map_btn"}
-            #{current_user.avatars[0].name}くんの視界を表示
-          %a{href: "javascript:void(0)", id: 'panorama__option--refresh' }
-          
-        -# #panorama__view{style: "width:400px; height:200px"}
+          .street_not_show
+            %a{href: "javascript:void(0)", id: 'panorama__option--display', class: "map_btn"}
+              #{current_user.avatars[0].name}の視界を表示
+          .street_show.indivi
+            %a{href: "javascript:void(0)", id: 'panorama__option--refresh', class: "map_btn"}
+              ストリートビューを更新
+
         #panorama__view{style: "width:400px; height:380px"}
       
       
