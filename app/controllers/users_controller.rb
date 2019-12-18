@@ -32,13 +32,11 @@ class UsersController < ApplicationController
   end
 
   def show
-    
-    
 
     if current_user.id == params[:id].to_i
       @user = current_user
     else
-      @user = User.find_by(params[:id].to_i)
+      @user = User.find(params[:id])
     end
 
     # 秒を時間に
@@ -46,11 +44,11 @@ class UsersController < ApplicationController
       if sec 
         return sec.divmod(86400).each_slice(2).map { |day, sec_r| (Time.parse("1/1") + sec_r).strftime("#{day}日%H時間%M分") }.first
       else  
-        return "0日0時間0分"
+        return "0日00時間00分"
       end
     end
-    @total_time = sec_to_time(current_user.total_travel_time)
-    avatar = current_user.avatars[0]
+    @total_time = sec_to_time(@user.total_travel_time)
+    avatar = @user.avatars[0]
     # 複数ならここから下ループ
 
     # 全駅数と路線数は計算量節約のため定数で(下が計算式)
@@ -81,7 +79,7 @@ class UsersController < ApplicationController
     @passed_rw_st.each do |key, value|
       if value[3] == 0 #全駅踏破
         @comp_rw += 1
-        p_r = PassedRailway.new(avatar_id: current_user.avatars[0].id, railway_id: value[0])
+        p_r = PassedRailway.new(avatar_id: @user.avatars[0].id, railway_id: value[0])
         unless PassedRailway.find_by(avatar_id: p_r.avatar_id, railway_id: p_r.railway_id)
           p_r.save
         end
@@ -106,7 +104,7 @@ class UsersController < ApplicationController
     # ランキング計算
     users = User.where.not(total_travel_time: nil).order("total_travel_time DESC") #時間長い順
     h = users.pluck(:id)
-    @user_rank_time = h.index(current_user.id) ? h.index(current_user.id) + 1: "-" #総時間=nilのときは-位
+    @user_rank_time = h.index(@user.id) ? h.index(@user.id) + 1: "-" #総時間=nilのときは-位
 
     # ランキング表示用配列
     @ranks_time = users.pluck(:id, :name, :total_travel_time, :created_at)

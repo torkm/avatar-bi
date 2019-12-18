@@ -1,5 +1,5 @@
 .fr
-  - if @user.is_moving
+  - if current_user.is_moving
     #is_moving
 .contents
   = render 'layouts/header'
@@ -11,8 +11,9 @@
           %p.value
             =@user.name
         .edit_link
-          = link_to edit_user_registration_path(@user), class: "small_btn header__left-btn_edit" do
-            =fa_icon "cog"
+          -if current_user == @user
+            = link_to edit_user_registration_path(current_user), class: "small_btn header__left-btn_edit" do
+              =fa_icon "cog"
       .user_infos__main
         %ul
           %li.infolist.user_infos_main__infolist
@@ -79,8 +80,9 @@
           %p.value
             = @user.avatars[0].name
         .edit_link
-          = link_to edit_avatar_path(@user.avatars[0].id), class: "small_btn avatar__header__btn_edit" do
-            =fa_icon "edit"
+          -if current_user == @user
+            = link_to edit_avatar_path(@user.avatars[0].id), class: "small_btn avatar__header__btn_edit" do
+              =fa_icon "edit"
       .avatars_infos__main
         .avatars_infos__main__right
           .avatars_infos__main__right__image
