@@ -41,10 +41,6 @@ class Travel
     end
   end
 
-  #平日祝日判断 (後日gemで実装)
-  def self.Weekday_or_Holiday
-  end
-
   # 次の電車の路線名を決定
   def self.getNextRailway(station)
     #入力はlast_stationのid (現在時刻は関数内で使用)
@@ -99,10 +95,12 @@ class Travel
   # 乗る列番を決定
   def self.getTrainNumber(dep_station, time)
     #③StationTimetableAPIで次乗る路線の駅時刻表ゲット
-    #stationtimetableの中に、平日/休日 上り/下り で４つの大きな要素を持つ配列がある。それぞれがハッシュで、"odpt:stationTimetableObject"というキーを持ち、その中身は列番と時刻が格納された配列である。
-    #(総武各駅だけ、平日しかないので場合分け)
-    result = Odpt::StationTimetableAPI.fetch({ "odpt:station": dep_station, "odpt:calendar": "odpt.Calendar:Weekday" })
 
+      result = time.workday? ? 
+      Odpt::StationTimetableAPI.fetch({ "odpt:station": dep_station, "odpt:calendar": "odpt.Calendar:Weekday" }) : 
+      Odpt::StationTimetableAPI.fetch({ "odpt:station": dep_station, "odpt:calendar": "odpt.Calendar:SaturdayHoliday" })
+    
+    
     #④-1[列番,時刻]の二次元配列を作成し、早い順にソート
     time_numbers = []
     result.each do |r| # 列車一つずつ取り出して、↓で時刻と列番だけ抽出
@@ -129,12 +127,13 @@ class Travel
   end
 
   # 列番の時刻表を作成
-  def self.getTrainTimetable(dep_station, next_railway, train_number)
+  def self.getTrainTimetable(dep_station, next_railway, train_number,time)
     ########    列番と路線名指定と出発駅が指定できた後、その時刻表(出発駅以降)を作成  ####################
     #①指定した路線名、平/休日、列番の列車
+    w_or_h = time.workday? ? "odpt.Calendar:Weekday" : "odpt.Calendar:SaturdayHoliday"
     params = {
       "odpt:railway": next_railway,
-      'odpt:calendar': "odpt.Calendar:Weekday",
+      'odpt:calendar': w_or_h,
       'odpt:trainNumber': train_number,
     }
 
@@ -182,7 +181,7 @@ class Travel
     # ③入力した時刻以降で次に乗れる電車の列番決定
     train_number = getTrainNumber(dep_station, time)
     # ④指定した列番の時刻表生成 ([駅名,出発時刻])
-    train_timetable = getTrainTimetable(dep_station, next_railway, train_number)
+    train_timetable = getTrainTimetable(dep_station, next_railway, train_number,time)
     puts train_timetable
     return train_timetable
   end
