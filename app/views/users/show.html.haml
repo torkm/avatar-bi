@@ -14,57 +14,53 @@
             =fa_icon "cog"
       .user_infos__main
         %ul
-          %li.infolist
-            .user_infos_main__infolist
-              .info_key
-                総移動時間：
-              .info_value
-                - if current_user.total_travel_time == nil
-                  まだ移動したことがありません
-                -else
-                  = @total_time
-                %a.modalRank__time{href: "#modalRank__time"}
-                  = "(ランク#{@user_rank_time}位)"
-          
-          %li.infolist
-            .user_infos_main__infolist
-              .info_key
-                経過日数[日]：
-              .info_value
-                = ((Time.now - current_user.created_at)/(60*60*24)).floor
-                日
+          %li.infolist.user_infos_main__infolist
+            .info_key
+              総移動時間：
+            .info_value
+              - if current_user.total_travel_time == nil
+                まだ移動したことがありません
+              -else
+                = @total_time
+              %a.modalRank__time{href: "#modalRank__time"}
+                = "(ランク#{@user_rank_time}位)"
+        
+          %li.infolist.user_infos_main__infolist
+            .info_key
+              経過日数[日]：
+            .info_value
+              = ((Time.now - current_user.created_at)/(60*60*24)).floor
+              日
 
-          %li.infolist
-            .user_infos_main__infolist
-              .info_key
-                最後に移動した日：
-              .value
-                - if current_user.end_time == nil
-                  まだ移動したことがありません
-                - else
-                  = current_user.end_time.strftime("%Y年%m月%d日")
+          %li.infolist.user_infos_main__infolist
+            .info_key
+              最後に移動した日：
+            .value
+              - if current_user.end_time == nil
+                まだ移動したことがありません
+              - else
+                = current_user.end_time.strftime("%Y年%m月%d日")
 
-          %li.infolist
-            .user_infos_main__infolist.infolist
-              .info_key
-                = "制覇した路線数："
-              .value
-                = "#{@comp_rw} 路線 / 全#{@total_rw}路線" 
-                %a.modalRank__railway{href: "#modalRank__railway"} 
-                  =  "(ランク#{@user_rank_railway}位)" 
+          %li.infolist.user_infos_main__infolist
+            .info_key
+              = "制覇した路線数："
+            .value
+              = "#{@comp_rw} 路線 / 全#{@total_rw}路線" 
+              %a.modalRank__railway{href: "#modalRank__railway"} 
+                =  "(ランク#{@user_rank_railway}位)" 
 
-          %li.infolist
-            .user_infos_main__infolist
-              .info_key
-                = "路線別踏破駅数："
-              .value
-                = "#{@comp_st} 駅 / 全#{@total_st}駅" 
-                %a.modalRank__station{href: "#modalRank__station"} 
-                  =  "(ランク#{@user_rank_station}位)" 
+          %li.infolist.user_infos_main__infolist
+            .info_key
+              = "路線別踏破駅数："
+            .value
+            
+              = "#{@comp_st} 駅 / 全#{@total_st}駅" 
+              %a.modalRank__station{href: "#modalRank__station"} 
+                =  "(ランク#{@user_rank_station}位)" 
+              %br/
+              - Hash[ @passed_rw_st.sort_by{ |_, v| v[3] } ].each do |key, value|
+                = "#{key}: #{value[1]}駅 / 全#{value[2]}駅 "
                 %br/
-                - Hash[ @passed_rw_st.sort_by{ |_, v| v[3] } ].each do |key, value|
-                  = "#{key}: #{value[1]}駅 / 全#{value[2]}駅 "
-                  %br/
             
     .avatars_infos
       .avatars_infos__header
@@ -79,37 +75,43 @@
           .avatars_infos__main__right__image
             - img_src = "avatar_type" + @avatar_type+ ".png"
             = image_tag img_src, size: "200x200", alt: "アバタータイプ"
-          .avatars_infos__main__right___infolist.infolist
-            .info_key
-              アバターレベル：
-            .value
-              = current_user.avatars[0].stage
-          .avatars_infos__main__right___infolist.infolist
-            .info_key
-              現在地：
-            .value
-              - station = Station.find(current_user.avatars[0].curr_station_id)
-              - railway_str = "(" + Railway.find(station.railway_id).jname + ")"
-              = station.name
-              駅
-              = railway_str
-          .avatars_infos__main__right___infolist.infolist
-            .info_key
-              拠点駅：
-            .value
-              - home_station = Station.find(current_user.avatars[0].home_station_id)
-              - home_railway_str = "(" + Railway.find(home_station.railway_id).jname + ")"
-              = home_station.name
-              駅
-              = home_railway_str
-          .avatars_infos__main__right___infolist.infolist
-            .info_key
-              踏破駅数：
-            .value
-              = @comp_st
-              = "駅(全#{@total_st}駅)"
+          %ul
+            %li.infolist
+              .avatars_infos__main__right___infolist
+                .info_key
+                  アバターレベル：
+                .value
+                  = current_user.avatars[0].stage
 
-              = @test
+            %li.infolist
+              .avatars_infos__main__right___infolist
+                .info_key
+                  現在地：
+                .value
+                  - station = Station.find(current_user.avatars[0].curr_station_id)
+                  - railway_str = "(" + Railway.find(station.railway_id).jname + ")"
+                  #{station.name}駅
+                  = railway_str
+
+            %li.infolist
+              .avatars_infos__main__right___infolist
+                .info_key
+                  拠点駅：
+                .value
+                  - home_station = Station.find(current_user.avatars[0].home_station_id)
+                  - home_railway_str = "(" + Railway.find(home_station.railway_id).jname + ")"
+                  #{home_station.name}駅
+                  = home_railway_str
+
+            %li.infolist
+              .avatars_infos__main__right___infolist
+                .info_key
+                  踏破駅数：
+                .value
+                  = @comp_st
+                  = "駅(全#{@total_st}駅)"
+                  = @test
+
         .avatars_infos__main__map
           .avatars_infos__main__map__gmap{style: "width:500px; height:500px;   position:relative;"} 
           -# .avatars_infos__main__map__detail

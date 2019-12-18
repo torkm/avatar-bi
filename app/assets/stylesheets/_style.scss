@@ -64,11 +64,26 @@ li.default{
 
 li.infolist{
   color: $general_color;
-  list-style-type: disc;
   margin-bottom: 10px;/*下のバーとの余白*/
   line-height: 25px;
   padding: 5px;
+  margin: 0 10px;
+  font-size: 0.9em;
+  list-style-type: none;
 }
+
+// li.infolist:before{ 
+//   display:inline-block; 
+//   vertical-align: middle;
+//   /*以下白丸つくる*/
+//   content:'';
+//   width:1em;
+//   height: 1em;
+//   background: blue;
+//   border-radius: 50%;
+//   margin-right: 8px;
+// }
+
 
 .list{
   color: $general_color;
