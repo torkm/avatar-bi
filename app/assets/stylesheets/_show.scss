@@ -77,26 +77,12 @@
     @media screen and (max-width: 1200px) {
       display: block;
     }
-    // .info_key{
-    //   min-width: 130px;
-    //   font-weight: bold;
-    // }
-    // .info_value{
-    //   margin: 0 10px;
-    // }
   }
   .avatars_infos__main__right___infolist{
     display:flex;
     @media screen and (max-width: 1200px) {
       display: block;
     }
-    // .info_key{
-    //   min-width: 130px;
-    //   font-weight: bold;
-    // }
-    // .value{
-    //   margin: 0 10px;
-    // }
   }
 
   .detail_btn{
@@ -123,21 +109,19 @@
     position: relative;
   }
 
-
   .detail_stations{
     display: none;
   }
 
-  .railway_list:hover + .detail_stations{
-    display: block;
-    background-color:$light_box_bgc;
-    position: absolute;
-    width: 10em;
-    padding: 0.4em;
-    border-radius: 5% 5% 5% 5%;
-    left: 10px;
-    // top: 50px;
-  }
+  // .railway_list:hover + .detail_stations{
+  //   display: block;
+  //   background-color:$light_box_bgc;
+  //   position: absolute;
+  //   width: 10em;
+  //   padding: 0.4em;
+  //   border-radius: 5% 5% 5% 5%;
+  //   left: 10px;
+  // }
 
   .avatars_infos__main__map__gmap{
     max-width: 45vw;
