@@ -92,7 +92,7 @@
   .right{
     display: block;
     #panorama{
-      margin: 10px 0;
+      margin: 50px 0;
     }
     #panorama__view{
       margin: 10px 5px;
@@ -100,15 +100,3 @@
   }
 }
 
-.map_btn{
-  @include input_btn(30px);
-  background-color: $base_color;
-  color: $accent_color;
-  border: solid 3px $accent_color;
-  outline: none;
-  appearance: none;
-  // フォントあとで変えます
-  font: 400 11px system-ui;
-  padding: 5px;
-  margin: 0 5px;
-}
