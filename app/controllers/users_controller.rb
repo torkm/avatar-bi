@@ -65,12 +65,15 @@ class UsersController < ApplicationController
     avatar.passed_stations.each do |p|
       if p.has_passed != 0 # 踏破してたらhashに追加 (路線で初なら新規, あれば+1)
         @comp_st += 1
-        rw = Station.find(p.station_id).railway
+        passed_st = Station.find(p.station_id)
+        # rw = Station.find(p.station_id).railway
+        rw = passed_st.railway
         if @passed_rw_st.has_key?(rw.jname)
           @passed_rw_st[rw.jname][1] += 1
           @passed_rw_st[rw.jname][3] -= 1
+          @passed_rw_st[rw.jname][4] << "," + passed_st.name + "駅"
         else
-          @passed_rw_st[rw.jname] = [rw.id, 1, rw.station_num, rw.station_num - 1]
+          @passed_rw_st[rw.jname] = [rw.id, 1, rw.station_num, rw.station_num - 1, passed_st.name+"駅"]
         end
       end
     end

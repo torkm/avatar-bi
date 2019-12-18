@@ -51,7 +51,7 @@
               %a.modalRank__railway{href: "#modalRank__railway"} 
                 =  "(ランク#{@user_rank_railway}位)" 
 
-          %li.infolist.user_infos_main__infolist
+          %li.infolist.user_infos_main__infolist.passed_station_list
             .info_key
               = "路線別踏破駅数"
             .info_value
@@ -61,17 +61,21 @@
               %br/
               .passed_station_detail
                 .detail_not_show
-                  .detail_btn
+                  .detail_btn#show_btn
                     詳細を表示
                     = fa_icon "chevron-down"
                 .detail_show.indivi
-                  .detail_btn
+                  .detail_btn#not_show_btn
                     詳細を非表示
                     = fa_icon "chevron-up"
                   .detail_list
-                    - Hash[ @passed_rw_st.sort_by{ |_, v| v[3] } ].each do |key, value|
-                      = "#{key}: #{value[1]}駅 / 全#{value[2]}駅 "
-                      %br/
+                    %ul
+                      - Hash[ @passed_rw_st.sort_by{ |_, v| v[3] } ].each do |key, value|
+                        .railway_list
+                          = "#{key}: #{value[1]}駅 / 全#{value[2]}駅"
+                        .detail_stations
+                          = "#{value[4]}"
+                      -# %br/
               
     .avatars_infos
       .avatars_infos__header
@@ -135,37 +139,119 @@
 
 -# モーダル画面 
 #modalRank__time{style: "display:none"}
-  順位 ユーザー名 総経過時間 登録日
-  %br
-  -# [userid,username,avatarname,総経過時間, 登録日]
-  - @ranks_time.each_with_index do |u,i|
-    = "#{i+1}位"
-    %a{href: "/users/#{u[0]}"}
-      ="#{u[1]}(#{u[2]})"
-    = u[3]
-    = u[4].strftime('%Y/%m/%d')
-    %br/
+  .modal_table
+    .modal_text
+      %p ※リンクから
+      \
+      %p 他ユーザーの詳細を
+      \
+      %p 見ることができます
+    .modal_rank.modal_items
+      %ul
+        %li.item_title 順位
+        - @ranks_time.each_with_index do |u,i|
+          %li #{i+1}位
+    .modal_user_name.modal_items
+      %ul
+        %li.item_title ユーザー名
+        - @ranks_time.each_with_index do |u,i|
+          %a{href: "/users/#{u[0]}"}
+            %li #{u[1]}(#{u[2]})
+    .modal_passed_time.modal_items
+      %ul
+        %li.item_title 総移動時間
+        - @ranks_time.each_with_index do |u,i|
+          %li #{u[3]}
+    .modal_created.modal_items
+      %ul
+        %li.item_title 登録日
+        - @ranks_time.each_with_index do |u,i|
+          %li #{u[4].strftime('%Y/%m/%d')}
+
 
 #modalRank__railway{style: "display:none"}
-  順位 ユーザー名(アバター名) 制覇路線数
-  %br
-  -# [userid,username,avatarname,路線数, 登録日]
-  - @ranks_railway.each_with_index do |u,i|
-    = "#{i+1}位"
-    %a{href: "/users/#{u[0]}"}
-      ="#{u[1]}(#{u[2]})"
-    = "#{u[3]} 路線" 
-    = u[4].strftime('%Y/%m/%d')
-    %br/
+  .modal_table
+    .modal_text
+      %p ※リンクから
+      \
+      %p 他ユーザーの詳細を
+      \
+      %p 見ることができます
+    .modal_rank.modal_items
+      %ul
+        %li.item_title 順位
+        - @ranks_railway.each_with_index do |u,i|
+          %li #{i+1}位
+    .modal_user_name.modal_items
+      %ul
+        %li.item_title ユーザー名(アバター名) 
+        - @ranks_railway.each_with_index do |u,i|
+          %a{href: "/users/#{u[0]}"}
+            %li #{u[1]}(#{u[2]})
+    .modal_passed_railways.modal_items
+      %ul
+        %li.item_title 制覇路線数
+        - @ranks_railway.each_with_index do |u,i|
+          %li #{u[3]} 路線
+    .modal_created.modal_items
+      %ul
+        %li.item_title 登録日
+        - @ranks_railway.each_with_index do |u,i|
+          %li #{u[4].strftime('%Y/%m/%d')}
+
+
+
+
+
+  -# 順位 ユーザー名(アバター名) 制覇路線数
+  -# %br
+  -# -# [userid,username,avatarname,路線数, 登録日]
+  -# - @ranks_railway.each_with_index do |u,i|
+  -#   = "#{i+1}位"
+  -#   %a{href: "/users/#{u[0]}"}
+  -#     ="#{u[1]}(#{u[2]})"
+  -#   = "#{u[3]} 路線" 
+  -#   = u[4].strftime('%Y/%m/%d')
+  -#   %br/
   
 #modalRank__station{style: "display:none"}
-  順位 ユーザー名(アバター名) 踏破駅数
-  %br
-  -# [userid,username,avatarname,駅数, 登録日]
-  - @ranks_station.each_with_index do |u,i|
-    = "#{i+1}位"
-    %a{href: "/users/#{u[0]}"}
-      ="#{u[1]}(#{u[2]})"
-    = "#{u[3]} 駅" 
-    = u[4].strftime('%Y/%m/%d')
-    %br/
+  .modal_table
+    .modal_text
+      %p ※リンクから
+      \
+      %p 他ユーザーの詳細を
+      \
+      %p 見ることができます
+    .modal_rank.modal_items
+      %ul
+        %li.item_title 順位
+        - @ranks_station.each_with_index do |u,i|
+          %li #{i+1}位
+    .modal_user_name.modal_items
+      %ul
+        %li.item_title ユーザー名(アバター名) 
+        - @ranks_station.each_with_index do |u,i|
+          %a{href: "/users/#{u[0]}"}
+            %li #{u[1]}(#{u[2]})
+    .modal_passed_stations.modal_items
+      %ul
+        %li.item_title 踏破駅数
+        - @ranks_station.each_with_index do |u,i|
+          %li #{u[3]} 駅
+    .modal_created.modal_items
+      %ul
+        %li.item_title 登録日
+        - @ranks_station.each_with_index do |u,i|
+          %li #{u[4].strftime('%Y/%m/%d')}
+
+
+  -# 順位 ユーザー名(アバター名) 踏破駅数
+  -# %br
+  -# -# [userid,username,avatarname,駅数, 登録日]
+  -# - @ranks_station.each_with_index do |u,i|
+  -#   = "#{i+1}位"
+  -#   %a{href: "/users/#{u[0]}"}
+  -#     ="#{u[1]}(#{u[2]})"
+  -#   = "#{u[3]} 駅" 
+  -#   = u[4].strftime('%Y/%m/%d')
+  -#   %br/

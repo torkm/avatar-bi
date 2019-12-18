@@ -113,12 +113,30 @@
     cursor : pointer;
   }
 
-
-
   .detail_list{
     text-align: left;
     font-size: 0.8em;
     padding: 0 5px;
+  }
+  
+  .passed_station_list{
+    position: relative;
+  }
+
+
+  .detail_stations{
+    display: none;
+  }
+
+  .railway_list:hover + .detail_stations{
+    display: block;
+    background-color:$light_box_bgc;
+    position: absolute;
+    width: 10em;
+    padding: 0.4em;
+    border-radius: 5% 5% 5% 5%;
+    left: 10px;
+    // top: 50px;
   }
 
   .avatars_infos__main__map__gmap{
@@ -127,4 +145,40 @@
     border: solid 8px $general_color;
     box-sizing: border-box;
   }
+}
+
+.modal_table{
+  display: flex;
+  color: $general_color;
+  text-align: center;
+  background-color: $light_box_bgc;
+  padding: 20px;
+  justify-content: center;
+  border: dotted 2px $accent_color;
+  position: relative;
+}
+
+.modal_text{
+  text-align: left;
+  position: absolute;
+  top: 10%;
+  left: 3em;
+}
+.modal_items{
+  margin: 0 1em;
+}
+.modal_user_name{
+  text-align: left;
+}
+
+.modal_passed_railways{
+  text-align: right;
+}
+.modal_passed_stations{
+  text-align: right;
+}
+
+.item_title{
+  border-bottom: solid 1px $accent_color;
+  font-weight: bold;
 }
