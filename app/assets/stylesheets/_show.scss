@@ -41,11 +41,6 @@
     margin: 0 0 0 auto;
   }
 
-  .detail_not_show{
-    cursor : pointer;
-  }
-
-
   .avatars_infos{
     max-width: 65%;
     height: 70vh;
@@ -104,12 +99,26 @@
     // }
   }
 
-  .detail_show{
-    display: none;
+  .detail_btn{
+    @include input_btn(20px);
+    background-color: $sec_light_box_bgc;
+    color: $general_color;
+    border: solid 1px $general_color;
+    outline: none;
+    appearance: none;
+    font: 400 11px system-ui;
+    padding: 1px 20px;
+    margin: 2px 0;;
+    text-align: center; 
+    cursor : pointer;
   }
 
-  p.detail_tab{
-    
+
+
+  .detail_list{
+    text-align: left;
+    font-size: 0.8em;
+    padding: 0 5px;
   }
 
   .avatars_infos__main__map__gmap{

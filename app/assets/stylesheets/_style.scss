@@ -1,3 +1,8 @@
+*{
+  font-family: "YuGothic","Yu Gothic","Meiryo","ヒラギノ角ゴ","sans-serif";
+}
+
+
 // link_toのボタン化
 a.btn{
   padding: 20px;
@@ -72,8 +77,14 @@ li.infolist{
   margin: 10px;
   font-size: 0.9em;
   list-style-type: none;
-  background-color: rgb(232, 233, 233);
+  background-color: $sec_light_box_bgc;
   display: flex;
+}
+
+@media screen and (max-width: 1150px) {
+  li.infolist{
+    display: block;
+  }
 }
 
 .info_key{
@@ -192,4 +203,22 @@ p.value{
 #error_explanation{
   max-width: 40vw;
   margin: 0 auto;
+}
+
+
+.map_btn{
+  @include input_btn(30px);
+  background-color: $light_box_bgc;
+  color: $accent_color;
+  border: solid 3px $accent_color;
+  outline: none;
+  appearance: none;
+  // フォントあとで変えます
+  font: 400 11px system-ui;
+  padding: 5px;
+  margin: 0 5px;
+}
+
+.indivi{
+  display: none;
 }

@@ -178,9 +178,8 @@ $(function () {
 
     // ストリートビューの描画+更新ボタンの追加
     $("#panorama__option--display").on("click", function () {
-      $("#panorama__option--display").empty()
-      $("#panorama__option--refresh").append("ストリートビューを更新")
-      $("#panorama__option").append("<input id='panorama__option--auto-refresh' type='checkbox'>自動更新")
+      $(".street_not_show").addClass("indivi")
+      $(".street_show").removeClass("indivi")
 
       // Panoramaインスタンスの作成(課金対象)
       let panorama = GMaps.createPanorama({
@@ -240,8 +239,6 @@ $(function () {
           clearInterval(autoPanoramaRefresh);
         };
       });
-
-
     });
 
   };
