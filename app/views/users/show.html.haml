@@ -199,21 +199,6 @@
         - @ranks_railway.each_with_index do |u,i|
           %li #{u[4].strftime('%Y/%m/%d')}
 
-
-
-
-
-  -# 順位 ユーザー名(アバター名) 制覇路線数
-  -# %br
-  -# -# [userid,username,avatarname,路線数, 登録日]
-  -# - @ranks_railway.each_with_index do |u,i|
-  -#   = "#{i+1}位"
-  -#   %a{href: "/users/#{u[0]}"}
-  -#     ="#{u[1]}(#{u[2]})"
-  -#   = "#{u[3]} 路線" 
-  -#   = u[4].strftime('%Y/%m/%d')
-  -#   %br/
-  
 #modalRank__station{style: "display:none"}
   .modal_table
     .modal_text
@@ -243,15 +228,3 @@
         %li.item_title 登録日
         - @ranks_station.each_with_index do |u,i|
           %li #{u[4].strftime('%Y/%m/%d')}
-
-
-  -# 順位 ユーザー名(アバター名) 踏破駅数
-  -# %br
-  -# -# [userid,username,avatarname,駅数, 登録日]
-  -# - @ranks_station.each_with_index do |u,i|
-  -#   = "#{i+1}位"
-  -#   %a{href: "/users/#{u[0]}"}
-  -#     ="#{u[1]}(#{u[2]})"
-  -#   = "#{u[3]} 駅" 
-  -#   = u[4].strftime('%Y/%m/%d')
-  -#   %br/

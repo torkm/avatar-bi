@@ -1,20 +1,55 @@
 @mixin input_btn($height: 50px){
   // min-width: 120px;
   background-color: $gene_btn_bgc;
-  color: #e9e5dd;
+  color: $light_box_bgc;
   border-radius: 50px;
+  border: solid 2px $gene_btn_bgc;
   height:  $height;
   text-decoration: none;
 }
 
-@mixin large_btn($height: 60px){
+@mixin large_btn_end($height: 60px){
   min-width: 120px;
   background-color: $gene_btn_bgc;
-  color: #e9e5dd;
+  color: $light_box_bgc;
+  font-weight: bold;
   border-radius: 50px;
-  border: dotted 3px #e9e5dd;
+  border: dotted 3px $light_box_bgc;
   box-shadow: 0px 0px 0px 5px $gene_btn_bgc;
   padding: 15px;
   margin:  0 10px;
   height:  $height;
+}
+
+@mixin large_btn_start($height: 60px){
+  min-width: 120px;
+  background-color: $sec_accent_color;
+  color: $sec_light_box_bgc;
+  font-weight: bold;
+  // color: $general_color;
+  border-radius: 50px;
+  border: dotted 3px $sec_light_box_bgc;
+  box-shadow: 0px 0px 0px 5px $sec_accent_color;
+  padding: 15px;
+  margin:  0 10px;
+  height:  $height;
+}
+
+@mixin clicked_input_btn(){
+  background-color: $light_box_bgc;
+  color: $gene_btn_bgc;
+}
+
+@mixin clicked_large_btn_end(){
+  background-color: $light_box_bgc;
+  color: $gene_btn_bgc;
+  border: dotted 3px $gene_btn_bgc;
+  box-shadow: 0px 0px 0px 4px $light_box_bgc;
+}
+
+@mixin clicked_large_btn_start(){
+  background-color: $sec_light_box_bgc;
+  color: $sec_accent_color;
+  border: dotted 3px $sec_accent_color;
+  box-shadow: 0px 0px 0px 4px $sec_light_box_bgc;
 }

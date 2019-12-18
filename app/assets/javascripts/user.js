@@ -164,12 +164,16 @@ $(window).on('load', function () {
       if ($('.start_end_btn').data('btn') === 'start') {
         $('.start_end_btn').data('btn', 'end');
         $('.start_end_btn').val('移動終了');
+        $('.start_end_btn').removeClass('large_btn_start');
+        $('.start_end_btn').addClass('large_btn_end');
       }
       // 「移動終了」ボタンを押したらそれぞれのアバターのcurr_station_idをlast_stationに保存
       // train_timetableを削除
       else {
         $('.start_end_btn').data('btn', 'start');
         $('.start_end_btn').val('移動開始');
+        $('.start_end_btn').addClass('large_btn_start');
+        $('.start_end_btn').removeClass('large_btn_end');
         end_travel(now_time);
       };
     });
