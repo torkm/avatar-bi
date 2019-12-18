@@ -23,9 +23,20 @@
           .left__movin__avatar__infos
             %ul.infos_items
               - station = Station.find(current_user.avatars[0].curr_station_id)
-              %li.default (アバター) #{current_user.avatars[0].name}
-              %li.default#test_curr_station #{station.name}駅
-              %li.default#test_curr_condition 現在地
+              %li.infolist
+                .info_key__index
+                  アバター
+                .info_value
+                  #{current_user.avatars[0].name}
+              %li.infolist
+                .info_key__index
+                  最寄駅
+                .info_value
+                  #test_curr_station #{station.name}駅
+              %li.infolist
+                .info_value
+                  #test_curr_condition
+                    現在地
     .right
       #gmap{style: "width:400px; height:400px; position:relative;"}
         #gmap__option       

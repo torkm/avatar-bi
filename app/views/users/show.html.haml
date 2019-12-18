@@ -7,8 +7,9 @@
     .user_infos
       .user_infos__header
         .name.big_list
-          (ユーザー)
-          = current_user.name
+          %p.key ユーザー :
+          %p.value
+            =current_user.name
         .edit_link
           = link_to edit_user_registration_path(current_user), class: "small_btn header__left-btn_edit" do
             =fa_icon "cog"
@@ -16,7 +17,7 @@
         %ul
           %li.infolist.user_infos_main__infolist
             .info_key
-              総移動時間：
+              総移動時間
             .info_value
               - if current_user.total_travel_time == nil
                 まだ移動したことがありません
@@ -27,15 +28,15 @@
         
           %li.infolist.user_infos_main__infolist
             .info_key
-              経過日数[日]：
+              経過日数[日]
             .info_value
               = ((Time.now - current_user.created_at)/(60*60*24)).floor
               日
 
           %li.infolist.user_infos_main__infolist
             .info_key
-              最後に移動した日：
-            .value
+              最後に移動した日
+            .info_value
               - if current_user.end_time == nil
                 まだ移動したことがありません
               - else
@@ -43,17 +44,16 @@
 
           %li.infolist.user_infos_main__infolist
             .info_key
-              = "制覇した路線数："
-            .value
+              = "制覇した路線数"
+            .info_value
               = "#{@comp_rw} 路線 / 全#{@total_rw}路線" 
               %a.modalRank__railway{href: "#modalRank__railway"} 
                 =  "(ランク#{@user_rank_railway}位)" 
 
           %li.infolist.user_infos_main__infolist
             .info_key
-              = "路線別踏破駅数："
-            .value
-            
+              = "路線別踏破駅数"
+            .info_value
               = "#{@comp_st} 駅 / 全#{@total_st}駅" 
               %a.modalRank__station{href: "#modalRank__station"} 
                 =  "(ランク#{@user_rank_station}位)" 
@@ -65,8 +65,9 @@
     .avatars_infos
       .avatars_infos__header
         .name.big_list
-          (アバター)
-          = current_user.avatars[0].name
+          %p.key アバター :
+          %p.value
+            = current_user.avatars[0].name
         .edit_link
           = link_to edit_avatar_path(current_user.avatars[0].id), class: "small_btn avatar__header__btn_edit" do
             =fa_icon "edit"
@@ -79,15 +80,15 @@
             %li.infolist
               .avatars_infos__main__right___infolist
                 .info_key
-                  アバターレベル：
-                .value
+                  アバターレベル
+                .info_value
                   = current_user.avatars[0].stage
 
             %li.infolist
               .avatars_infos__main__right___infolist
                 .info_key
-                  現在地：
-                .value
+                  現在地
+                .info_value
                   - station = Station.find(current_user.avatars[0].curr_station_id)
                   - railway_str = "(" + Railway.find(station.railway_id).jname + ")"
                   #{station.name}駅
@@ -96,8 +97,8 @@
             %li.infolist
               .avatars_infos__main__right___infolist
                 .info_key
-                  拠点駅：
-                .value
+                  拠点駅
+                .info_value
                   - home_station = Station.find(current_user.avatars[0].home_station_id)
                   - home_railway_str = "(" + Railway.find(home_station.railway_id).jname + ")"
                   #{home_station.name}駅
@@ -106,8 +107,8 @@
             %li.infolist
               .avatars_infos__main__right___infolist
                 .info_key
-                  踏破駅数：
-                .value
+                  踏破駅数
+                .info_value
                   = @comp_st
                   = "駅(全#{@total_st}駅)"
                   = @test

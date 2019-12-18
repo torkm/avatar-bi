@@ -2,14 +2,16 @@
 // accent: #992E24
 // accent: #d04925
 // accent: #696464
+// accent2: 
+// weak accent:rgb(219, 192, 189);
 
 $accent_color: #992E24;
+$sec_accent_color: rgb(49, 204, 204);
 $base_color  : #f3efe8;
 
 
 $general_color:#696464;
 $flash_bgc :   #D04925;
-// $form_bgc  : rgb(178, 223, 178);
 $form_bgc  :   $base_color;
 $header_bgc:   $base_color;
 $gene_btn_bgc: #D04925;
