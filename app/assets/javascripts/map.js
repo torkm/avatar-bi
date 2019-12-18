@@ -303,7 +303,8 @@ $(function () {
         content: getNow()
       },
       icon: {
-        url: `/assets/avatar_type${gon.icon_type}.png`, //アイコンの画像パス
+        url: `/assets/有楽町線.png`,
+        // url: `/assets/avatar_type${gon.icon_type}.png`, //アイコンの画像パス
         scaledSize: {
           width: 50,
           height: 50
