@@ -5,23 +5,30 @@
 
 // link_toのボタン化
 a.btn{
-  padding: 20px;
+  padding: 12px;
   margin:  0 10px;
   @include input_btn();
+}
+
+a.btn:active{
+  @include clicked_input_btn();
 }
 
 // link_toのボタン化(小さめ、色反転)
 a.btn_small_nega{
   @include input_btn(30px);
-  background-color: $base_color;
+  background-color: $light_box_bgc;
   color: $accent_color;
   border: solid 3px $accent_color;
   outline: none;
   appearance: none;
-  // フォントあとで変えます
   font: 400 11px system-ui;
   padding: 5px 20px;
-  
+}
+
+a.btn_small_nega:active{
+  background-color: $accent_color;
+  color: $light_box_bgc;
 }
 
 // link_toのボタン化（1文字用）
@@ -30,6 +37,10 @@ a.small_btn{
   @include input_btn(45px);
   font-size: 18px;
   // box-shadow: 0px 0px 0px 5px $gene_btn_bgc;
+}
+
+a.small_btn:active{
+  @include clicked_input_btn();
 }
 
 // buttonタグのボタン化
@@ -41,12 +52,32 @@ a.small_btn{
   @include input_btn();
 }
 
+.btn_btn:active{
+  @include clicked_input_btn();
+}
+
 // 移動開始等、大きいボタン
-.large_btn{
+.large_btn_end{
   outline: none;
   appearance: none;
-  @include large_btn();
+  @include large_btn_end();
 }
+
+.large_btn_end:active{
+  @include clicked_large_btn_end();
+}
+
+// 移動開始等、大きいボタン
+.large_btn_start{
+  outline: none;
+  appearance: none;
+  @include large_btn_start();
+}
+
+.large_btn_start:active{
+  @include clicked_large_btn_start();
+}
+
 
 .avatar_img{
   border: solid 4px $accent_color;
@@ -219,6 +250,38 @@ p.value{
   margin: 0 5px;
 }
 
+.map_btn:active{
+  background-color: $accent_color;
+  color: $light_box_bgc;
+}
+
+
 .indivi{
   display: none;
+}
+
+.arrow_box {
+  display: none;
+  position: absolute;
+  padding: 16px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;  
+  border-radius: 8px;
+  background: #333;
+  color: #fff;
+}
+
+.arrow_box:after {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  margin-left: -10px;
+  border: solid transparent;
+  border-color: rgba(51, 51, 51, 0);
+  border-bottom-color: #333;
+  border-width: 10px;
+  pointer-events: none;
+  content: " ";
 }
