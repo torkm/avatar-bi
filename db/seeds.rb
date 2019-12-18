@@ -16,12 +16,12 @@
 require "csv"
 #csvファイルを扱うためのgemを読み込む
 
-# CSV.foreach("db/result_rw.csv") do |row|
-#   #foreachは、ファイル（hoge.csv）の各行を引数として、ブロック(do~endまでを範囲とする『引数のかたまり』)を繰り返し実行する
-#   #rowには、読み込まれた行が代入される
-#   Railway.create(jname: row[0], name: row[1], operator: row[2], station_num: row[3],has_TrainTimetable: row[4])
-#   #usersテーブルの各カラムに、各行のn番目の値を代入している。
-# end
+CSV.foreach("db/result_rw.csv") do |row|
+  #foreachは、ファイル（hoge.csv）の各行を引数として、ブロック(do~endまでを範囲とする『引数のかたまり』)を繰り返し実行する
+  #rowには、読み込まれた行が代入される
+  Railway.create(jname: row[0], name: row[1], operator: row[2], station_num: row[3],has_TrainTimetable: row[4])
+  #usersテーブルの各カラムに、各行のn番目の値を代入している。
+end
 
 # CSV.foreach("db/result_st.csv") do |row|
 CSV.foreach("db/result_st_heroku.csv") do |row|
