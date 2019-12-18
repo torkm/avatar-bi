@@ -61,7 +61,8 @@ $(function () {
           content: getNow()
         },
         icon: {
-          url: `../assets/avatar_type${gon.icon_type}.png`, //アイコンの画像パス
+          // url: `../assets/avatar_type${gon.icon_type}.png`, //アイコンの画像パス
+          url: `https://avatar-bi.s3-ap-northeast-1.amazonaws.com/icons/avatar_type${gon.icon_type}.png`, //アイコンの画像パス
           scaledSize: {
             width: 50,
             height: 50
@@ -303,8 +304,8 @@ $(function () {
         content: getNow()
       },
       icon: {
-        url: `/assets/avatar_type${gon.icon_type}¥.png`,
-        // url: `/assets/avatar_type${gon.icon_type}.png`, //アイコンの画像パス
+        // url: `../assets/avatar_type${gon.icon_type}¥.png`,
+        url: `https://avatar-bi.s3-ap-northeast-1.amazonaws.com/icons/avatar_type${gon.icon_type}.png`, //アイコンの画像パス
         scaledSize: {
           width: 50,
           height: 50
@@ -318,23 +319,23 @@ $(function () {
     var markers = [];
     var latLngs = [];
     $.each(gon.stations, function (i, val) {
-      // val = [路線名,路線id, 駅名, lat, long, has_passed, passed_at]
-      latLng = String([val[3], val[4]]);
+      // val = [路線名,路線名のローマ字,路線id, 駅名, lat, long, has_passed, passed_at]
+      latLng = String([val[4], val[5]]);
       if (latLngs.indexOf(latLng) >= 0) {
-        val[3] += (Math.random() * 0.0008 - 0.0004);
         val[4] += (Math.random() * 0.0008 - 0.0004);
+        val[5] += (Math.random() * 0.0008 - 0.0004);
       } else {
         latLngs.push(latLng);
       };
       markers.push({
-        lat: val[3],
-        lng: val[4],
-        title: `${val[0]} ${val[2]}`,
+        lat: val[4],
+        lng: val[5],
+        title: `${val[0]} ${val[3]}`,
         infoWindow: {
-          content: `${val[0]}${val[2]}駅 / ${val[5]}回通過 (最新:${val[6]})`
+          content: `${val[0]}${val[3]}駅 / ${val[6]}回通過 (最新:${val[7]})`
         },
         icon: {
-          url: `/assets/${val[0]}.png`, //アイコンの画像パス
+          url: `https://avatar-bi.s3-ap-northeast-1.amazonaws.com/icons/${val[1]}.png`, //アイコンの画像パス
           scaledSize: {
             width: 26,
             height: 27
