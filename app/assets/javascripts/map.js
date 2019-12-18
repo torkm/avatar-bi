@@ -303,7 +303,7 @@ $(function () {
         content: getNow()
       },
       icon: {
-        url: `avatar_type${gon.icon_type}¥.png`,
+        url: `/assets/avatar_type${gon.icon_type}¥.png`,
         // url: `/assets/avatar_type${gon.icon_type}.png`, //アイコンの画像パス
         scaledSize: {
           width: 50,
@@ -334,7 +334,7 @@ $(function () {
           content: `${val[0]}${val[2]}駅 / ${val[5]}回通過 (最新:${val[6]})`
         },
         icon: {
-          url: `${val[0]}.png`, //アイコンの画像パス
+          url: `/assets/${val[0]}.png`, //アイコンの画像パス
           scaledSize: {
             width: 26,
             height: 27
