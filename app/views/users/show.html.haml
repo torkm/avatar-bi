@@ -58,9 +58,16 @@
               %a.modalRank__station{href: "#modalRank__station"} 
                 =  "(ランク#{@user_rank_station}位)" 
               %br/
-              - Hash[ @passed_rw_st.sort_by{ |_, v| v[3] } ].each do |key, value|
-                = "#{key}: #{value[1]}駅 / 全#{value[2]}駅 "
-                %br/
+              .passed_station_detail
+                .detail_not_show
+                  詳細を表示
+                  = fa_icon "chevron-down"
+                .detail_show
+                  詳細を非表示
+                  = fa_icon "chevron-up"
+                  - Hash[ @passed_rw_st.sort_by{ |_, v| v[3] } ].each do |key, value|
+                    = "#{key}: #{value[1]}駅 / 全#{value[2]}駅 "
+                    %br/
             
     .avatars_infos
       .avatars_infos__header

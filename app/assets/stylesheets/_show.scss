@@ -33,13 +33,18 @@
     }
   }
 
-.name{
-  line-height: 50px;
-}
+  .name{
+    line-height: 50px;
+  }
 
-.edit_link{
-  margin: 0 0 0 auto;
-}
+  .edit_link{
+    margin: 0 0 0 auto;
+  }
+
+  .detail_not_show{
+    cursor : pointer;
+  }
+
 
   .avatars_infos{
     max-width: 65%;
@@ -74,6 +79,9 @@
 
   .user_infos_main__infolist{
     display:flex;
+    @media screen and (max-width: 1200px) {
+      display: block;
+    }
     // .info_key{
     //   min-width: 130px;
     //   font-weight: bold;
@@ -84,6 +92,9 @@
   }
   .avatars_infos__main__right___infolist{
     display:flex;
+    @media screen and (max-width: 1200px) {
+      display: block;
+    }
     // .info_key{
     //   min-width: 130px;
     //   font-weight: bold;
@@ -91,6 +102,14 @@
     // .value{
     //   margin: 0 10px;
     // }
+  }
+
+  .detail_show{
+    display: none;
+  }
+
+  p.detail_tab{
+    
   }
 
   .avatars_infos__main__map__gmap{
