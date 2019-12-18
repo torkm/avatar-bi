@@ -1,68 +1,121 @@
+*{
+  box-sizing: border-box;
+}
+
 .show{
   display: flex;
   padding: 20px;
+  justify-content: center;
 
   .user_infos{
-    width: 35%;
+    max-width: 30%;
     max-height: 70vh;
-    // background-color: $user_infos__bgc;
-    border: solid 3px $accent_color;
-    margin: 0 10px;
-    overflow: scroll;
+    margin: 0 20px;
+    background-color: $light_box_bgc;
+    border-radius: 0 5% 5% 5%;
 
     &__header{
-      height: 40px;
-      // background-color: $user_infos_header_bgc;
-      line-height: 40px;
-      padding: 0 10px; 
+      position: sticky;
+      top: 0px;
+      height: 50px;
+      width: 100%;
+      line-height: 50px;
+      padding: 0 10px 0 0;
+      display: flex;
+      border-bottom: dotted 2px $accent_color;
+      background-color: $light_box_bgc;
     }
 
     &__main{
+      height: calc(100% - 50px);
       padding: 10px;
+      overflow: scroll;
     }
   }
 
+  .name{
+    line-height: 50px;
+  }
+
+  .edit_link{
+    margin: 0 0 0 auto;
+  }
+
+  .detail_not_show{
+    cursor : pointer;
+  }
+
+
   .avatars_infos{
     max-width: 65%;
-    height: 80%;
-    background-color: $avatars_infos__bgc;
-    margin: 0 10px;
+    height: 70vh;
+    background-color: $light_box_bgc;
+    border-radius: 0 5% 5% 5%;
+    margin: 0 20px;
 
     &__header{
-      height: 40px;
-      background-color: $avatar_infos_header_bgc;
-      line-height: 40px;
-      padding: 0 10px; 
+      height: 50px;
+      position: sticky;
+      background-color: $light_box_bgc;
+      border-bottom: dotted 2px $accent_color;
+      line-height: 50px;
+      padding: 0 10px 0 0;
+      display: flex;
     }
 
     &__main{
       display: flex;
       padding: 10px;
+      height: calc(100% - 50px);
 
-      &__map{
-        
+      &__right{
+        margin: 0 5px;
+        height: 100%;
+        text-align: center;
+        overflow: scroll;
       }
     }
   }
 
   .user_infos_main__infolist{
     display:flex;
-    .info_key{
-      min-width: 130px;
-      // あとでかえる
+    @media screen and (max-width: 1200px) {
+      display: block;
     }
+    // .info_key{
+    //   min-width: 130px;
+    //   font-weight: bold;
+    // }
+    // .info_value{
+    //   margin: 0 10px;
+    // }
   }
   .avatars_infos__main__right___infolist{
     display:flex;
-    .info_key{
-      min-width: 150px;
-      // あとでかえる
+    @media screen and (max-width: 1200px) {
+      display: block;
     }
+    // .info_key{
+    //   min-width: 130px;
+    //   font-weight: bold;
+    // }
+    // .value{
+    //   margin: 0 10px;
+    // }
+  }
+
+  .detail_show{
+    display: none;
+  }
+
+  p.detail_tab{
+    
   }
 
   .avatars_infos__main__map__gmap{
     max-width: 45vw;
     max-height: 60vh;
+    border: solid 8px $general_color;
     box-sizing: border-box;
   }
 }

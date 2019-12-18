@@ -24,7 +24,7 @@ a.small_btn{
   padding: 10px;
   @include input_btn(45px);
   font-size: 18px;
-  box-shadow: 0px 0px 0px 5px $gene_btn_bgc;
+  // box-shadow: 0px 0px 0px 5px $gene_btn_bgc;
 }
 
 // buttonタグのボタン化
@@ -44,14 +44,15 @@ a.small_btn{
 }
 
 .avatar_img{
-  border: solid 6px $accent_color;
+  border: solid 4px $accent_color;
+  border-radius: 8% 8% 8% 8%;
 }
 
 ul.infos_items{
   position: relative;
 }
 
-li{
+li.default{
   color: $general_color;
   border-left: solid 8px #992E24;/*左側の線*/
   margin-bottom: 10px;/*下のバーとの余白*/
@@ -61,12 +62,66 @@ li{
   text-align:left;
 }
 
+li.infolist{
+  color: $general_color;
+  border-left: solid 8px $sec_accent_color;/*左側の線*/
+  border-radius: 0 15px 15px 0;
+  margin-bottom: 10px;/*下のバーとの余白*/
+  line-height: 25px;
+  padding: 5px;
+  margin: 10px;
+  font-size: 0.9em;
+  list-style-type: none;
+  background-color: rgb(232, 233, 233);
+  display: flex;
+}
+
+.info_key{
+  min-width: 125px;
+  margin: 0 5px;
+  font-weight: bold;
+  text-align: left;
+  &__index{
+    min-width: 80px;
+    margin: 0 5px;
+    font-weight: bold;
+    text-align: left;
+  }
+}
+.info_value{
+  margin: 0 5px;
+  text-align: left;
+}
+
+// li.infolist:before{ 
+//   display:inline-block; 
+//   vertical-align: middle;
+//   /*以下白丸つくる*/
+//   content:'';
+//   width:1em;
+//   height: 1em;
+//   background: blue;
+//   border-radius: 50%;
+//   margin-right: 8px;
+// }
+
+
 .list{
   color: $general_color;
   border-left: solid 8px #992E24;/*左側の線*/
   margin-bottom: 10px;/*下のバーとの余白*/
   line-height: 15px;
   padding: 10px;
+}
+
+.big_list{
+  color: $general_color;
+  border-left: solid 10px $accent_color;
+  // margin-bottom: 10px;/*下のバーとの余白*/
+  line-height: 15px;
+  padding: 0 10px;
+  color: $accent_color;
+  display: flex;
 }
 
 .devise_form{
@@ -125,3 +180,16 @@ h2.page_title{
   margin-bottom: 1em;
 }
 
+p.key{
+  margin: 0 10px 0 0;
+}
+
+p.value{
+  color: $general_color;
+
+}
+
+#error_explanation{
+  max-width: 40vw;
+  margin: 0 auto;
+}
