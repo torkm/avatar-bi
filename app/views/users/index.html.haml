@@ -31,9 +31,23 @@
                 .info_value
                   #test_curr_station #{station.name}駅
               %li.infolist
+                .info_key__index
+                  現在
                 .info_value
-                  #test_curr_condition
-                    現在地
+                  #curr_condition
+                    - if current_user.is_moving
+                      取得中です
+                    - else
+                      お休み中です
+              %li.infolist
+                .info_key__index
+                  電車
+                .info_value
+                  #curr_train
+                    - if current_user.is_moving
+                      取得中です
+                    - else
+                      決まっていません
     .right
       #gmap{style: "width:400px; height:400px; position:relative;"}
         #gmap__option       
