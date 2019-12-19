@@ -8,6 +8,11 @@ class Travel
     return time
   end
 
+  def self.time_shift(int)
+      shifted_time = int-4 >= 0 ? int-4 : int + 20
+      return shifted_time
+  end
+
   #距離判定 kmで返す
   def self.distance(lat1, lng1, lat2, lng2)
     x1 = lat1.to_f * Math::PI / 180
@@ -165,6 +170,13 @@ class Travel
         break
       end
     end
+
+    # #⑤時刻を4時間前倒しする (4:00 = 0:00)
+    # train_timetable.each do |t|
+    #   shifted_time = time_shift(t[1].split(":")[0].to_i)
+    #   t[1] = "#{shifted_time.to_i}:" + t[1].split(":")[1]
+    # end
+
     return train_timetable
   end
 
