@@ -93,7 +93,7 @@
         .avatars_infos__main__right
           .avatars_infos__main__right__image
             - img_src = "avatar_type" + @avatar_type+ ".png"
-            = image_tag img_src, size: "200x200", alt: "アバタータイプ",class: "avatar_img_show"
+            = image_tag "https://avatar-bi.s3-ap-northeast-1.amazonaws.com/icons/#{img_src}", size: "200x200", alt: "アバタータイプ",class: "avatar_img_show"
           %ul
             %li.infolist
               .avatars_infos__main__right___infolist
