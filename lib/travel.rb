@@ -171,11 +171,30 @@ class Travel
       end
     end
 
-    # #⑤時刻を4時間前倒しする (4:00 = 0:00)
-    # train_timetable.each do |t|
-    #   shifted_time = time_shift(t[1].split(":")[0].to_i)
-    #   t[1] = "#{shifted_time.to_i}:" + t[1].split(":")[1]
-    # end
+    
+    # #⑤ 始/終点の日本語駅名挿入 + 時刻をtimeオブジェクトにする
+    l = train_timetable.length-1
+    time_previous = to_time(train_timetable[0][1])
+    train_timetable.each_with_index do |t,i|
+      # 日本語名挿入
+      puts i
+      if i == 0 or i == l
+        t << Station.find_by(odpt_sameAs: t[0]).name
+      else
+        t << "none"
+      end
+      
+      time = to_time(t[1])
+      if time >= time_previous
+        t[1]  = time.to_s
+        time_previous = time
+      else
+        t[1] = (time + 86400).to_s
+        time_previous = time + 86400
+      end
+
+    end     
+    puts train_timetable
 
     return train_timetable
   end

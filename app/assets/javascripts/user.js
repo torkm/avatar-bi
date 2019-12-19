@@ -174,6 +174,8 @@ $(window).on('load', function () {
         $('.start_end_btn').val('移動開始');
         $('.start_end_btn').addClass('large_btn_start');
         $('.start_end_btn').removeClass('large_btn_end');
+        $('#curr_condition').text(`お休み中です`);
+        $('#curr_train').text('決まっていません');
         end_travel(now_time);
       };
     });
