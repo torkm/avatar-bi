@@ -105,24 +105,14 @@
     padding: 0 5px;
     // display: flex;
   }
-  
-  .passed_station_list{
-    // position: relative;
-  }
 
   .detail_stations{
-    display: none;
-  }
-
-  .railway_list:hover + .detail_stations{
-    display: block;
-    background-color:$light_box_bgc;
-    position: relative;
-    width: 15em;
-    padding: 0.4em;
+    background-color: $light_box_bgc;
+    max-width: 17em;
+    padding: 0.5em;
     border-radius: 5% 5% 5% 5%;
     left: 10px;
-    z-index: 5;
+    color: $sec_accent_color;
   }
 
   .avatars_infos__main__map__gmap{
