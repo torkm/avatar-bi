@@ -4,7 +4,7 @@ $(window).on('load', function () {
 
       function avatar_traveling() {
         if ($('#is_moving').length) {
-          console.log("is_moving");
+          console.log('moving');
           var url = "/avatars/travel"
           $.ajax({
             type: "GET",
@@ -28,7 +28,7 @@ $(window).on('load', function () {
                     // 駅着時間+10秒以内は「◯◯駅にいます」
 
                     //駅間走行中 「x駅とy駅の間を走っている」
-                    $('#test_curr_condition').text(`${new Date()}現在、${avatar_info.sta_name}駅から${avatar_info.n_sta_name}駅に${avatar_info.railway}で移動中`);
+                    $('#test_curr_condition').text(`現在、${avatar_info.sta_name}駅から${avatar_info.n_sta_name}駅に${avatar_info.railway}で移動中`);
                   };
 
                   $('#test_curr_timetable').text(avatar_info.timetable);
@@ -37,9 +37,11 @@ $(window).on('load', function () {
                   $('#test_curr_location_long').text(avatar_info.curr_long);
                 });
             });
+        } else {
+          $('#test_curr_condition').text(`お休み中です`)
         };
       }
-      setInterval(avatar_traveling, 3000);
+      setInterval(avatar_traveling, 10000);
     };
   });
 });
