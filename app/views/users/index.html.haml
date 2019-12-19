@@ -14,11 +14,8 @@
 
         .left__movin__avatar
           .left__movin__avatar__img
-            -# ※アイコン画像に変更すること
             - img_src = "avatar_type" + (current_user.avatars[0].avatar_type + 3*(current_user.avatars[0].stage-1)).to_s + ".png"
             = image_tag img_src, size: "150x150", alt: "アバター画像", class: "avatar_img"
-            -# =link_to edit_avatar_path(current_user.avatars[0].id), class: "small_btn avatar_edit_btn" do
-            -#   =fa_icon "edit"
 
           .left__movin__avatar__infos
             %ul.infos_items

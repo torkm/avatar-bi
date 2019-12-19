@@ -70,11 +70,13 @@
                     = fa_icon "chevron-up"
                   .detail_list
                     %ul
-                      - Hash[ @passed_rw_st.sort_by{ |_, v| v[3] } ].each do |key, value|
+                      - Hash[ @passed_rw_st.sort_by{ |_, v| v[3] } ].each_with_index do |(key, value), i|
                         .railway_list
                           = "#{key}: #{value[1]}駅 / 全#{value[2]}駅"
-                        .detail_stations
-                          = "#{value[4]}"
+                          %a{class: "detail_plus_#{i}"} #{fa_icon "plus-square-o"}
+                          %a{class: "detail_minus_#{i} indivi"} #{fa_icon "minus-square-o"}
+                          %div{class: "detail_stations_#{i} detail_stations indivi"}
+                            = "#{value[4]}"
                       -# %br/
               
     .avatars_infos
@@ -91,7 +93,7 @@
         .avatars_infos__main__right
           .avatars_infos__main__right__image
             - img_src = "avatar_type" + @avatar_type+ ".png"
-            = image_tag img_src, size: "200x200", alt: "アバタータイプ"
+            = image_tag img_src, size: "200x200", alt: "アバタータイプ",class: "avatar_img_show"
           %ul
             %li.infolist
               .avatars_infos__main__right___infolist
