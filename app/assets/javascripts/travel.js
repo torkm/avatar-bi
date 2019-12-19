@@ -48,7 +48,7 @@ $(window).on('load', function () {
                 });
             });
         } else {
-          $('#curr_condition').text(`お休み中です`);
+          $('#curr_condition').text("お休み中です");
           $('#curr_train').text('決まっていません');
         };
       }

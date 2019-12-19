@@ -35,13 +35,19 @@
                   現在
                 .info_value
                   #curr_condition
-                    お休み中です
+                    - if current_user.is_moving
+                      取得中です
+                    - else
+                      お休み中です
               %li.infolist
                 .info_key__index
                   電車
                 .info_value
                   #curr_train
-                    決まっていません
+                    - if current_user.is_moving
+                      取得中です
+                    - else
+                      決まっていません
     .right
       #gmap{style: "width:400px; height:400px; position:relative;"}
         #gmap__option       
