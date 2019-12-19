@@ -94,7 +94,7 @@
     appearance: none;
     font: 400 11px system-ui;
     padding: 1px 20px;
-    margin: 2px 0;;
+    margin: 2px 0;
     text-align: center; 
     cursor : pointer;
   }
@@ -103,25 +103,27 @@
     text-align: left;
     font-size: 0.8em;
     padding: 0 5px;
+    // display: flex;
   }
   
   .passed_station_list{
-    position: relative;
+    // position: relative;
   }
 
   .detail_stations{
     display: none;
   }
 
-  // .railway_list:hover + .detail_stations{
-  //   display: block;
-  //   background-color:$light_box_bgc;
-  //   position: absolute;
-  //   width: 10em;
-  //   padding: 0.4em;
-  //   border-radius: 5% 5% 5% 5%;
-  //   left: 10px;
-  // }
+  .railway_list:hover + .detail_stations{
+    display: block;
+    background-color:$light_box_bgc;
+    position: relative;
+    width: 15em;
+    padding: 0.4em;
+    border-radius: 5% 5% 5% 5%;
+    left: 10px;
+    z-index: 5;
+  }
 
   .avatars_infos__main__map__gmap{
     max-width: 45vw;

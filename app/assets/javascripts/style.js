@@ -9,8 +9,8 @@ $(function () {
     $('.detail_show').addClass('indivi');
   });
 
-  // $('.map_btn')on("click", function () {
-  //   $('.map_btn').addClass("map_btn_clicked")
-  // })
+  // $('.detail_plus').on('click', function () {
+  //   $('.detail_stations').removeClass(indivi);
+  // });
 
 })

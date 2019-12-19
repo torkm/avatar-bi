@@ -89,6 +89,14 @@
   margin: 10px 0;
 }
 
+.avatar_img_show{
+  background:-webkit-gradient(radial, center, 0, center, 100, from(rgb(188, 233, 138)), to($light_box_bgc));
+  background:-webkit-radial-gradient(center, circle , rgb(188, 233, 138), $light_box_bgc);
+  background:-moz-radial-gradient(center, circle , rgb(188, 233, 138), $light_box_bgc);
+  background:-o-radial-gradient(center, circle , rgb(188, 233, 138), $light_box_bgc);
+  background:radial-gradient(circle farthest-side at center, rgb(188, 233, 138), $light_box_bgc);
+}
+
 @media screen and (max-width: 1030px) {
   .right{
     display: block;
