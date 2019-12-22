@@ -59,17 +59,19 @@ class Travel
 
     # railwayテーブルに登録されていて、かつ TrainTimetableを持っている路線だけ選抜
     candidates.each do |candidate|
-      if Railway.find_by(name: candidate)
-        if Railway.find_by(name: candidate).has_TrainTimetable
+      railway = Railway.find_by(name: candidate)
+      if railway
+        if railway.has_TrainTimetable
           possible_railways << candidate
         end
       end
+
     end
 
     # puts "選択肢は", possible_railways
 
     #②列車時刻表の提供されている路線から一つを選択(railwayテーブル)
-    next_railway = possible_railways.sample #まだ適当
+    next_railway = possible_railways.sample 
 
     # puts "乗る路線は", next_railway
     return next_railway
@@ -172,18 +174,13 @@ class Travel
     end
 
     
-    # #⑤ 始/終点の日本語駅名挿入 + 時刻をtimeオブジェクトにする
+    # #⑤時刻をtimeオブジェクトにする , ⑥クエリ削減のためStationレコード挿入
     l = train_timetable.length-1
     time_previous = to_time(train_timetable[0][1])
+
+    train_station_timetable = []
     train_timetable.each_with_index do |t,i|
-      # 日本語名挿入
-      puts i
-      if i == 0 or i == l
-        t << Station.find_by(odpt_sameAs: t[0]).name
-      else
-        t << "none"
-      end
-      
+      # 時刻をtimeオブジェクトに
       time = to_time(t[1])
       if time >= time_previous
         t[1]  = time.to_s
@@ -193,10 +190,16 @@ class Travel
         time_previous = time + 86400
       end
 
-    end     
-    puts train_timetable
 
-    return train_timetable
+
+      #Stationレコード挿入 (id, r_id, name, sameAs, lat, long)
+      #[1, 13, "下諏訪", "odpt.Station:JR-East.Chuo.ShimoSuwa", 36.072, 138.085]を代入 t[2]からt[7]
+      station = Station.where(odpt_sameAs: t[0]).pluck()[0].slice(0..5)
+
+      train_station_timetable << (t + station)
+    end     
+    puts train_station_timetable
+    return train_station_timetable
   end
 
   ####################################################
@@ -213,32 +216,47 @@ class Travel
     train_number = getTrainNumber(dep_station, time)
     # ④指定した列番の時刻表生成 ([駅名,出発時刻])
     train_timetable = getTrainTimetable(dep_station, next_railway, train_number,time)
-    puts train_timetable
     return train_timetable
   end
 
   # メイン関数B
   # 入力時刻の列車現在位置の取得 (駅は最後に到達した駅、座標は２駅の間を計算して取得)
   # [最近通過した駅名、次の駅名、現在lat, 現在long, 方向(°)]
+
   def self.getTrainPosition(train_timetable, time)
     # timeがstr
     time = to_time(time)
+
+    #   puts "------------ここからgettraionposition-----------------"
+    #   puts train_timetable
 
     position = []
     train_timetable.each_with_index do |train_time, i|
       #現在時刻が、ある駅の到着予定時刻を下回ったら、その一個前の駅まで到着しているとして記録 ただし出発駅のままの場合は一個前ではなくその駅
       if time < Time.parse(train_time[1])
         #スタートから一駅も動いていない場合は例外的にcurr設定
-        curr_station = Station.find_by(odpt_sameAs: train_timetable[[0, i - 1].max][0])
-        next_station = Station.find_by(odpt_sameAs: train_timetable[[1, i].max][0])
-        lat_c = curr_station.lat
-        lat_n = next_station.lat
-        long_c = curr_station.long
-        long_n = next_station.long
+
+        # curr_station = Station.find_by(odpt_sameAs: train_timetable[[0, i - 1].max][0])
+
+        # next_station = Station.find_by(odpt_sameAs: train_timetable[[1, i].max][0])
+        
+        curr_station = train_timetable[[0, i - 1].max]
+        next_station = train_timetable[[1, i].max]
+
+        # lat_c = curr_station.lat
+        # lat_n = next_station.lat
+        # long_c = curr_station.long
+        # long_n = next_station.long
+
+
+        lat_c = curr_station[6]
+        lat_n = next_station[6]
+        long_c = curr_station[7]
+        long_n = next_station[7]
 
         if i == 0
-          lat = curr_station.lat
-          long = curr_station.long
+          lat = curr_station[6]
+          long = curr_station[7]
         else #座標は現在駅と次駅の座標の加重平均を取る
           time_c = to_time(train_timetable[i - 1][1])
           time_n = to_time(train_timetable[i][1])
@@ -247,18 +265,23 @@ class Travel
           long = (long_c * (time - time_n).abs + long_n * (time - time_c).abs) / (time_c - time_n).abs
         end
 
-        position = [curr_station.id, next_station.id, lat, long, azimuth(lat_c, long_c, lat_n, long_n)]
+        # position = [curr_station.id, next_station.id, lat, long, azimuth(lat_c, long_c, lat_n, long_n)]
+        position = [curr_station[2], next_station[2], lat, long, azimuth(lat_c, long_c, lat_n, long_n)]
         break
       end
     end
     #最後まで時間が下回らない(=終点まで行った)なら、最後の駅
     if position == []
-      curr_station = Station.find_by(odpt_sameAs: train_timetable[-1][0])
-      puts curr_station.odpt_sameAs
-      position = [curr_station.id, curr_station.id, curr_station.lat, curr_station.long, 0]
+      # curr_station = Station.find_by(odpt_sameAs: train_timetable[-1][0])
+      curr_station = train_timetable[-1]
+
+      position = [curr_station[2], curr_station[2], curr_station[6], curr_station[7], 0]
+      #position = [cid, nid, lat, long, angle]
     end
     return position
   end
+
+
 
   ########################################################
 end
