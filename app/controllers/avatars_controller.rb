@@ -4,8 +4,14 @@ require "csv"
 class AvatarsController < ApplicationController
   protect_from_forgery except: :create
 
+  before_action :set_current_avatar, only: [:new, :travel, :reload]
+
+  def set_current_avatar
+    @current_avatar = current_user.avatars[0]
+  end
+
   def new
-    unless current_user.avatars[0] == nil
+    if @current_avatar
       redirect_to root_path, notice: "すでにアバターを持っています"
       return
     else
@@ -39,52 +45,60 @@ class AvatarsController < ApplicationController
   def travel
 
     #############  これを一定時間でループ   #############
-    @avatar = current_user.avatars[0]
-    starting_id = @avatar.curr_station_id
-
-    @station = Station.find(starting_id)
-    @train_timetable = eval(@avatar.train_timetable) #avatarから呼び出し、配列に変換
+    starting_id = @current_avatar.curr_station_id
+    @train_timetable = eval(@current_avatar.train_timetable) #avatarから呼び出し、配列に変換
     @time = Time.now
+
     unless @train_timetable # avatarが時刻表持っていない場合(= 旅行開始時、終点に着いて次の移動)
-      @train_timetable = Travel.getCurrentTrainTimetable(@station, @time)  #Aで時刻表ゲット
+      station = Station.find(starting_id)
+      @train_timetable = Travel.getCurrentTrainTimetable(station, @time)  #Aで時刻表ゲット
     end
+
     @position = Travel.getTrainPosition(@train_timetable, @time) #Bで現在地更新
     # ② 終点についていたらtrain_timetable 削除
-    if Station.find(@position[0]).odpt_sameAs == @train_timetable[-1][0] #終点についていたら削除
+    if @position[0] == @train_timetable[-1][2] #終点についていたら削除
       @train_timetable = ""
     end
 
     # ③-1  DB操作 (avatar)
-    @avatar.train_timetable = @train_timetable.to_s # 文字列にして時刻表更新
-    @avatar.curr_station_id = @position[0]
-    @avatar.curr_location_lat = @position[2]
-    @avatar.curr_location_long = @position[3]
+    @current_avatar.train_timetable = @train_timetable.to_s # 文字列にして時刻表更新
+    @current_avatar.curr_station_id = @position[0]
+    @current_avatar.curr_location_lat = @position[2]
+    @current_avatar.curr_location_long = @position[3]
     # curr_locationはユーザー詳細ページで使用
-    @avatar.save
+    @current_avatar.save
 
     #③-2  DB操作 (passed_station): current駅が変わっていたら、
     #・[avatar_id, 通過駅_id]の組み合わせをpassed_stationに保存
     # ・最新駅一個手前の駅までの、今回の移動で行った駅の座標csvに保存
     unless starting_id == @position[0]
       # すでに一度訪れているなら、レコード利用 / なかったら、新規作成
-      if @avatar.passed_stations.find_by(station_id: @position[0])
-        @passed_station = @avatar.passed_stations.find_by(station_id: @position[0])
+      @passed_station = @current_avatar.passed_stations.find_by(station_id: @position[0])
+      if @passed_station
         @passed_station.has_passed += 1
         @passed_station.passed_at = @time
       else
-        @passed_station = PassedStation.new(avatar_id: @avatar.id, station_id: @position[0], has_passed: 1, passed_at: @time)
+        @passed_station = PassedStation.new(avatar_id: @current_avatar.id, station_id: @position[0], has_passed: 1, passed_at: @time)
       end
       @passed_station.save
-      # 現在駅が更新されるごとに、id_path.csvファイルに最新の駅座標を格納
-      CSV.open("db/csv/#{@avatar.id}_path.csv", "a") do |content|
-        content << [Station.find(@position[0]).lat, Station.find(@position[0]).long]
+      
+
+    # 現在駅が更新されるごとに、id_path.csvファイルに最新の駅座標を格納
+      
+  
+    CSV.open("db/csv/#{@current_avatar.id}_path.csv", "a") do |content|
+        content << [@position[2], @position[3]]
       end
     end
     # ④ 現在位置などはcsvに保存
     # 現在駅id, 現在駅sameAs, 現在駅名, 現在路線,　現在lat, 現在long, 次駅id, 次駅名, 進行方向の角度, 現在時刻表
+    sta = @train_timetable
+    
     sta = Station.find(@position[0])
     n_sta = Station.find(@position[1])
-    CSV.open("db/csv/#{@avatar.id}_curr.csv", "w") do |content|
+
+    
+    CSV.open("db/csv/#{@current_avatar.id}_curr.csv", "w") do |content|
       content << [sta.id, sta.odpt_sameAs, sta.name, sta.railway.jname, @position[2], @position[3], n_sta.id, n_sta.name, @position[4], @train_timetable]
     end
 
@@ -94,10 +108,9 @@ class AvatarsController < ApplicationController
   def reload
     # avatar複数の時は行をループ
     # values = CSV.read("db/csv/#{current_user.id}_curr.csv")[0]
-    avatar = current_user.avatars[0]
-    values = CSV.read("db/csv/#{avatar.id}_curr.csv")[0]
-    if File.exist?("db/csv/#{avatar.id}_path.csv")
-      path = CSV.read("db/csv/#{avatar.id}_path.csv")
+    values = CSV.read("db/csv/#{@current_avatar.id}_curr.csv")[0]
+    if File.exist?("db/csv/#{@current_avatar.id}_path.csv")
+      path = CSV.read("db/csv/#{@current_avatar.id}_path.csv")
       path = path.map { |path| path.map { |path| path.to_f } }
       path << [values[4], values[5]] #現在の座標追加
     else
