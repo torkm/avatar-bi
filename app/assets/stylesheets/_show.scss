@@ -120,6 +120,10 @@
     max-height: 60vh;
     border: solid 8px $general_color;
     box-sizing: border-box;
+    // style追記
+    width:500px;
+    height:500px;
+    position:relative;
   }
 }
 
@@ -158,4 +162,65 @@
 .item_title{
   border-bottom: solid 1px $accent_color;
   font-weight: bold;
+}
+
+@media screen and (max-width: 1150px) {
+  .show{
+    .avatars_infos{
+      &__main{
+        &__right{
+          min-width: 200px;
+        }
+        &__map{
+          width: calc(100% - 200px);
+          &__gmap{
+            max-width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  @media screen and (max-height: 350px) {
+    .show{
+      display:block;
+      width: 100%;
+      
+      .user_infos{
+        max-width: 100%;
+        max-height: 30%;
+        &__header{
+          position: static;
+        }
+      }
+      .avatars_infos{
+        margin-top: 10px;
+        max-width: 100%;
+        min-width: 50%;
+        height: 100%;
+        &__header{
+          position: static;
+        }
+        &__main{
+          display:block;
+          height: 100%;
+          &__right{
+            height: 100%;
+            margin-bottom: 10px;
+          }
+          &__map{
+            width: 100%;
+            &__gmap{
+              width: 100%;
+              // @media screen and (max-height: 350px){
+              //   min-height: 100%;
+              // }
+            }
+          }
+        }
+      }
+    }
+  }
 }

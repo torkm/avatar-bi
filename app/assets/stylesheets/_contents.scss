@@ -158,12 +158,20 @@
             width: 90%;
           }
         }
-          @media screen and (max-height: 350px){
+        @media screen and (max-height: 350px){
           display: flex;
+          #gmap{
+            height: 100%;
+            #gmap__map{
+              height: 100%;
+            }
+          }
           #panorama{
             margin: 0;
+            height: 100%;
             #panorama__view{
               margin: 10px 0;
+              height: 100%;
             }
           }
         }
