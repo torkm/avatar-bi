@@ -145,9 +145,6 @@
         }
       }
       .right{
-        @media screen and (max-height: 350px){
-          display: flex;
-        }
         #gmap{
           width: 100%;
           #gmap__map{
@@ -159,6 +156,15 @@
           width: 100%;
           #panorama__view{
             width: 90%;
+          }
+        }
+          @media screen and (max-height: 350px){
+          display: flex;
+          #panorama{
+            margin: 0;
+            #panorama__view{
+              margin: 10px 0;
+            }
           }
         }
       }
