@@ -223,4 +223,24 @@
       }
     }
   }
+// モーダル
+  .modal_table{
+    padding: 5px;
+    .modal_text{
+      display: none;
+    }
+    .modal_items{
+      font-size: 0.01em;
+      margin: 0 4em;
+      white-space: nowrap;
+    }
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .modal_table{
+      .modal_text{
+      display: none;
+    }
+  }
 }

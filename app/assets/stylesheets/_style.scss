@@ -24,6 +24,11 @@ a.btn_small_nega{
   appearance: none;
   font: 400 11px system-ui;
   padding: 5px 20px;
+
+  @media screen and (max-width: 350px){
+    padding: 5px;  
+  }
+
 }
 
 a.btn_small_nega:active{
