@@ -34,10 +34,10 @@ $(window).on('load', function () {
                     }
 
                     //乗っている電車
-                    $('#curr_train').text(`${eval(avatar_info.timetable)[0][2]}駅
+                    $('#curr_train').text(`${eval(avatar_info.timetable)[0][4]}駅
                     ${time.toLocaleTimeString()}発
                     ${avatar_info.railway}
-                    ${eval(avatar_info.timetable).pop()[2]}駅行き`)
+                    ${eval(avatar_info.timetable).pop()[4]}駅行き`)
 
                   };
 
@@ -52,7 +52,7 @@ $(window).on('load', function () {
           $('#curr_train').text('決まっていません');
         };
       }
-      setInterval(avatar_traveling, 30000);
+      setInterval(avatar_traveling, 10000);
     };
   });
 });
