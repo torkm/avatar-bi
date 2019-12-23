@@ -24,7 +24,8 @@ $(window).on('load', function () {
                     $('#curr_condition').text(`電車が終点${avatar_info.sta_name}駅につきました。次の電車を探しています。`);
                     $('#curr_train').text('決まっていません')
                   } else {
-                    time = (new Date((eval(avatar_info.timetable)[0][1]).replace(' ', 'T')));     // 列車の発車時刻
+                    time_str = eval(avatar_info.timetable)[0][1]
+                    time = new Date(time_str);     // 列車の発車時刻
                     // 電車は決まったがまだ乗っていない 「x駅で◯線を待っている」
                     if (new Date() < time) {
                       $('#curr_condition').text(`${avatar_info.sta_name}駅で電車を待っています。`);
