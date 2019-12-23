@@ -18,12 +18,10 @@
       min-height: 100%;
       min-width: 200px;
       width: 20%;
-      // min-width: 200px;
       margin: 10px;
       
       &__movin{
         margin: 10px;
-        // max-width: 200px;
         &__onoff-btn{
           margin: 10px 10px 20px 10px;
         }
@@ -61,6 +59,9 @@
 
 #gmap{
   text-align: left;
+  // style追記
+  width:400px;
+  height:400px;
 }
 
 #gmap__option{
@@ -71,10 +72,15 @@
   border: solid 8px $general_color;
   box-sizing: content-box;
   margin: 10px 5px;
+// style追記
+  width:400px;
+  height:380px;
 }
 
 #panorama{
   margin: 0 40px;
+  width:400px;
+  height:400px;
 }
 
 #panorama__option{
@@ -87,6 +93,9 @@
   border: solid 8px $general_color;
   box-sizing: content-box;
   margin: 10px 0;
+  // style追記
+  width:400px;
+  height:380px;
 }
 
 .avatar_img_show{
@@ -105,14 +114,54 @@
     }
     #panorama__view{
       margin: 10px 5px;
+
     }
   }
 }
 
 
-@media screen and (max-width: 500px) {
-  .main_page{
-    justify-content: start;
-    display: block;
+@media screen and (max-width: 700px) {
+  li.infolist{
+    display: flex;
+  }
+  .contents{
+    .main_page{
+      justify-content: start;
+      display: block;
+      .left{
+        min-width: 100%;
+        .left__movin{
+          .left__movin__avatar{
+            display: flex;
+            .left__movin__avatar__img{
+              // text-align: center;
+              margin: auto;
+            }
+
+            .left__movin__avatar__infos{
+              display: flex;
+              overflow: scroll;
+            } 
+
+          }
+        }
+      }
+      .right{
+        #gmap{
+          width: 100%;
+          
+          #gmap__map{
+            margin: 10px auto;
+            width: 90%;
+          }
+        }
+        #panorama{
+          width: 100%;
+          #panorama__view{
+            width: 90%;
+          }
+        }
+      }
+    }
   }
 }
