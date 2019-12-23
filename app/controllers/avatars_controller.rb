@@ -32,7 +32,7 @@ class AvatarsController < ApplicationController
         content << [sta.id, sta.odpt_sameAs, sta.name, sta.railway.jname, sta.lat, sta.long, sta.id, sta.name, 0, empty_timetable]
       end
       CSV.open("db/csv/#{@avatar.id}_path.csv", "w") do |content|
-        content << [Station.find(@avatar.curr_station_id).lat, Station.find(@avatar.curr_station_id).long]
+        content << [@avatar.curr_location_lat, @avatar.curr_location_long]
       end
       redirect_to root_path, notice: "アバターを登録しました"
     else
@@ -96,6 +96,7 @@ class AvatarsController < ApplicationController
     
     sta = Station.find(@position[0])
     n_sta = Station.find(@position[1])
+
 
     
     CSV.open("db/csv/#{@current_avatar.id}_curr.csv", "w") do |content|
