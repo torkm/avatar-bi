@@ -39,6 +39,13 @@
 }
 
 @mixin large_btn_start($height: 60px){
+  background: none;
+	border: none;
+	outline: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+  appearance: none;
+  
   min-width: 120px;
   background-color: $sec_accent_color;
   color: $sec_light_box_bgc;
