@@ -8,7 +8,8 @@ class UsersController < ApplicationController
       else
 
         # csvなかった場合、作成
-        avatar = current_user.avatars[0]
+        avatars = current_user.avatars
+        avatar = avatars[0]
         # avatar複数ならここからループ
 
         unless File.exist?("db/csv/#{avatar.id}_curr.csv")
@@ -19,7 +20,7 @@ class UsersController < ApplicationController
           end
         end
 
-        gon.avatars = current_user.avatars
+        gon.avatars = avatars
         # 1-9でアイコンタイプを指定
         gon.icon_type = avatar.avatar_type + 3 * (avatar.stage - 1)
         gon.current_user = current_user
@@ -48,11 +49,12 @@ class UsersController < ApplicationController
       end
     end
     @total_time = sec_to_time(@user.total_travel_time)
+    
     avatar = @user.avatars[0]
     # 複数ならここから下ループ
 
     # 全駅数と路線数は計算量節約のため定数で(下が計算式)
-    @total_st, @total_rw = 1173, 62
+    @total_st, @total_rw = 1157, 61
     # @total_rw = Railway.where(has_TrainTimetable: true).count  #全路線数
     # Railway.where(has_TrainTimetable: true).each do |r|
     #   @total_st += r.station_num  #各路線の総駅数を足す
@@ -65,7 +67,7 @@ class UsersController < ApplicationController
     avatar.passed_stations.each do |p|
       if p.has_passed != 0 # 踏破してたらhashに追加 (路線で初なら新規, あれば+1)
         @comp_st += 1
-        passed_st = Station.find(p.station_id)
+        passed_st = p.station
         # rw = Station.find(p.station_id).railway
         rw = passed_st.railway
         if @passed_rw_st.has_key?(rw.jname)
@@ -79,11 +81,12 @@ class UsersController < ApplicationController
     end
 
     # Passed_railwaysテーブルに踏破路線を保存
+    passed_railways = avatar.passed_railways
     @passed_rw_st.each do |key, value|
       if value[3] == 0 #全駅踏破
         @comp_rw += 1
-        p_r = PassedRailway.new(avatar_id: @user.avatars[0].id, railway_id: value[0])
-        unless PassedRailway.find_by(avatar_id: p_r.avatar_id, railway_id: p_r.railway_id)
+        unless passed_railways.find_by(avatar_id: avatar.id, railway_id: value[0])
+          p_r = PassedRailway.new(avatar_id: avatar.id, railway_id: value[0])
           p_r.save
         end
       end
@@ -116,14 +119,16 @@ class UsersController < ApplicationController
     ##############  通過路線数ランキング  #################
     # ランキング計算
     h = PassedRailway.group(:avatar_id).count
+    avatars = Avatar.all
+    users = User.all
     h = Hash[ h.sort_by{ |_, v| -v } ] #路線多い順
     @user_rank_railway = h.keys.index(avatar.id) ? h.keys.index(avatar.id) + 1: "-" #0路線の場合もエラーが出ないように
 
     # ランキング表示用配列
     @ranks_railway = []
     h.first(disp_num).each do |k,v|
-      a = Avatar.find(k)
-      u = a.user
+      a = avatars.find(k)
+      u = users.find(k)
       @ranks_railway << [u.id, u.name, a.name, v, u.created_at]
     end
     
@@ -136,8 +141,8 @@ class UsersController < ApplicationController
     # ランキング表示用配列
     @ranks_station = []
     h.first(disp_num).each do |k,v|
-      a = Avatar.find(k)
-      u = a.user
+      a = avatars.find(k)
+      u = users.find(k)
       @ranks_station << [u.id, u.name, a.name, v,  u.created_at]
     end
 

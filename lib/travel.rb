@@ -177,7 +177,8 @@ class Travel
     # #⑤時刻をtimeオブジェクトにする , ⑥クエリ削減のためStationレコード挿入
     l = train_timetable.length-1
     time_previous = to_time(train_timetable[0][1])
-
+    railway_jname = [Railway.find_by(name: next_railway).jname]
+    
     train_station_timetable = []
     train_timetable.each_with_index do |t,i|
       # 時刻をtimeオブジェクトに
@@ -190,14 +191,14 @@ class Travel
         time_previous = time + 86400
       end
 
-
-
       #Stationレコード挿入 (id, r_id, name, sameAs, lat, long)
       #[1, 13, "下諏訪", "odpt.Station:JR-East.Chuo.ShimoSuwa", 36.072, 138.085]を代入 t[2]からt[7]
+      # railway_jname挿入 t[8] = "XX線" 
       station = Station.where(odpt_sameAs: t[0]).pluck()[0].slice(0..5)
-
-      train_station_timetable << (t + station)
-    end     
+      
+      train_station_timetable << (t + station + railway_jname)
+    end
+    
     puts train_station_timetable
     return train_station_timetable
   end
@@ -216,7 +217,9 @@ class Travel
     train_number = getTrainNumber(dep_station, time)
     # ④指定した列番の時刻表生成 ([駅名,出発時刻])
     train_timetable = getTrainTimetable(dep_station, next_railway, train_number,time)
-    return train_timetable
+
+    railway = Railway.find_by(name: next_railway)
+    return [train_timetable,railway]
   end
 
   # メイン関数B
@@ -266,7 +269,7 @@ class Travel
         end
 
         # position = [curr_station.id, next_station.id, lat, long, azimuth(lat_c, long_c, lat_n, long_n)]
-        position = [curr_station[2], next_station[2], lat, long, azimuth(lat_c, long_c, lat_n, long_n)]
+        position = [curr_station[2], next_station[2], lat, long, azimuth(lat_c, long_c, lat_n, long_n),curr_station,next_station]
         break
       end
     end
@@ -275,7 +278,7 @@ class Travel
       # curr_station = Station.find_by(odpt_sameAs: train_timetable[-1][0])
       curr_station = train_timetable[-1]
 
-      position = [curr_station[2], curr_station[2], curr_station[6], curr_station[7], 0]
+      position = [curr_station[2], curr_station[2], curr_station[6], curr_station[7], 0,curr_station,curr_station]
       #position = [cid, nid, lat, long, angle]
     end
     return position

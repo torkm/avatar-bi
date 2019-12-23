@@ -52,7 +52,7 @@ $(window).on('load', function () {
           $('#curr_train').text('決まっていません');
         };
       }
-      setInterval(avatar_traveling, 10000);
+      setInterval(avatar_traveling, 15000);
     };
   });
 });
