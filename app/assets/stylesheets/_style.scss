@@ -125,7 +125,7 @@ li.infolist{
   font-weight: bold;
   text-align: left;
   &__index{
-    min-width: 80px;
+    min-width: 65px;
     margin: 0 5px;
     font-weight: bold;
     text-align: left;
@@ -135,19 +135,6 @@ li.infolist{
   margin: 0 5px;
   text-align: left;
 }
-
-// li.infolist:before{ 
-//   display:inline-block; 
-//   vertical-align: middle;
-//   /*以下白丸つくる*/
-//   content:'';
-//   width:1em;
-//   height: 1em;
-//   background: blue;
-//   border-radius: 50%;
-//   margin-right: 8px;
-// }
-
 
 .list{
   color: $general_color;

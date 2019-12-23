@@ -109,3 +109,10 @@
   }
 }
 
+
+@media screen and (max-width: 500px) {
+  .main_page{
+    justify-content: start;
+    display: block;
+  }
+}
