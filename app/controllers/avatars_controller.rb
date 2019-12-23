@@ -95,7 +95,7 @@ class AvatarsController < ApplicationController
     #position 5,6はcurr_station,next_station
     sta = @position[5]
     n_sta = @position[6]
-    railway_name = @position[7]
+    railway_name = @train_timetable[0][-1]
 
     
     CSV.open("db/csv/#{@current_avatar.id}_curr.csv", "w") do |content|

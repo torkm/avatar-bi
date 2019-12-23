@@ -177,7 +177,8 @@ class Travel
     # #⑤時刻をtimeオブジェクトにする , ⑥クエリ削減のためStationレコード挿入
     l = train_timetable.length-1
     time_previous = to_time(train_timetable[0][1])
-
+    railway_jname = [Railway.find_by(name: next_railway).jname]
+    
     train_station_timetable = []
     train_timetable.each_with_index do |t,i|
       # 時刻をtimeオブジェクトに
@@ -192,9 +193,10 @@ class Travel
 
       #Stationレコード挿入 (id, r_id, name, sameAs, lat, long)
       #[1, 13, "下諏訪", "odpt.Station:JR-East.Chuo.ShimoSuwa", 36.072, 138.085]を代入 t[2]からt[7]
+      # railway_jname挿入 t[8] = "XX線" 
       station = Station.where(odpt_sameAs: t[0]).pluck()[0].slice(0..5)
-
-      train_station_timetable << (t + station)
+      
+      train_station_timetable << (t + station + railway_jname)
     end
     
     puts train_station_timetable
