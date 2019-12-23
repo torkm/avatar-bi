@@ -99,7 +99,7 @@ class AvatarsController < ApplicationController
 
     
     CSV.open("db/csv/#{@current_avatar.id}_curr.csv", "w") do |content|
-      content << [sta[2], sta[5], sta[4], railway_name, @position[2], @position[3], n_sta[2], n_sta[5], @position[4], @train_timetable]
+      content << [sta[2], sta[5], sta[4], railway_name, @position[2], @position[3], n_sta[2], n_sta[4], @position[4], @train_timetable]
     end
 
     ###############################################
