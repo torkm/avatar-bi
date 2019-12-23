@@ -58,6 +58,7 @@
 
 @media screen and (max-width: 700px) {
   .header{
+    background-color: $base_color;
     display: block;
     padding: 5px;
     .btn_var{
