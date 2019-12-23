@@ -51,7 +51,7 @@ class AvatarsController < ApplicationController
 
     unless @train_timetable # avatarが時刻表持っていない場合(= 旅行開始時、終点に着いて次の移動)
       station = Station.find(starting_id)
-      @train_timetable = Travel.getCurrentTrainTimetable(station, @time)  #Aで時刻表ゲット
+      @train_timetable = Travel.getCurrentTrainTimetable(station, @time)[0]  #Aで時刻表ゲット
     end
 
     @position = Travel.getTrainPosition(@train_timetable, @time) #Bで現在地更新
@@ -92,15 +92,14 @@ class AvatarsController < ApplicationController
     end
     # ④ 現在位置などはcsvに保存
     # 現在駅id, 現在駅sameAs, 現在駅名, 現在路線,　現在lat, 現在long, 次駅id, 次駅名, 進行方向の角度, 現在時刻表
-    sta = @train_timetable
-    
-    sta = Station.find(@position[0])
-    n_sta = Station.find(@position[1])
-
+    #position 5,6はcurr_station,next_station
+    sta = @position[5]
+    n_sta = @position[6]
+    railway_name = @position[7]
 
     
     CSV.open("db/csv/#{@current_avatar.id}_curr.csv", "w") do |content|
-      content << [sta.id, sta.odpt_sameAs, sta.name, sta.railway.jname, @position[2], @position[3], n_sta.id, n_sta.name, @position[4], @train_timetable]
+      content << [sta[2], sta[5], sta[4], railway_name, @position[2], @position[3], n_sta[2], n_sta[5], @position[4], @train_timetable]
     end
 
     ###############################################
@@ -135,7 +134,8 @@ class AvatarsController < ApplicationController
     # 旅行終了ボタン押したときだけ↓のifに (path.csvに最後の駅だけ残す)
     if params.require(:avatar)[:end]
       CSV.open("db/csv/#{@avatar.id}_path.csv", "w") do |content|
-        content << [Station.find(@avatar.curr_station_id).lat, Station.find(@avatar.curr_station_id).long]
+        station = Station.find(@avatar.curr_station_id)
+        content << [station.lat, station.long]
       end
     end
     @avatar.update_attributes(avatar_params)
