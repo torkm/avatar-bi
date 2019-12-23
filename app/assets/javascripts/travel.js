@@ -35,7 +35,7 @@ $(window).on('load', function () {
 
                     //乗っている電車
                     $('#curr_train').text(`${eval(avatar_info.timetable)[0][4]}駅
-                    ${time.toLocaleTimeString()}発
+                    ${time.toLocaleTimeString().slice(0, -3)}発
                     ${avatar_info.railway}
                     ${eval(avatar_info.timetable).pop()[4]}駅行き`)
 

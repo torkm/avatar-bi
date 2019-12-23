@@ -1,19 +1,21 @@
 
 $(function () {
-  function getNow() {
-    var now = new Date();
+  function getNow(now = new Date()) {
     var year = now.getFullYear();
     var mon = now.getMonth() + 1; //１を足すこと
     var day = now.getDate();
-    var hour = now.getHours();
-    var min = now.getMinutes();
-    var sec = now.getSeconds();
+    var hour = ("0" + now.getHours()).slice(-2);
+    var min = ("0" + now.getMinutes()).slice(-2);
+    var sec = ("0" + now.getSeconds()).slice(-2);
 
     //出力用
     // var s = year + "年" + mon + "月" + day + "日" + hour + "時" + min + "分" + sec + "秒";
-    var s = hour + "時" + min + "分" + sec + "秒"
+    var s = mon + "/" + day + " " + hour + ":" + min + ":" + sec;
     return s;
   }
+
+
+
   // メイン画面での地図表示
   if ($('#gmap').size()) {
     // console.log("map js");
@@ -164,7 +166,7 @@ $(function () {
     $("#auto-refresh").on('click', function () {
       if ($(this).prop("checked")) {
         // console.log('checked_gmap')
-        autoGmapRefresh = setInterval(map_refresh, 5000);
+        autoGmapRefresh = setInterval(map_refresh, 7000);
       } else {
         clearInterval(autoGmapRefresh);
       };
@@ -234,7 +236,7 @@ $(function () {
       $("#panorama__option--auto-refresh").on('click', function () {
         if ($(this).prop("checked")) {
           // console.log('checked')
-          autoPanoramaRefresh = setInterval(panorama_refresh, 5000);
+          autoPanoramaRefresh = setInterval(panorama_refresh, 7000);
         } else {
           clearInterval(autoPanoramaRefresh);
         };
@@ -329,7 +331,7 @@ $(function () {
         lng: val[5],
         title: `${val[0]} ${val[3]}`,
         infoWindow: {
-          content: `${val[0]}${val[3]}駅 / ${val[6]}回通過 (最新:${val[7]})`
+          content: `${val[0]}${val[3]}駅 / ${val[6]}回通過 (最新:${getNow(new Date(val[7])).slice(0, -3)})`
         },
         icon: {
           url: `https://avatar-bi.s3-ap-northeast-1.amazonaws.com/icons/${val[1]}.png`, //アイコンの画像パス
