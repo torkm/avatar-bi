@@ -15,9 +15,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # GET /resource/edit
-  # def edit
-  #   super
-  # end
+  def edit
+    unless current_user.id == params[:format].to_i
+      redirect_to root_path
+      return
+    end
+    super
+  end
 
   # PUT /resource
   # def update

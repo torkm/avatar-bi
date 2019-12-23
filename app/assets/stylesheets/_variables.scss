@@ -25,9 +25,11 @@ $header_height    : 100px;
 $title-font-size  : 30px;
 $contents_bgc     :$base_color;
 
-$contents_height  : 100vh;
-$contents_width   : 100vw;
+// $contents_height  : 100vh;
+// $contents_width   : 100vw;
 
+$contents_height  : 100vh;
+$contents_width   : auto;
 
 // $contents_right_width  : 80%;
 $contents_right_height : 300px;
