@@ -166,7 +166,7 @@ $(function () {
     $("#auto-refresh").on('click', function () {
       if ($(this).prop("checked")) {
         // console.log('checked_gmap')
-        autoGmapRefresh = setInterval(map_refresh, 70000);
+        autoGmapRefresh = setInterval(map_refresh, 5000);
       } else {
         clearInterval(autoGmapRefresh);
       };
@@ -236,7 +236,7 @@ $(function () {
       $("#panorama__option--auto-refresh").on('click', function () {
         if ($(this).prop("checked")) {
           // console.log('checked')
-          autoPanoramaRefresh = setInterval(panorama_refresh, 70000);
+          autoPanoramaRefresh = setInterval(panorama_refresh, 5000);
         } else {
           clearInterval(autoPanoramaRefresh);
         };
