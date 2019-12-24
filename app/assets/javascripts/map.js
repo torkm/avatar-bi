@@ -166,7 +166,7 @@ $(function () {
     $("#auto-refresh").on('click', function () {
       if ($(this).prop("checked")) {
         // console.log('checked_gmap')
-        autoGmapRefresh = setInterval(map_refresh, 7000);
+        autoGmapRefresh = setInterval(map_refresh, 70000);
       } else {
         clearInterval(autoGmapRefresh);
       };
