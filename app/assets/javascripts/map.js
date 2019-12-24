@@ -236,7 +236,7 @@ $(function () {
       $("#panorama__option--auto-refresh").on('click', function () {
         if ($(this).prop("checked")) {
           // console.log('checked')
-          autoPanoramaRefresh = setInterval(panorama_refresh, 7000);
+          autoPanoramaRefresh = setInterval(panorama_refresh, 70000);
         } else {
           clearInterval(autoPanoramaRefresh);
         };
