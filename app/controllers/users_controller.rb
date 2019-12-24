@@ -3,8 +3,8 @@ require "time"
 class UsersController < ApplicationController
   def index
     if user_signed_in?
-      if current_user.avatars[0] == nil then
-        redirect_to '/avatars/new' , notice: "ログインしました。アバターを持っていません"
+      if current_user.avatars[0] == nil
+        redirect_to "/avatars/new", notice: "ログインしました。アバターを持っていません"
       else
 
         # csvなかった場合、作成
@@ -33,7 +33,6 @@ class UsersController < ApplicationController
   end
 
   def show
-
     if current_user.id == params[:id].to_i
       @user = current_user
     else
@@ -42,14 +41,15 @@ class UsersController < ApplicationController
 
     # 秒を時間に
     def sec_to_time(sec)
-      if sec 
+      if sec
         return sec.divmod(86400).each_slice(2).map { |day, sec_r| (Time.parse("1/1") + sec_r).strftime("#{day}日%H時間%M分") }.first
-      else  
+      else
         return "0日00時間00分"
       end
     end
+
     @total_time = sec_to_time(@user.total_travel_time)
-    
+
     avatar = @user.avatars[0]
     # 複数ならここから下ループ
 
@@ -75,7 +75,7 @@ class UsersController < ApplicationController
           @passed_rw_st[rw.jname][3] -= 1
           @passed_rw_st[rw.jname][4] << "," + passed_st.name + "駅"
         else
-          @passed_rw_st[rw.jname] = [rw.id, 1, rw.station_num, rw.station_num - 1, passed_st.name+"駅"]
+          @passed_rw_st[rw.jname] = [rw.id, 1, rw.station_num, rw.station_num - 1, passed_st.name + "駅"]
         end
       end
     end
@@ -99,9 +99,9 @@ class UsersController < ApplicationController
       avatar.stage = 2
     else
       avatar.stage = 3
-    end 
+    end
     avatar.save
-    @avatar_type = (avatar.avatar_type + 3*(avatar.stage-1)).to_s 
+    @avatar_type = (avatar.avatar_type + 3 * (avatar.stage - 1)).to_s
 
     # ランキングを表示
     disp_num = 10 # ランキング表示する上位のユーザー数
@@ -110,42 +110,41 @@ class UsersController < ApplicationController
     # ランキング計算
     users = User.where.not(total_travel_time: nil).order("total_travel_time DESC") #時間長い順
     h = users.pluck(:id)
-    @user_rank_time = h.index(@user.id) ? h.index(@user.id) + 1: "-" #総時間=nilのときは-位
+    @user_rank_time = h.index(@user.id) ? h.index(@user.id) + 1 : "-" #総時間=nilのときは-位
 
     # ランキング表示用配列
     @ranks_time = users.pluck(:id, :name, :total_travel_time, :created_at)
-    @ranks_time.map!{|r| [r[0],r[1], User.find(r[0]).avatars[0].name, sec_to_time(r[2]), r[3]]}.first(disp_num)
+    @ranks_time.map! { |r| [r[0], r[1], User.find(r[0]).avatars[0].name, sec_to_time(r[2]), r[3]] }.first(disp_num)
 
     ##############  通過路線数ランキング  #################
     # ランキング計算
     h = PassedRailway.group(:avatar_id).count
     avatars = Avatar.all
     users = User.all
-    h = Hash[ h.sort_by{ |_, v| -v } ] #路線多い順
-    @user_rank_railway = h.keys.index(avatar.id) ? h.keys.index(avatar.id) + 1: "-" #0路線の場合もエラーが出ないように
+    h = Hash[h.sort_by { |_, v| -v }] #路線多い順
+    @user_rank_railway = h.keys.index(avatar.id) ? h.keys.index(avatar.id) + 1 : "-" #0路線の場合もエラーが出ないように
 
     # ランキング表示用配列
     @ranks_railway = []
-    h.first(disp_num).each do |k,v|
+    h.first(disp_num).each do |k, v|
       a = avatars.find(k)
-      u = users.find(k)
+      u = a.user
       @ranks_railway << [u.id, u.name, a.name, v, u.created_at]
     end
-    
+
     ##############  通過駅数ランキング  #################
     # ランキング計算
     h = PassedStation.group(:avatar_id).count
-    h = Hash[ h.sort_by{ |_, v| -v } ]  #駅多い順
-    @user_rank_station = h.keys.index(avatar.id) ? h.keys.index(avatar.id) + 1: "-"
+    h = Hash[h.sort_by { |_, v| -v }]  #駅多い順
+    @user_rank_station = h.keys.index(avatar.id) ? h.keys.index(avatar.id) + 1 : "-"
 
     # ランキング表示用配列
     @ranks_station = []
-    h.first(disp_num).each do |k,v|
+    h.first(disp_num).each do |k, v|
       a = avatars.find(k)
-      u = users.find(k)
-      @ranks_station << [u.id, u.name, a.name, v,  u.created_at]
+      u = a.user
+      @ranks_station << [u.id, u.name, a.name, v, u.created_at]
     end
-
 
     # 地図を表示 [路線名,路線名のローマ字, 路線id, 駅名, lat, long, has_passed, passed_at]を返す
     gon.avatar = avatar
